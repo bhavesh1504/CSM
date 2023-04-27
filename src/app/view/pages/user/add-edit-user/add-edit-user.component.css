@@ -1,0 +1,169 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+  margin-bottom: -10px;
+}
+.mat-card-title-style{
+  padding-bottom: 12px;
+  border-bottom: 1px solid gainsboro;
+}
+.Save_btn{
+  color: white;
+  background-color: gray;
+}
+.btn_group{
+  display: flex;
+  justify-content: right;
+}
+.card_header{
+  display: inline;
+    font-weight: 500;
+    font-size: 1rem;
+    position: absolute;
+    top: -10px;
+    background-color: white;
+    padding: 0px 10px;
+}
+.spanTextBoxHeight{
+  height: 30px;
+  margin-top: 6px;
+  width: 100%;
+  color: rgba(0,0,0,.38);
+  font-size: 12px;
+}
+
+.card{
+  border: 1px solid;
+}
+.card_header{
+  border-top: 1px solid black;
+    border-radius: 10px;
+}
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+/* .ng-dirty.ng-invalid {
+  color: red
+} */
+/* .ng-multiselect-dropdown.ng-pristine .ng-invalid .ng-touched{
+background-color: red;
+} */
+
+
+.font12px{
+font-size: 13px !important;
+}
+
+.mat-form-field-wrapper{
+  padding-bottom: 8px !important;
+}
+:host ::ng-deep .multiselect-dropdown .dropdown-btn{
+  padding: 4px 8px !important;
+  color: rgba(0, 0, 0, 0.42);
+}
+:host ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret:before
+{
+  border-width: 5px 5px 0 5px !important;
+  top: 50% !important;
+}
+
+:host ::ng-deep .mat-form-field-subscript-wrapper{
+  margin-top: 0px !important;
+}
+
+mat-error{
+  margin-top: 1px;
+}
+
+/* :host ::ng-deep .ng-invalid.ng-touched .dropdown-btn {
+      border: 2px solid #f44336 ;
+}
+
+:host ::ng-deep .ng-invalid.ng-touched .dropdown-btn .dropdown-multiselect__caret:before
+{
+  border-color: #f44336 transparent;
+}
+
+:host ::ng-deep .ng-valid.ng-touched.ng-dirty .dropdown-btn {
+  border: 1px solid currentColor ;
+}
+
+:host ::ng-deep .ng-valid.ng-touched .dropdown-btn .dropdown-multiselect__caret:before
+{
+  border-color: rgba(0, 0, 0, 0.54) transparent;
+}
+:host ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-multiselect--active .dropdown-multiselect__caret{
+  top: -5px;
+}
+
+:host ::ng-deep .no-data .ng-star-inserted>h5
+{
+  font-size: 12px !important;
+}
+
+:host ::ng-deep .ng-untouched.ng-dirty .dropdown-btn .dropdown-multiselect__caret:before
+{
+  border-color: currentColor transparent;
+} */
+
+/* //scss
+
+// :host ::ng-deep {
+//   .is-invalid {
+//     .dropdown-btn {
+//       border: 1px solid #f44336 !important;
+//     }
+//   }
+//   .multiselect-dropdown {
+//     .dropdown-btn {
+//       .selected-item {
+//         &:hover {
+//           box-shadow: 1px 1px 2px 0px #5a5a5a !important;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// :host ::ng-deep .ng-invalid .dropdown-btn {
+//   border: 2px solid #f44336 !important;
+// }
+// :host ::ng-deep .ng-valid .dropdown-btn  {
+//   border: 1px solid currentColor !important;
+// }
+// :host ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item .ng-star-inserted {
+//   border: 2px solid currentColor !important;
+// }
+
+// :host ::ng-deep .ng-invalid .dropdown-btn {
+//   border: 1px solid #f44336 !important;
+// }
+// :host ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item:hover {
+//   box-shadow: 1px 1px 2px 0px #5a5a5a !important;
+// } */
+
+.cursor_pointer{
+  cursor: pointer;
+}
+.closeModelDialog{
+  float: right;
+}
+.boredrTopCore{
+  border-top: 1px solid gainsboro;
+}
+.fontSize18px{
+  font-size: 18px;
+}
+.selectApplyFR{
+  float: right;
+    font-size: 12px;
+    padding: 5px 10px;
+    margin: 5px;
+}

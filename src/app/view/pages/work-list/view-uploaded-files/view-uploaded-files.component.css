@@ -1,0 +1,11 @@
+p{
+  font-size: 13px;
+}
+.btn-success{
+  padding: 2px;
+    font-size: 12px;
+}
+
+a:hover{
+  color: white !important;
+}

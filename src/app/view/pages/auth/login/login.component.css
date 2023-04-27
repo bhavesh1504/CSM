@@ -1,0 +1,206 @@
+#main {
+  margin-top: 28px;
+  padding: 0px 30px;
+  transition: all 0.3s;
+}
+
+.login_img{
+    width: 100%;
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    }
+    .example-container .mat-form-field + .mat-form-field {
+        margin-left: 8px;
+      }
+
+    .login_form{
+        width: 30%;
+    top: 22%;
+    left:5%
+    }
+    .comapany_logo{
+        margin-left: 28%; margin-bottom: 10px;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 10px 0px !important;
+  }
+  .padding3px0px{
+    padding: 3px 0px
+  }
+  .mat-form-field-appearance-outline .mat-form-field-flex {
+    padding: 3px 0.75em 0 0.75em !important;
+    margin-top: -0.25em;
+    position: relative;
+}
+/* .mat-form-field-label-wrapper {
+  top: -10px;
+  padding-top: 0.84375em;
+} */
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 8px 0px !important;
+}
+.mat-form-field-infix {
+  padding: 0.5em 0;
+  border-top: 6px solid transparent !important;
+}
+input.mat-input-element {
+  margin-top: 5px;
+}
+
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix
+{
+  top: -2px !important;
+  font-size: 20px !important;
+  position: absolute;
+  right: 0px;
+  color: darkgray;
+}
+
+.userIocnStyle{
+  color: darkgray;
+    position: absolute;
+    font-size: 22px;
+    top: 2px;
+    right: 5px;
+}
+
+.content-wrapper {
+  padding: 0rem 3.1rem;
+   height: 83vh;
+}
+
+.content-body {
+   border-radius: 30px;
+   border: none;
+   margin-bottom: -16px;
+   -webkit-box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.4);
+   -moz-box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.4);
+   box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.4);
+   position: relative;
+   right: 7.5rem;
+}
+
+.content-body .card-header {
+   margin-bottom: 0;
+   padding: 40px 0;
+   position: relative;
+   background-color: #258cf1;
+   border-radius: 30px 30px 0 0;
+   border-bottom: 3px solid rgb(32, 185, 152);
+}
+
+.card-body {
+   padding: 5.2rem;
+}
+
+.pre-auth ul.cust-type {
+   position: absolute;
+   bottom: -80px;
+   justify-content: center;
+   width: 100%;
+   z-index: 1;
+}
+
+.pre-auth ul.cust-type.nav-pills .nav-link {
+   color: #258cf1;
+   padding: 0;
+   text-align: center;
+   background: transparent;
+   font-size: 22px;
+   font-weight: 500;
+}
+
+.pre-auth ul.cust-type.nav-pills .nav-link i {
+   line-height: 5.8rem;
+   margin: 0 auto;
+   width: 100px;
+   height: 100px;
+   color: #258cf1;
+   text-align: center;
+   background-color: #DFDFDF;
+   border-radius: 50%;
+   border: 3px solid #fff;
+   display: block;
+}
+
+.pre-auth ul.cust-type.nav-pills .nav-link.active i,
+.pre-auth ul.cust-type.nav-pills .show>.nav-link i {
+   color: #ffffff;
+   background-color: #E48E00;
+   /* background-color: #DFDFDF; */
+}
+
+.buttvn{
+  position: relative;
+  left: 7rem;
+  width: 6rem;
+  height: 2.5rem;
+}
+
+.mat-horizontal-content-container {
+  overflow: hidden;
+  padding: 0 !important;
+
+}
+
+.mat-stepper-vertical .mat-stepper-horizontal {
+  display: flex !important;
+}
+
+.buttun{
+  position: relative;
+  left: 7rem;
+  width: 6rem;
+  height: 2.5rem;
+}
+
+.mat-horizontal-stepper-header {
+  display: flex;
+  height: 72px;
+  overflow: hidden;
+  align-items: center;
+  padding: 0 0px !important;
+}
+
+.mat-stepper-horizontal-line {
+  border-top-width: 1px;
+  border-top-style: solid;
+  flex: auto;
+  height: 0;
+  margin: 0px 3px !important;
+  min-width: 32px;
+}
+
+.otp{
+  position: relative;
+  left: 4rem;
+}
+
+.butten{
+  position: relative;
+  left: 0.5rem;
+}
+
+.mat-step-icon .mat-icon {
+  font-size: 16px;
+  height: 23px !important;
+  width: 9px !important;
+}

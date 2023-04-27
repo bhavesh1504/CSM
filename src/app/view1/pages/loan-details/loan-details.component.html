@@ -1,0 +1,624 @@
+<app-headers></app-headers>
+<main id="main" class="main">
+<div class="content-wrapper container">
+    <div class="card content-body post-auth">
+        <mat-tab-group animationDuration="1000ms">
+            <mat-tab class="nav-link active" label="Loan Details">
+                <div class="card-body" style="position: relative; bottom: 0.5rem;">
+                    <form [formGroup]="loanDetailsForm" style="position: relative; top: 0.5rem; left: 2rem;">
+                    <div class="row" >  
+                        <div class="col-6">
+                            <div class="form-group row" style="margin-top: 1rem;">
+                                <mat-label class="col-form-label col-md-4">Loan Account No.</mat-label>
+                                <div>
+                                    <mat-form-field style="left:7rem;bottom:1.9rem;">
+                                        <mat-label>Select Loan Account No.</mat-label>
+                                        <mat-select (selectionChange)="selectLoanAmount($event.value)"   disableRipple>
+                                            <mat-option *ngFor="let loan of loanAccount" [value]="loan.id">{{loan.loanAcctNo}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Customer Id:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.custId}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">PanCard:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.pancard}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Email:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.email}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4" for="input">Product Name:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.portfolioCode}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Loan Amount:
+                                    <i class="mdi mdi-currency-inr sym"></i>
+                                </label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value='&#8377;&nbsp;{{datas[0]?.loanAmount}}'>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">EMI Amount:
+                                    <i class="mdi mdi-currency-inr symb"></i>    
+                                </label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.emi}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Emi Cycle Date:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.emiCycle}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Tenure:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.tenure}}>
+                                </div>
+                            </div>
+                        </div>
+                            
+                        <div style="position: relative; top: 4rem;" class="col-6">
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Customer Name:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.customerName}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Mobile No. :</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.mobileNumber}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Mailing Address:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.mailingAddress}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Emi Start Date:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value="{{datas[0]?.emiStartdate | date: 'MMMM d, y'}}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Emi End Date:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value="{{datas[0]?.emiEnddate |  date: 'MMMM d, y'}}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Interest Rate:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value={{datas[0]?.interestRate}}>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Overdue EMI(Int+Prin):
+                                    <i class="mdi mdi-currency-inr symbol"></i>
+                                </label>
+                                <div class="col-md-6">
+                                    <input type="text" style="position: relative; top: 1.5rem;" readonly class="form-control-plaintext" value='&#8377;&nbsp;{{datas[0]?.dueInstallment}}'>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4">Other Charges:
+                                    <i class="mdi mdi-currency-inr symbol"></i>
+                                </label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" value='&#8377;&nbsp;{{datas[0]?.otherCharges}}'>
+                                </div>                    
+                            </div>
+                        </div>
+                    </div>    
+                    </form>
+                </div>
+            </mat-tab>
+            <mat-tab class="nav-link" label="Transaction">
+                <div class="card-body">
+                    <form [formGroup]="transcatForm" style="position: relative; top: 0.5rem; left: 2rem;">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-7">
+                                <div class="form-group row">
+                                    <mat-label class="col-form-label col-md-4">Loan Account No.</mat-label>
+                                    <div>
+                                        <mat-form-field style="position: relative; bottom: 1.8rem; left: 7rem;">
+                                            <mat-label>Select Loan Account No.</mat-label>
+                                            <mat-select (selectionChange)="selectLoanAmount($event.value)"  disableRipple>
+                                                <mat-option *ngFor="let loan of loanAccount" (click)="showOverDueAmount()" [value]="loan.id">{{loan.loanAcctNo}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="form-group row hello">
+                                    <label class="col-form-label col-md-12">To pay Outstanding EMI/Overdues Click below to make
+                                        payment</label>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-6" style="position: relative; bottom: 0.8rem;">Overdue EMI amount(Rs.)(Interest+Principle)</label>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend logo">
+                                                <span class="input-group-text custom"><i
+                                                        class="mdi mdi-currency-inr"></i></span>
+                                            </div>
+                                            <mat-form-field *ngIf="overDueAmount" style="position: relative; top: 2rem; right: 5rem;">
+                                                <input matInput value='&#8377;&nbsp;{{datas[0]?.otherCharges}}'>
+                                            </mat-form-field> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="col-8" style="position: relative; left:7rem; top: 2rem;">
+                                <div class="card" style="border-radius: 1rem;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="tab-content text-center">
+                                                    <div class="tab-pane fade show active">
+                                                        <img class="img" style="width: 25%;" src="assets/images/Razorpay_logo.svg.png">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h5 class="card-title my-5 text">Pay using Razor pay</h5>
+                                                            </div>
+                                                            <div class="col-12">
+                        
+                                                                <div class="form-group">
+                        
+                                                                    <button (click)="makePayment()" style="position: relative; left: 0.5rem;" class="btn btn-primary btn-rounded">Make
+                                                                        Payment</button>
+                        
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </mat-tab>
+            <mat-tab class="nav-link" label="Service Request">
+                <div class="card-body">
+                    <form [formGroup]="serviceRequestForm" style="position: relative; top: 0.8rem; left: 2rem;">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <mat-label class="col-form-label col-md-4">Loan Account No.</mat-label>
+                                    <div>
+                                        <mat-form-field style="position: relative; bottom:1.8rem; left: 7rem;">
+                                            <mat-label>Select Loan Account No.</mat-label>
+                                            <mat-select formControlName="loanMasterId" (selectionChange)="selectLoanAmount($event.value)"  disableRipple>
+                                                <mat-option *ngFor="let loan of loanAccount" [value]="loan.id" >{{loan.loanAcctNo}}</mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="isControlHasError('loanMasterId','required')">
+                                                Loan Account is <strong>required</strong>
+                                              </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group row">
+                                    <mat-label class="col-form-label col-md-4">Request Type</mat-label>
+                                    <div>
+                                        <mat-form-field appearance="fill" style="width:15rem; position: relative; top:0.5rem; right: 10rem;">
+                                            <mat-label>Select Request Type.</mat-label>
+                                            <mat-select disableRipple [(value)]="onSelectOption" (openChanged)="somethingChanged()">                                           
+                                                <mat-option value="Query">Query</mat-option> 
+                                                <mat-option value="Top-Up">Top-Up</mat-option> 
+                                                <mat-option value="Complaint">Complaint</mat-option>
+                                                <mat-option value="Request">Request</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div> -->
+                                <div class="form-group row" style="position: relative; bottom: 0.8rem;">
+                                    <mat-label class="col-form-label col-md-4">Request Type</mat-label>
+                                    <div>
+                                        <mat-form-field style="position: relative; bottom:1.8rem; left: 7rem;">
+                                            <mat-label>Select Request Type.</mat-label>
+                                            <mat-select  disableRipple (selectionChange)="somethingChanged($event.value)" formControlName="requestType" placeholder="Select Request Type">
+                                                <mat-optgroup >
+                                                    <mat-form-field class="searchDrop">
+                                                      <input #searchBranchType autocomplete="off" [formControl]="searchBranchTypeTextboxControl" placeholder="Search" aria-label="Search" matInput (keyup)="searchDropdown(searchBranchType.value,'requestType')">
+                                                      <button [disableRipple]="true" *ngIf="searchBranchType.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event,'requestType')">
+                                                      <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                                                      </button>
+                                                    </mat-form-field>
+                                                </mat-optgroup>
+                                                    <mat-optgroup *ngIf="filterBranchTypeName?.length == 0">
+                                                        <div>No results found!</div>
+                                                </mat-optgroup>  
+                                                  <mat-option *ngFor="let name of filterBranchTypeName" [value]="name.itemId">
+                                                    {{name.description}}
+                                                  </mat-option>                                    
+                                            </mat-select>
+                                            <mat-error *ngIf="isControlHasError('requestType','required')">
+                                                Request Type is <strong>required</strong>
+                                              </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>                                                                                                                                                                                                                                                        
+                                <!-- <div class="form-group row">
+                                    <mat-label class="col-form-label col-md-4">Document Upload</mat-label>
+                                    <mat-form-field style="width:20rem; position: relative; right:10rem">
+                                        <input class="cursor_pointer" matInput (click)="openFile()" readonly />
+                                 
+                                          <input type="file" #imgFileInput (change)="onFileSelected($event)">
+                                       
+                                      </mat-form-field>
+                                </div> -->
+                                <div class="form-group row">
+                                    <mat-label class="col-form-label col-md-4" style="position: relative; bottom: 1.2rem;">Document Upload</mat-label>
+                                    <mat-form-field style="position: relative; right: 10.9rem; width: 13rem;">
+                                        <input formControlName="selectFileUpload" class="cursor_pointer" matInput
+                                          placeholder="Select File Upload" (click)="openFile()" [value]="displayFileCount" readonly />
+                                        <i *ngIf="ifVerifyHideImgDesable" (click)="openFile()"
+                                          class="ri-attachment-line attachmentStyle" style="position: relative; left: 10rem; bottom: 0.7rem;"></i>
+                                        <input formControlName="file_upload" hidden />
+                                        <input type="file" #imgFileInput (change)="onSelectFile($event)" multiple hidden
+                                          accept="application/pdf,image/*">
+                                      </mat-form-field>
+                                </div>
+                        
+                                <div class="form-group row" style="position: relative; top: 1rem;">      
+                                        <mat-checkbox formControlName="rbiQueries" class="example-margin" style="top:0;"></mat-checkbox>
+                                        <mat-label class="col-form-label col-md-4" style="position: relative; bottom: 1.5rem; left: 2rem;">RBI Queries</mat-label>
+                                </div>
+                              <div class="col-12">
+                                <ng-container *ngIf="onSelectOption == 'Top-Up'">  
+                                <form [formGroup]="topUpForm" style="position: relative; left: 0.5rem;">
+                                    <div class="row">
+                                        <div class="col-11" style="left:1rem">
+                                            <div class="card material-tabs topup-loan" style="border-radius: 1rem;">
+                                              <div class="card-body">
+                                                <div class="tab-content">
+                                                  <div class="tab-pane fade show active">
+                                                      <div class="form-group row">
+                                                        <mat-label class="col-form-label col-md-4 enquirylabel">Loan Account No.</mat-label>
+                                                        <div>
+                                                            <mat-form-field style="width:15rem; position: relative; top: 1rem; right: 5rem;">
+                                                                <mat-label>Select Loan Account No.</mat-label>
+                                                                <mat-select  disableRipple>
+                                                                    <mat-option *ngFor="let loan of loanAccount" [value]="loan.loanAcctNo" (click)="getLoanDetail()">{{loan.loanAcctNo}}</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                        </div>
+                                                      </div>
+                                                      <div class="form-group row">
+                                                        <label class="col-form-label col-md-4 enquirylabel">Loan Amount</label>
+                                                        <div class="col-md-8" style="position: relative; right: 5.5rem;">
+                                                            <mat-slider min="10000" max="1000000" step="10000" showTickMarks discrete>
+                                                                <input matSliderThumb>
+                                                            </mat-slider>
+            
+                                                        </div>
+                                                      </div>
+                                                      <div class="form-group row">
+                                                         <label class="col-form-label col-md-4 enquirylabel">Message</label>
+                                                        <div class="col-md-8">
+                                                            <mat-form-field class="example-full-width area">
+                                                                <mat-label>Mention Your Requirement</mat-label>
+                                                                <textarea matInput placeholder="Message (Max. 1000 characters)" maxlength="1000"></textarea>
+                                                            </mat-form-field>
+                                                        </div>                                                          
+                                                      </div>                                                     
+                                                   </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                </ng-container>
+
+                                <ng-container *ngIf="showCard">
+                                    <form [formGroup]="queryForm" style="position: relative; top: 1rem;">
+                                        <div class="row">
+                                            <div class="col-11" style="width: 95%;">
+                                                <div class="card material-tabs topup-loan" style="border-radius: 1rem;">
+                                                  <div class="card-body" style="padding: 1.5rem;">
+                                                    <div class="tab-content">
+                                                      <div class="tab-pane fade show active">
+                                                        <div class="grid-container">                
+                                                        <mat-checkbox *ngFor="let queries of queryList;index as i" #checkBoxVAlue [checked]="checkBoxValue" (change)="clickQuryFormSelect($event,queries?.requestTypeId,i)">
+                                                            <span *ngIf="queries.isPaidPopup == false">{{queries?.reqName}}</span>
+                                                            <span *ngIf="queries.isPaidPopup == true" (click)="openPaidPopUp(queries?.requestTypeId)">{{queries?.reqName}}</span>
+                                                            <span *ngIf="queries.isPaidPopup == true" (click)="openPaidPopUp(queries?.requestTypeId)" style="color:red">  - ({{paidMsg}} ₹ {{queries.payAmount}})</span></mat-checkbox>                                            
+                                                        <!-- <mat-checkbox formArrayName="zip_codes" [formControlName]="i" *ngFor="let queries of queryList; let i=index">{{queries?.reqName}}</mat-checkbox>       -->
+                                                        <!-- <div *ngFor="let queries of queryList; let i = index" formArrayName="zip_codes">
+                                                            <input type="checkbox" [formControlName]="i">
+                                                            <span>{{queries?.reqName}}</span>
+                                                          </div>-->                                                        
+                                                        </div>                                                          
+                                                       </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </ng-container>
+                                
+                                <ng-container *ngIf="onSelectOption == 'Complaint'">
+                                <form [formGroup]="complaintForm" style="position: relative; left: 0.5rem;">
+                                    <div class="row">
+                                        <div class="col-11" style="left:1rem">
+                                            <div class="card material-tabs topup-loan" style="border-radius: 1rem;">
+                                              <div class="card-body">
+                                                <div class="tab-content">
+                                                  <div class="tab-pane fade show active">
+                                                    <div class="grid-container">                                                       
+                                                    <mat-checkbox *ngFor="let complaints of complaint">{{complaints.viewValue}}</mat-checkbox>                                                                        
+                                                    </div>                                                     
+                                                   </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                </ng-container>
+                                
+                                <ng-container *ngIf="onSelectOption == 'Request'">
+                                <form [formGroup]="requestForm" style="position: relative; left: 0.5rem;">
+                                    <div class="row">
+                                        <div class="col-11" style="left:1rem">
+                                            <div class="card material-tabs topup-loan" style="border-radius: 1rem;">
+                                              <div class="card-body">
+                                                <div class="tab-content">
+                                                  <div class="tab-pane fade show active">
+                                                    <div class="grid-container">                                                       
+                                                    <mat-checkbox *ngFor="let requests of request">{{requests.viewValue}}</mat-checkbox>                                                                        
+                                                    </div>                                                     
+                                                   </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                </ng-container>
+
+                             </div>
+                             <!-- <div class="others">
+                             <mat-checkbox style="position: relative;bottom: 0.22rem;" [(ngModel)]="show" (change)="showOptions($event)" formControlName="cb" [ngModelOptions]="{standalone: true}"><label style="position: relative;top: 0.6rem;">Other's</label></mat-checkbox>
+                            </div>-->
+                             <!-- <div class="others">
+                             <mat-checkbox *ngIf="isDisabled" (change)="validationUpdate($event)" style="position: relative;top: 0.22rem;"><label>Other's</label></mat-checkbox>
+                            </div>                                                     -->
+                            <mat-form-field *ngIf="isDisabled" class="example-full-width areas">
+                                <textarea  formControlName="textArea" matInput placeholder="Message (Max. 1000 characters)" maxlength="1000"></textarea>
+                                <mat-error *ngIf="isControlHasError('textArea','required')">
+                                    Enter Your Message</mat-error>
+                            </mat-form-field>
+                             <div class="form-group text-center mt-5">
+                                <!-- <button type="submit" class="btn btn-outline-dark btn-rounded btn-lg bstyle" style="position: relative; right:1rem;">Cancel</button> -->
+                                <button (click)="createAddEditForm()" class="btn btn-primary bg-brand btn-rounded btn-lg bstyle">Submit</button>
+                              </div>
+                            </div>                                              
+                        </div>
+                    </form>                  
+                </div>
+            </mat-tab>
+            <mat-tab class="nav-link" label="My Request">
+                 <div class="card-body">
+                    <div class="row">
+                    <div class="col-12">  
+                        <div *ngIf="!showRequest"  class="form-group row" >
+                            <mat-label class="col-form-label col-md-4" style="position: relative; left: 2rem; top:0.7rem;">Loan Account No.</mat-label>
+                            <div>
+                                <mat-form-field style="position: relative; left: 9rem; bottom: 1rem;">
+                                    <mat-label>Select Loan Account No.</mat-label>
+                                    <mat-select  disableRipple>
+                                        <mat-option *ngFor="let loan of loanAccount" [value]="loan.loanAcctNo" (click)="loanAcc(loan.loanAcctNo)">{{loan.loanAcctNo}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div> 
+                        <div *ngIf="!showRequest" class="row">
+                            <div class="col-4" style="position: relative;left:35rem;">
+                              <mat-form-field appearance="standard" class="filterStyle pt-0" style="width:15rem;">
+                                <mat-label>Search</mat-label>
+                                <input matInput #dataSourceFilter class="padding3px0px" (keyup)="applyFilter(dataSourceFilter.value)" placeholder="Search" #input>
+                              </mat-form-field>
+                            </div>
+                          </div>                    
+                     
+                        <div class="row" *ngIf="!showRequest">
+                                <div class="col-12" style="position: relative; left: 1.5rem; top:1rem; width:97%">
+                                    <div class="card material-tabs topup-loan" style="border: 0px;">
+                                      <div class="card-body">
+                                        <div class="tab-content">
+                                          <div class="tab-pane fade show active">
+                                            <div class="mat-elevation-z8">
+                                                <table style="width: 49rem;" mat-table matSort [dataSource]="dataSource" (matSortChange)="sortData()">
+                                                  <ng-container matColumnDef="ReqNo">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Service Req Id </th>
+                                                    <td mat-cell *matCellDef="let row"><a (click)="editViewAction(row.serviceRequestId)" class="text-primary" style="cursor: pointer;">{{row.serviceRequestId}}</a></td>
+                                                </ng-container>
+                                                    <ng-container matColumnDef="name">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Name </th>
+                                                        <td mat-cell *matCellDef="let row" [ngClass]="row.rbiQueries == true? 'text-danger'  : ''"> {{row.loanMaster.customerName}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="LoanNo">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Loan Account No. </th>
+                                                        <td mat-cell *matCellDef="let row" [ngClass]="row.rbiQueries == true? 'text-danger'  : ''"> {{row.loanMaster.loanAcctNo}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="phone">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile No. </th>
+                                                        <td mat-cell *matCellDef="let row" [ngClass]="row.rbiQueries == true? 'text-danger'  : ''"> {{row.loanMaster.mobileNumber}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Requesttype">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Request Type </th>
+                                                        <td mat-cell *matCellDef="let row" [ngClass]="row.rbiQueries == true? 'text-danger'  : ''"> {{row.requestType}} </td>
+                                                    </ng-container>                                                    
+                                                    <ng-container matColumnDef="RequestDate">
+                                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Request Date </th>
+                                                      <td mat-cell *matCellDef="let row" [ngClass]="row.rbiQueries == true? 'text-danger'  : ''"> {{row.requestDate | date: 'dd MMM, yyyy'}} </td>
+                                                  </ng-container>
+                                                  <ng-container matColumnDef="Status">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                                                    <td mat-cell *matCellDef="let row" [ngClass]="row.requestStatus == 'open'? 'text-success'  : ''">
+                                                      {{row.requestStatus}}
+                                                    </td>
+                                                </ng-container>                                            
+                                      
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                    <tr class="mat-row" *matNoDataRow>
+                                                        <td class="mat-cell text-center" colspan="8">No Record Found...</td>
+                                                    </tr>
+                                                </table>
+                                                <mat-paginator #MatPaginator style="position: relative;top: 0.9rem;" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of users">
+                                                </mat-paginator>                                                                                
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row"  *ngIf="showRequest">
+                                <div class="col-11" style="left: 3rem; top: 2rem; position: relative;">
+                                    <div class="card material-tabs topup-loan" style="border-radius: 1rem;">
+                                      <div class="card-body" style="padding: 3.25rem;">
+                                        <div class="tab-content">
+                                          <div class="tab-pane fade show active">                   
+                                            <div class="row" style="position: relative; bottom: 2rem;">   
+                                            <div class="col-6">                                               
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Service Req Id:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" value={{serviceRequest?.serviceRequestId}}>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Customer Name:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" value={{serviceRequest?.loanMaster?.customerName}}>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">TAT COUNT:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" *ngFor="let items of serviceRequest?.requests" value={{items?.tatCount}}>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Request For:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" *ngFor="let items of serviceRequest?.requests" value="{{items.reqName}}">
+                                                    </div>
+                                                </div>
+                                                                                     
+                                            </div>
+                                                
+                                            <div class="col-6">
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Loan No:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" value={{serviceRequest?.loanMaster?.loanAcctNo}}>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Pancard:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" value={{serviceRequest?.loanMaster?.pancard}}>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Email:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" value={{serviceRequest?.loanMaster?.email}}>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Loan Status:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" value={{serviceRequest?.requestStatus}}>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Close Date:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" value="21-04-2001">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Document:</label>
+                                                    <div class="col-md-6" style="position: relative;top: 0.5rem;left: 1.2rem;">
+                                                
+                                                                <div class="row">
+                                                                  <div class="col-6" *ngFor="let item of filesArray">
+                                                                    <!-- <img  [src]=" item?.fileType != 'application/pdf'? item?.downloadURL : '../../../../../assets/images/fileUpload.png'" style="height: 150px;width:100%;border: 1px solid;"> -->
+                                                                      <p style="font-size: 12px;">{{ (item?.fileName.length>20)? (item?.fileName | slice:0:20)+'...':(item?.fileName)}}
+                                                                      <!-- <p>{{item?.fileName)}} -->
+                                                                        
+                        
+                                                                      <a [href]="item?.downloadURL" class="ml-2 btn text-white btn-success" style="padding: 2px 7px;"><i class="bi bi-cloud-download" style="margin: 0px; font-size: 14px;"></i></a>
+                                                                    </p>
+                                                                  </div>
+                                                                  <div class="text-center" *ngIf="filesArray.length == 0">
+                                                                    No Data Found...
+                                                                  </div>
+                                                                </div>
+                                                        <!-- <input type="text" readonly class="form-control-plaintext"> -->
+                                                    </div>
+                                                </div> 
+                                                 <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Others if any:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" value="{{serviceRequest?.remark}}">
+                                                    </div>
+                                                </div>                                                                                
+                                            </div>
+                                            <!-- <div class="form-group row">                                            
+                                                <mat-label style="position: relative; left: 2rem;">Remarks:</mat-label>
+                                                <mat-form-field class="example-full-width are">
+                                                    <textarea matInput placeholder="Message (Max. 1000 characters)" maxlength="1000"></textarea>
+                                                </mat-form-field>
+                                            </div> -->
+                                        </div>
+                                           </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>                               
+                              </div>
+                              <div class="col-6 buton" *ngIf="showRequest">
+                                <button mat-button color="primary" (click)="getRequestDetails()">Save</button>
+                                <button mat-button (click)="getRequestDetails()">Close</button>
+                            </div>
+                    </div>
+                </div> 
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+</main>
+<app-footers></app-footers>

@@ -1,0 +1,45 @@
+
+.cross{
+    position: relative;
+    left: 40rem;
+    bottom: 0.5rem;
+}
+
+.docuMove{
+    position:relative;
+    left:7.5rem;
+    bottom: 2rem;
+    width: 10rem;
+}
+
+.upload{
+    position: relative;
+    top: 0.5rem;
+}
+
+
+.attachmentStyle{
+  position: relative;
+  left: 7rem;
+  bottom: 0.5rem;
+}
+
+.areas {
+    position: relative;
+    width: 45rem;
+    top: 1rem;
+    height: 6rem;
+ }
+
+ .buton {
+    position: relative;
+    left: 40rem;
+}
+
+::ng-deep .mat-dialog-container {
+    overflow: hidden;
+}
+
+::ng-deep .mat-card:not([class*=mat-elevation-z]) {
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px 0px rgba(0, 0, 0, 0) !important;
+}

@@ -1,0 +1,22 @@
+  <mat-card>
+    <mat-card-title class="mat-card-title-style">View Files
+        <i class="ri-close-line cursor_pointer closeModelDialog" (click)="cancelAddEditForm()"></i>
+    </mat-card-title>
+    <mat-card-actions class="p-2">
+        <div class="row">
+          <div class="col-3" *ngFor="let item of filesArray">
+            <img  [src]=" item?.fileType != 'application/pdf'? item?.downloadURL : '../../../../../assets/images/fileUpload.png'" style="height: 150px;width:100%;border: 1px solid;">
+              <p class="mt-2">{{ (item?.fileName.length>20)? (item?.fileName | slice:0:20)+'...':(item?.fileName)}}
+              <a [href]="item?.downloadURL" class="ml-2 btn text-white btn-success">Download</a>
+            </p>
+          </div>
+          <div class="text-center" *ngIf="filesArray.length == 0">
+            No Data Found...
+          </div>
+        </div>
+      <div class="btn_group boredrTopCore mt-2">
+        <button mat-raised-button class="mt-3" (click)="cancelAddEditForm()">Cancel</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+  <!-- [src]="url.type != 'application/pdf' ? url.data :'../../../../../assets/images/fileUpload.png' " -->

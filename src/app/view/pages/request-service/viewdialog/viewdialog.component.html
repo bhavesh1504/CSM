@@ -1,0 +1,81 @@
+<mat-card>
+  <mat-card-title class="mat-card-title-style">Service Request
+    <i class="ri-close-line cursor_pointer closeModelDialog cross" (click)="cancelAddEditForm()"></i>
+  </mat-card-title>
+  <mat-card-actions class="p-2">
+    <div class="row" style="font-size: 14px;">   
+    <div class="col-11">
+        <div class="material-tabs topup-loan">
+          <div>
+            <div class="tab-content">
+              <div class="tab-pane fade show active">                   
+                <div class="row">   
+                <div class="col-6">                                               
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Service Req Id:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" [value]="data.serviceRequestId">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Customer Name:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" [value]="data.loanMaster?.customerName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">TAT COUNT:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" *ngFor="let items of serviceRequest?.requests" value={{items?.tatCount}}>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Request For:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" *ngFor="let items of serviceRequest?.requests" value={{items.reqName}}>
+                        </div>
+                    </div>
+                                                         
+                </div>
+                    
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Loan No:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" [value]="data.loanMaster?.loanAcctNo">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Pancard:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" [value]="data.loanMaster?.pancard">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Email:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" [value]="data.loanMaster?.email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Loan Status:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" [value]="data.requestStatus">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Close Date:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" value="21-04-2001">
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            </div>
+            </div>
+          </div>
+        </div>
+    </div>                               
+    </div>
+  </mat-card-actions>
+</mat-card>    

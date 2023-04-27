@@ -1,0 +1,60 @@
+<!-- <main id="main" class="main"> -->
+  <mat-card>
+    <mat-card-title class="mat-card-title-style">{{addEditHeadTitle}} Reject Reason
+      <i class="ri-close-line cursor_pointer closeModelDialog" (click)="cancelAddEditForm()"></i></mat-card-title>
+    <mat-card-actions class="p-2">
+      <form [formGroup]="addEditForm">
+        <div class="row">
+          <div class="col-8">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="rejectReasonCode">Reject Reason Code<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width " >
+                  <input type="text" matInput (keyup)="checkRejectReasonCodeAlreadyExit($event)" formControlName="rejectReasonCode" placeholder="Enter Reject Reason Code">
+                  <mat-error *ngIf="isControlHasError('rejectReasonCode','required')">
+                    Reject Reason Code is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="RejectReasonCodeExistError">
+                    Reject Reason Code is <strong>Already Exist.</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="isActive">Active
+                <!-- <span class="text-danger"> *</span> -->
+              </label></div>
+              <div class="col-8">
+                  <mat-slide-toggle color="primary" formControlName="isActive" class="mt-2"></mat-slide-toggle>
+                  <mat-error *ngIf="isControlHasError('isActive','required')">
+                    Active is <strong>required</strong>
+                  </mat-error>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-2 mt-2"><label for="rejectReasonName">Description<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-10">
+                <mat-form-field appearance="outline" class="example-full-width " >
+                  <textarea matInput formControlName="rejectReasonName" placeholder="Enter Description"></textarea>
+                  <mat-error *ngIf="isControlHasError('rejectReasonName','required')">
+                    Description is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="btn_group boredrTopCore mt-2">
+        <button mat-raised-button class="mt-3" (click)="cancelAddEditForm()">Close</button>
+        <!-- <button mat-raised-button *ngIf="saveBtn" class="Save_btn" (click)="saveAddEditForm()">Save</button> -->
+        <button mat-raised-button class="mt-3" *ngIf="createBtn" (click)="createAddEditForm()" color="primary">{{createAddEditBtnName}}</button>
+        </div>
+    </mat-card-actions>
+  </mat-card>
+  <!-- </main> -->

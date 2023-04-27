@@ -1,0 +1,14 @@
+.card{
+  border: 1px solid white !important;
+  margin-bottom: 25px !important;
+}
+.text-align-center{
+  align-self: center;
+}
+
+.refreshIconStyle{
+  position: absolute;
+    top: 5px;
+    right: 20px;
+    font-size: 28px;
+}

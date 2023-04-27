@@ -1,0 +1,380 @@
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/home']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    
+    <li class="nav-item" *ngIf="SalesCRM || CSM || callCenterRole">
+      <a class="nav-link collapsed proper" [routerLink]="['/home/request-service']"  [skipLocationChange]="true" [routerLinkActive]="['active']">
+        <i class="bi bi-card-checklist"></i>
+        <span>Service Request</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="CSM">
+      <a class="nav-link collapsed proper" [routerLink]="['/home/loan-master']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+        <i class="bi bi-bank"></i>
+        <span>Loan Master</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="SalesCRM || CSM">
+      <a class="nav-link collapsed proper" [routerLink]="['/home/top-up']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+        <i class="bi bi-arrow-up-circle"></i>
+        <span>Top-Ups</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="CSM">
+      <a class="nav-link collapsed proper" [routerLink]="['/home/transactions']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+        <i class="bi bi-cash"></i>
+        <span>Transactions</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="CSM">
+      <a class="nav-link collapsed proper" [routerLink]="['/home/request-transaction']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+        <i class="bi bi-receipt"></i>
+        <span>Request-Transaction</span>
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="CSM">
+      <a class="nav-link collapsed proper" [routerLink]="['/home/feedback']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+        <i class="bi bi-chat-dots"></i>
+        <span>Feedback</span>
+      </a>
+    </li>
+
+
+    <!-- <li class="nav-item" *ngIf="salesRole  || creditRole || BHRole || RMRole || ZSHRole || BMRole">
+      <a class="nav-link collapsed" data-bs-target="#Leads-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i>
+        <span>Leads</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="Leads-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/home/lead']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Leads</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole">
+          <a [routerLink]="['/home/enquiry-worklist']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Enquiry Worklist</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item" *ngIf="agencyRole || callCenterRole">
+      <a class="nav-link collapsed" data-bs-target="#CRM-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i>
+        <span>Enquiry</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="CRM-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li *ngIf="agencyRole || callCenterRole">
+          <a [routerLink]="['/home/enquiry']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Enquiry</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item" *ngIf="salesRole || creditRole || BHRole || RMRole || ZSHRole || BMRole || adminRole">
+      <a class="nav-link collapsed" data-bs-target="#LeadManagement-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-menu-button-wide"></i>
+        <span>Lead Management</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="LeadManagement-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li *ngIf="salesRole || creditRole ">
+          <a [routerLink]="['/home/worklist']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Lead Worklist</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole || creditRole || BHRole || RMRole || ZSHRole || BMRole || adminRole">
+          <a [routerLink]="['/home/manual-assignment']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Manual Assignment</span>
+          </a>
+        </li>
+      </ul>
+    </li> -->
+
+
+
+    <li class="nav-item" *ngIf="adminRole">
+      <a class="nav-link collapsed" data-bs-target="#administartion-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i>
+        <span>Administartion</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="administartion-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/home/user']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>User</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/role']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Role</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-item" *ngIf="adminRole">
+      <a class="nav-link collapsed" data-bs-target="#masters-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i>
+        <span>Masters</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="masters-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/home/branch']"  [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Branch</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/Map-AreaPincode-to-Branch']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Map Area/Pincode to Branch</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/user-department']"  [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>User Department</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/user-designation']"  [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>User Designation</span>
+          </a>
+        </li>
+        <!-- <li>
+          <a [routerLink]="['/home/lead-source']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Lead Source</span>
+          </a>
+        </li> -->
+        <li>
+          <a [routerLink]="['/home/lead-status']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Request Status</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/requestType']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Request Type</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/requestName']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Request Name</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/reason-master']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Region Master</span>
+          </a>
+        </li>
+        <!-- <li>
+          <a [routerLink]="['/home/reject-reason']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Reject Reason</span>
+          </a>
+        </li> -->
+        <!-- <li>
+          <a [routerLink]="['/home/enquiry-status']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Enquiry Status</span>
+          </a>
+        </li> -->
+      </ul>
+    </li>
+
+    <!-- <li class="nav-item" *ngIf="adminRole">
+      agencyRole
+      <a class="nav-link collapsed" data-bs-target="#Configuration-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-receipt"></i>
+        <span>Configuration</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="Configuration-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/home/loanType']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Loan Type</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/product-master']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Product Master</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/product-master']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Business Rule Engine</span>
+          </a>
+        </li> 
+
+        <li *ngIf="agencyRole">
+          <a [routerLink]="['/home/lead-maintance']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Lead Maintance</span>
+          </a>
+        </li>
+      </ul>
+    </li> -->
+
+    <li class="nav-item" *ngIf="adminRole">
+      <a class="nav-link collapsed" data-bs-target="#geographyMasters-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-bar-chart"></i>
+        <span>Geography Masters</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="geographyMasters-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/home/countries']"  [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Countries</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/states']"  [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>States</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home/cities']"  [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Cities</span>
+          </a>
+        </li>
+        <!-- <li>
+          <a [routerLink]="['/home/areas']"  [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Localities/Areas</span>
+          </a>
+        </li> -->
+        <li>
+          <a [routerLink]="['/home/pincode']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Pincode</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+<!-- 
+    <li class="nav-item" *ngIf="salesRole">
+      <a class="nav-link collapsed" data-bs-target="#Leads-nav" data-bs-toggle="collapse">
+        <i class="bi bi-journal-text"></i>
+        <span></span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="Leads-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/home/lead']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Leads</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole">
+          <a [routerLink]="['/home/enquiry-worklist']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Enquiry Worklist</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole">
+          <a [routerLink]="['/home/request-service']" data-bs-target="#Leads-nav"  [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Request Service</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole">
+          <a [routerLink]="['/home/loan-master']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Loan Master</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole">
+          <a [routerLink]="['/home/top-up']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Top-Ups</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole">
+          <a [routerLink]="['/home/transactions']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Transactions</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole">
+          <a [routerLink]="['/home/request-transaction']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Request-Transaction</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole">
+          <a [routerLink]="['/home/feedback']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Feedback</span>
+          </a>
+        </li> 
+      </ul>
+    </li> -->
+
+    <!-- <li class="nav-item" *ngIf="agencyRole || callCenterRole">
+      <a class="nav-link collapsed" data-bs-target="#CRM-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i>
+        <span>Enquiry</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="CRM-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li *ngIf="agencyRole || callCenterRole">
+          <a [routerLink]="['/home/enquiry']" [skipLocationChange]="true" [routerLinkActive]="['active']">
+            <i class="bi bi-circle"></i>
+            <span>Enquiry</span>
+          </a>
+        </li>
+      </ul>
+    </li> -->
+
+    <!-- <li class="nav-item" *ngIf="salesRole || creditRole || BHRole || RMRole || ZSHRole || BMRole || adminRole">
+      <a class="nav-link collapsed" data-bs-target="#LeadManagement-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-menu-button-wide"></i>
+        <span>Lead Management</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="LeadManagement-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li *ngIf="salesRole || creditRole ">
+          <a [routerLink]="['/home/worklist']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Lead Worklist</span>
+          </a>
+        </li>
+        <li *ngIf="salesRole || creditRole || BHRole || RMRole || ZSHRole || BMRole || adminRole">
+          <a [routerLink]="['/home/manual-assignment']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Manual Assignment</span>
+          </a>
+        </li>
+      </ul>
+    </li> -->
+
+
+  </ul>
+</aside>

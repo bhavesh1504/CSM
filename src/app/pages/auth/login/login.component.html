@@ -1,0 +1,96 @@
+
+
+<div class="content-wrapper container">
+    <div class="card content-body pre-auth">
+        <div class="card-header">
+            <ul class="nav nav-pills cust-type">
+                <li class="nav-item">
+                    <a class="nav-link active">
+                        <i class="mdi mdi-account-check-outline mdi-48px"></i>
+                        <span style="position: relative; top: 0.4rem;">Customer Login</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-body">
+
+
+            <div class="row">
+                <div class="offset-md-1 col-md-10 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+
+                    <mat-stepper [linear]="isLinear" #stepper>
+                        <mat-step [stepControl]="firstFormGroup" label="Enter Mobile No.">
+                            <form [formGroup]="firstFormGroup">
+                                <!-- <ng-template matStepLabel>Enter Mobile No.</ng-template> -->
+                                <div>
+                                    <div class="tab-content">
+                                        <div class="tab-panel">
+                                            <div class="py-5">
+                                                <div class="form-group">
+                                                    <mat-form-field class="mat-mdc-text-field-wrapper" appearance="outline">
+                                                        <mat-label>Enter Email Id/Mobile number</mat-label>
+                                                        <input matInput placeholder="Enter Email Id/Mobile number*" formControlName="mobile" minlength="10" maxlength="10" required>
+                                                        <i class="bi bi-person-fill userIocnStyle"></i>
+                                                        <!-- <mat-error *ngIf="isControlHasError('mobile','pattern','email','required')"> is required</mat-error> -->
+                                                        <!-- <mat-error *ngIf="isControlHasError('mobile','email')">
+                                                            Enter Correct Email Id.
+                                                          </mat-error> -->
+                                                          <!-- <mat-error *ngIf="isControlHasError('mobile','required')">
+                                                            Enter Email Id/Mobile number.
+                                                          </mat-error>
+                                                          <mat-error
+                                                            *ngIf="isControlHasError('mobile','pattern') || isControlHasError('mobile','minlength')">
+                                                            Mobile Number should be in 10 digits only
+                                                          </mat-error> -->
+                                                         <!-- <div *ngIf="firstFromGroup.get('mobile').invalid && (firstFormGroup.get('mobile').dirty || firstFormGroup.get('mobile').touched)" class="text-danger">
+                                                            <div *ngIf="firstFromGroup.get('mobile').errors.required">This Field Is Required.</div>
+                                                            <div *ngIf="firstFromGroup.get('mobile').errors.pattern">Please enter a valid email or mobile Number.</div>
+
+                                                          </div>  -->
+                                                    </mat-form-field> 
+                                                </div>
+                                                <div class="form-group mt-5">
+                                                    <button matStepperNext
+                                                        class="btn btn-primary bg-brand btn-block btn-rounded btn-lg"
+                                                        (click)="addMobile()" [disabled]="firstFormGroup.invalid">GetOTP</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </mat-step>
+                        <mat-step [stepControl]="secondFormGroup" label="Enter OTP And Pan">
+                            <form [formGroup]="secondFormGroup">
+                                <div>
+                                    <div class="tab-content">
+                                        <div class="tab-panel">
+                                            <div class="py-5">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Enter OTP*" formControlName="otp">
+                                                    <span id="error_mob_exist_email"
+                                                        style="color:red;font-size: 80%;"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Enter PAN*" formControlName="pancard">
+                                                </div>
+                                                <div class="form-group mt-5">
+                                                    <button type="button"
+                                                        class="btn btn-primary btn-rounded btn-lg" (click)="addMobile()">Resend
+                                                        OTP</button>&nbsp;
+                                                    <button type="submit"
+                                                        class="btn btn-primary btn-rounded btn-lg" (click)="addOtpPan()">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </mat-step>
+                    </mat-stepper>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

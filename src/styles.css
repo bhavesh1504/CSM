@@ -1,0 +1,103 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { min-height: 80vh; font-family: Poppins !important;}
+body { margin: 0;  }
+.mat-form-field-appearance-outline .mat-form-field-infix
+{
+    padding: 8px 0px;
+}
+ label {
+  display: inline-block;
+  font-size: 0.8rem !important;
+}
+/*
+.mat-input-element
+{
+  font-size: 14px !important;
+} */
+.mat-form-field-infix {
+  border-top: solid transparent;
+}
+.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+  transform: translateY(10%) !important;
+}
+
+.mat-form-field {
+  font-size: 12px !important;
+}
+
+.mat-card-title {
+  font-size: 20px !important;
+}
+tr.mat-row, tr.mat-footer-row {
+  height: 35px !important;
+}
+.main{
+  min-height: 83vh;
+}
+
+tr.mat-header-row{
+  height: 45px !important;
+}
+
+.mat-paginator-outer-container{
+  height: 40px;
+}
+.mat-paginator-container{
+  margin-top: -8px;
+}
+.mat-paginator-page-size{
+  margin-top: 5px;
+}
+
+.mat-card , .mat-table , .mat-form-field{
+  font-family: Poppins;
+}
+
+.mat-dialog-container{
+  padding: 0;
+}
+
+
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px grey;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 10px;
+}
+
+
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary{
+  background-color: #0d6efd;
+}
+.mat-primary .mat-pseudo-checkbox-checked, .mat-primary .mat-pseudo-checkbox-indeterminate{
+  background-color: #0d6efd;
+}
+
+::ng-deep .mat-dialog-container {
+  display: block;
+  padding: 24px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  max-height: inherit;
+}

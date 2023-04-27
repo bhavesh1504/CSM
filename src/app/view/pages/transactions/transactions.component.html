@@ -1,0 +1,107 @@
+<main id="main" class="main">
+    <div class="row">
+      <div [ngClass]="!creditRole ? 'col-8'  : 'col-6'">
+        <div class="pagetitle">
+          <h1>Transactions</h1>
+          <nav>
+             <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                <li class="breadcrumb-item active">Transactions</li>
+             </ol>
+          </nav>
+       </div>
+      </div>
+      <div class="col-4">
+        <div class="row search">
+          <div class="col-10">
+            <mat-form-field appearance="standard" class="filterStyle pt-0">
+              <mat-label>Search</mat-label>
+              <input matInput #dataSourceFilter class="padding3px0px" (keyup)="applyFilter(dataSourceFilter.value)" placeholder="Search" #input>
+            </mat-form-field>
+          </div>
+          <div class="col-2"><i class="bi bi-arrow-repeat reloadStyle" matTooltip="Refresh" (click)="reloadData()"></i></div>
+        </div>
+      </div>
+      <!-- <div class="col-2" *ngIf="creditRole">
+        <button mat-raised-button color="primary" class="w-100" (click)="addData()">Create</button>
+         <button mat-raised-button color="primary" class="w-100" (click)="editViewAction(1,'view')">View</button>
+      </div> -->
+    
+        <!-- <div class="col-10">
+    
+        </div>
+        <div class="col-2">
+            <button mat-raised-button color="primary" (click)="addData()">Create</button>
+        </div> -->
+    
+        <!-- <div class="d-flex justify-content-between align-items-center">
+          <h2>Leads</h2>
+          <div>
+            <mat-form-field appearance="standard" class="filterStyle">
+              <mat-label>Search</mat-label>
+              <input matInput #dataSourceFilter (keyup)="applyFilter(dataSourceFilter.value)" placeholder="Search" #input>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="addData()">Create</button>
+          </div>
+    
+        </div> -->
+    </div>
+    <div>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+              <ng-container matColumnDef="transactionid">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction ID </th>
+                <!-- <td mat-cell *matCellDef="let row"><a class="text-primary cursor_pointer" (click)="editViewAction(row.id,'view')">{{row.leadId}}</a>  </td> -->
+            </ng-container>
+                <ng-container matColumnDef="loanNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Loan No </th>
+                    <!-- <td mat-cell *matCellDef="let row"> {{row.firstName  | truncate:[15, '...']}} </td> -->
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name </th>
+                    <!-- <td mat-cell *matCellDef="let row"> {{row.lastName  | truncate:[15, '...']}} </td> -->
+                </ng-container>
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount </th>
+                    <!-- <td mat-cell *matCellDef="let row"> {{row.mobileNo}} </td> -->
+                </ng-container>
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Date </th>
+                    <!-- <td mat-cell *matCellDef="let row"> {{row?.email  | truncate:[15, '...']}} </td> -->
+                </ng-container>
+               <ng-container matColumnDef="paymentstatus">
+                  <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Lead Stage</th>
+                  <td mat-cell *matCellDef="let row"> {{row.leadStage}} </td> -->
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Status </th>
+                  <!-- <td mat-cell *matCellDef="let row"> {{row.leadStatus?.leadStatus ? row.leadStatus?.leadStatus : '-'}} </td> -->
+               </ng-container>
+               <ng-container matColumnDef="indusstatus">
+                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Lead Stage</th>
+                <td mat-cell *matCellDef="let row"> {{row.leadStage}} </td> -->
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Indus Status </th>
+                <!-- <td mat-cell *matCellDef="let row"> {{row.leadStatus?.leadStatus ? row.leadStatus?.leadStatus : '-'}} </td> -->
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                    <td mat-cell *matCellDef="let row">
+                     <!-- <span class="text-primary" (click)="editViewAction(row.id,'view')"><i class="ri-eye-fill" matTooltip="View"></i></span>
+                     <span *ngIf="agencyRole && callCenterRole && salesRole && creditRole" class="px-2">|</span> -->
+                     <!-- <span *ngIf="!salesRole;else other_content" class="text-danger" (click)="editViewAction(row.id,'edit')"><i class="bx bxs-edit" matTooltip="Edit"></i></span> -->
+                     <ng-template #other_content>-</ng-template>
+                    </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell text-center" colspan="12">No Record Found...</td>
+                </tr>
+            </table>
+    
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+            </mat-paginator>
+        </div>
+    </div>
+</main>
+
+

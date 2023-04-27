@@ -1,0 +1,43 @@
+<form [formGroup]="addEditForm" style="padding: 24px;">
+<div class="row">
+  <!-- *ngIf="VerifyBtnDiv" -->
+  <!-- <span class="mb-3 leadTitle">Verification :</span> -->
+
+  <div class="card autoFoucusStyle">
+    <span class="mb-2 CardTitleStyle text-primary">Verification:
+      <i class="ri-close-line cursor_pointer closeModelDialog" (click)="cancelVerificationForm()"></i>
+    </span>
+    <div class="row">
+
+
+<!-- <div class="card p-3 mt-4 mt-r" *ngIf="VerifyBtnDiv">
+<span class="card_header text-primary">Verification</span>
+<div class="row"> -->
+
+  <div class="col-12 mt-2">
+    <div class="row mb-2">
+      <!-- <div class="col-2 mt-2"><label for="mobileNoVarification">Mobile No. OTP Verification<span
+            class="text-danger"> *</span></label></div> -->
+      <div class="col-6">
+        <mat-form-field class="example-full-width" >
+          <input type="text" matInput formControlName="mobileNoVarification"
+            placeholder="Enter Mobile No. OTP Verification" (keypress)="omitSpecialChar($event);omitCharacters($event);" maxlength="6">
+          <mat-error *ngIf="isControlHasError('mobileNoVarification','required')">
+            Mobile No. OTP Verification is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6 position-relative">
+        <button mat-raised-button color="primary" (click)="mobileVerify()" [disabled]="getMobileNoFromResBtnDisable" >{{mobileVerifyText}} </button>
+        <button *ngIf="!ReSentOtpTimmer && !getMobileNoFromResBtnDisable" style="margin-left: 22px;" class="bg-success text-white ml-2" mat-raised-button (click)="reSentOTP()" >Resend OTP  </button>
+        <button *ngIf="ReSentOtpTimmer && !getMobileNoFromResBtnDisable" style="margin-left: 22px;" class="bg-secondary text-white ml-2" mat-raised-button (click)="reSentOTP()" [disabled]="ReSentOtpTimmerBoleean" >{{counter | formatTime }}    </button>
+        <i *ngIf="getMobileNoFromResBtnDisable" class="ri-checkbox-circle-line text-success optSucees"></i>
+      </div>
+
+    <!-- </div> -->
+  </div>
+</div>
+</div>
+</div>
+</div>
+</form>

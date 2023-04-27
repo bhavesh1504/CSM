@@ -1,0 +1,127 @@
+<!-- <app-headers></app-headers> -->
+<main id="main" class="main">
+    <div class="content-wrapper container">
+        <div class="card content-body pre-auth">
+            <div class="card-header">                
+                            <ul class="nav nav-pills cust-type">
+                                <li class="nav-item">
+                                    <a class="nav-link active">
+                                        <i class="bi bi-person-fill userIocnStyle ngclass" style="position: relative; right:8rem;"></i>
+                                        <span style="position: relative; top: 0.4rem; right: 8rem; cursor: pointer;" (click)="showCustomerForm = true; showAgentForm = false; lastClickedCustomer= true">Customer Login</span>
+                                    </a>
+                                </li>
+                            </ul>                                                  
+                        <ul class="nav nav-pills cust-type">
+                            <li class="nav-item">
+                                <a class="nav-link active">
+                                    <i class="ri ri-group-line" style="position: relative; left:8rem;"></i>
+                                    <span style="position: relative; top: 0.4rem; left: 8rem; cursor: pointer;" (click)="showCustomerForm = false; showAgentForm = true; lastClickedCustomer= false">Agent/Agencies Login</span>
+                                </a>
+                            </li>
+                        </ul>                                                    
+                </div>
+            <div class="card-body" *ngIf="showAgentForm && !lastClickedCustomer" [hidden]="lastClickedCustomer">
+                <div class="row">
+                    <div class="offset-md-1 col-md-10 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+                        <form [formGroup]="loginForm">
+                            <div class="example-container">
+        
+                                <div class="row mt-2 mx-0">
+                                    <mat-form-field appearance="outline" >
+                                        <mat-label>Enter your Username</mat-label>
+                                        <input matInput placeholder="Username" formControlName="username" required>
+                                        <i class="bi bi-person-fill userIocnStyle"></i>
+                                        <mat-error *ngIf="isControlHasError('username','required')">Username is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="row mt-2 mx-0">
+                                    <!-- <mat-form-field appearance="outline" >
+                                        <mat-label>Enter your Password</mat-label>
+                                        <input type="password" matInput class="padding3px0px" placeholder="Password" formControlName="password" required>
+                                        <mat-error *ngIf="isControlHasError('password','required')">Password is required</mat-error>
+                                    </mat-form-field> -->
+        
+                                    <mat-form-field appearance="outline">
+                                      <mat-label>Enter your password</mat-label>
+                                      <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
+                                      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                        <!-- <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
+                                        <i [class]="hide ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i>
+                                      </button>
+                                      <mat-error *ngIf="isControlHasError('password','required')">Password is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <button mat-raised-button (click)="login()" class="my-3 buttvn" color="primary">Login</button>
+                        </form>
+                    </div>   
+                </div>    
+            </div>
+            <div  class="card-body" *ngIf="showCustomerForm && lastClickedCustomer" [hidden]="!lastClickedCustomer">
+                <div class="row">
+                    <div class="offset-md-1 col-md-10 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+                        <mat-stepper linear #stepper>
+                            <ng-template matStepperIcon="edit">
+                                <mat-icon>1</mat-icon>
+                              </ng-template>                            
+                            <mat-step style="position:relative;right:1.5rem;" [stepControl]="firstLoginForm"
+                                label="Enter Mobile No.">
+                                <form [formGroup]="firstLoginForm">
+                                    <div class="example-container">
+                                        <div class="row mt-2 mx-0">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Enter Email Id/Mobile number</mat-label>
+                                                <input matInput placeholder="Enter Email Id/Mobile number"
+                                                    formControlName="mobile" required>
+                                                <mat-error *ngIf="isControlHasErrorr('mobile','required')">Email
+                                                    Id/Mobile number is required</mat-error>
+                                                <mat-error *ngIf="isControlHasErrorr('mobile','pattern')">Incorrect Email
+                                                        Id/Mobile number is required</mat-error>  
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <button matStepperNext (click)="addMobile()" mat-raised-button class="my-3 buttun"
+                                        color="primary" [disabled]="firstLoginForm.invalid">Get OTP</button>
+                                </form>
+                            </mat-step>
+                            <mat-step [stepControl]="secondLoginForm" label="Enter OTP And Pan">
+                                <form [formGroup]="secondLoginForm">
+                                    <div class="example-container">
+                                        <div class="row mt-2 mx-0">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Enter OTP</mat-label>
+                                                <input matInput placeholder="Enter OTP" formControlName="otp" required>
+                                                <mat-error *ngIf="isControlHasErrors('otp','required')">OTP is
+                                                    required</mat-error>
+                                                <mat-error *ngIf="isControlHasErrors('otp','pattern')">Enter Correct OTP
+                                                    required</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row mt-2 mx-0">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Enter Your Pancard</mat-label>
+                                                <input matInput placeholder="Enter Pancard" formControlName="pancard"
+                                                    required>
+                                                <mat-error *ngIf="isControlHasErrors('pancard','required')">Pancard is
+                                                    required</mat-error>
+                                                    <mat-error *ngIf="isControlHasErrors('pancard','pattern')">Pancard is
+                                                        incorrect</mat-error>                                            
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="otp">
+                                        <button mat-raised-button (click)="addMobile()" class="my-3"
+                                            color="primary">Resend OTP</button>
+                                        <button mat-raised-button (click)="addOtpPan()" class="my-3 butten"
+                                            color="primary" [disabled]="secondLoginForm.invalid">Submit</button>
+                                    </div>
+                                </form>
+                            </mat-step>
+                        </mat-stepper>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- <app-footers></app-footers> -->

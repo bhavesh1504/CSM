@@ -1,0 +1,1023 @@
+<!-- <main id="main" class="main"> -->
+<mat-card>
+  <mat-card-title class="mat-card-title-style">{{addEditHeadTitle}}
+    <i class="ri-close-line cursor_pointer closeModelDialog" (click)="cancelAddEditForm()"></i>
+  </mat-card-title>
+  <mat-card-actions class="p-2">
+    <form [formGroup]="addEditForm">
+      <div class="row leadDetailsStyle">
+        <div
+          [ngClass]="allLeadDetails.scheduleDate ==null && allLeadDetails.loanRemark == null && allLeadDetails.approvedRemark == null && data.type == 'view' ? 'col-12'  : 'col-6 br_gainsboro' ">
+          <!--  class="col-6 br_gainsboro"  -->
+          <div class="row">
+            <br>
+            <div class="card">
+              <span class="mb-2 CardTitleStyle text-primary">Basic Details :</span>
+              <div class="row">
+                <div class="col-6 mb-2">
+                  <h5>lead ID</h5>
+                  <label class="d-block o_07">{{allLeadDetails.leadId}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Name</h5>
+                  <label class="d-block o_07 verifiedLabel">{{allLeadDetails.firstName}} {{allLeadDetails?.middleName}}
+                    {{allLeadDetails.lastName}}
+                    <i *ngIf="allLeadDetails?.isPanNameValid == false"
+                      class="ri-close-circle-line text-danger mobileVerifiedIcon" style="top:-6px"></i>
+                    <i *ngIf="allLeadDetails?.isPanNameValid == true"
+                      class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i>
+                  </label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Mobile Number</h5>
+                  <label class="d-block o_07 verifiedLabel">{{allLeadDetails.mobileNo}}
+                    <i *ngIf="allLeadDetails.isMobileVerified == true"
+                      class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i>
+                  </label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Alternate Mobile Number</h5>
+                  <label class="d-block o_07">{{!allLeadDetails.alternateMobileNo ?
+                    '-':allLeadDetails.alternateMobileNo}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Email Id</h5>
+                  <label class="d-block o_07 verifiedLabel">{{allLeadDetails.email}}<i
+                      *ngIf="allLeadDetails.isEmailVerified == true"
+                      class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i></label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Gender</h5>
+                  <label class="d-block o_07">{{allLeadDetails.gender}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Date of Birth</h5>
+                  <label class="d-block o_07 verifiedLabel">{{allLeadDetails.dateOfBirth | date:'d MMMM , y'}}
+                    <i *ngIf="allLeadDetails?.isPanValid == false"
+                      class="ri-close-circle-line text-danger mobileVerifiedIcon" style="top:-6px"></i>
+                    <i *ngIf="allLeadDetails?.isPanValid == true"
+                      class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <span class="mb-2 CardTitleStyle text-primary">KYC Details :</span>
+              <div class="row">
+                <div class="col-6 mb-2">
+                  <h5>Pan Number</h5>
+                  <label class="d-block o_07 verifiedLabel">{{allLeadDetails.pan}}<i
+                      *ngIf="allLeadDetails.isPanVerified == true || PanDateodBirth == true"
+                      class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i></label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Addhar Number</h5>
+                  <label class="d-block o_07">{{allLeadDetails.aadhar}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <span class="mb-2 CardTitleStyle text-primary">Location Details :</span>
+              <div class="row">
+                <!-- <div class="col-6 mb-2">
+                  <h5>Country</h5>
+                  <label class="d-block o_07">{{allLeadDetails.country?.countryName}}</label>
+                </div> -->
+                <div class="col-6 mb-2">
+                  <h5>City</h5>
+                  <label class="d-block o_07">{{allLeadDetails.city?.cityName}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>State</h5>
+                  <label class="d-block o_07">{{allLeadDetails.state?.stateName}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Pincode</h5>
+                  <label class="d-block o_07">{{allLeadDetails.pincode?.pincode}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Area</h5>
+                  <label class="d-block o_07">{{allLeadDetails.pincode?.areaName}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Branch Name</h5>
+                  <label class="d-block o_07">{{allLeadDetails.pincode?.branch?.branchName}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="allLeadDetails.isConvertedFromEnquiry == false">
+              <span class="mb-2 CardTitleStyle text-primary">Lead Information :</span>
+              <div class="row">
+                <div class="col-6 mb-2">
+                  <h5>Lead Source</h5>
+                  <label class="d-block o_07">{{allLeadDetails.leadSource?.leadSourceName}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Lead Stage</h5>
+                  <label class="d-block o_07">{{allLeadDetails.leadStage}}</label>
+                </div>
+                <div class="col-6 mb-2" *ngIf="allLeadDetails.leadStatus?.id == '1'">
+                  <h5>Lead Status</h5>
+                  <label class="d-block o_07">{{allLeadDetails?.leadStatus?.leadStatus}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Asssined To</h5>
+                  <label class="d-block o_07">{{allLeadDetails.assignTo?.firstName}}
+                    {{allLeadDetails.assignTo?.lastName}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="allLeadDetails.isConvertedFromEnquiry == true">
+              <span class="mb-2 CardTitleStyle text-primary">Enquiry Information :</span>
+              <div class="row">
+                <!-- <div class="col-6 mb-2">
+                    <h5>Enquiry Source</h5>
+                    <label class="d-block o_07">{{allLeadDetails.leadSource?.leadSourceName}}</label>
+                  </div> -->
+                <div class="col-6 mb-2">
+                  <h5>Enquiry Stage</h5>
+                  <label class="d-block o_07">{{allLeadDetails.leadStage}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Enquiry Status</h5>
+                  <label class="d-block o_07">{{allLeadDetails.isConvertedFromEnquiry == true ? 'Converted To Lead' :
+                    '-'}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Asssined To</h5>
+                  <label class="d-block o_07">{{allLeadDetails.assignTo?.firstName}}
+                    {{allLeadDetails.assignTo?.lastName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          [ngClass]="allLeadDetails.scheduleDate ==null && allLeadDetails.loanRemark == null && allLeadDetails.approvedRemark == null && data.type == 'view' ? ' '  : 'col-6' ">
+          <!-- [ngClass]="'col-6' "  -->
+          <div class="row" *ngIf="LeadScheduleScreen">
+            <!--  *ngIf="LeadScheduleScreen" -->
+
+            <!-- <span class="mb-3 leadTitle">Lead Schedule :</span> -->
+            <div class="card autoFoucusStyle">
+              <span class="mb-2 CardTitleStyle text-primary">Lead Schedule :</span>
+              <div class="row">
+
+                <div class="col-6 mt-2">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="scheduleDate">Schedule Date<span
+                      class="text-danger"> *</span></label></div>
+                <div class="col-8"> -->
+                    <mat-form-field class="w-100">
+                      <input matInput [matDatepicker]="picker1" autocomplete="off" readonly (focus)="picker1.open()"
+                        [min]="todayDate" formControlName="scheduleDate" placeholder="Select Schedule Date">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                      <mat-error *ngIf="isControlHasError('scheduleDate','required')">
+                        Schedule Date is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <div class="col-6 mt-2">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="convenientTime">Convenient
+                    Time<span
+                      class="text-danger"> *</span></label></div>
+                <div class="col-8"> -->
+
+                    <mat-form-field class="w-100">
+                      <mat-select formControlName="convenientTime" placeholder="Select Convenient Time">
+                        <mat-option *ngFor="let time of ConvenientTime" [value]="time.value">
+                          {{time.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="isControlHasError('convenientTime','required')">
+                        Convenient Time <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+
+                    <!-- <mat-form-field class="example-full-width" >
+                    <input type="time" matInput formControlName="convenientTime"
+                      placeholder="Select Time">
+                    <mat-error *ngIf="isControlHasError('convenientTime','required')">
+                      Time is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field> -->
+
+                    <!-- <mat-form-field class="example-full-width" >
+                    <input matInput [ngxMatTimepicker]="picker" formControlName="convenientTime" placeholder="Select Time" />
+                    <ngx-mat-timepicker #picker></ngx-mat-timepicker>
+                    <mat-error *ngIf="isControlHasError('convenientTime','required')">
+                      Time is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field> -->
+
+                    <!--
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Time</mat-label>
+                    <input formControlName="time" matTimepicker>
+                  </mat-form-field> -->
+                    <!-- <mat-form-field class="example-full-width">
+                  <mat-label>Time</mat-label>
+                  <input matTimepicker>
+                  </mat-form-field> -->
+
+                    <!-- </div> -->
+                  </div>
+                </div>
+                <div class="col-6" *ngIf="leadScheduleStatusOnlyView">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="leadScheduleStatus">Lead Status<span class="text-danger"> *</span></label></div>
+                <div class="col-8"> -->
+                    <mat-form-field class="w-100">
+                      <mat-select formControlName="leadScheduleStatus" [placeholder]="leadStatusPlaceholderName">
+                        <mat-option *ngFor="let name of LeadStatusName" [value]="name.id">
+                          {{name.leadStatus}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="isControlHasError('leadScheduleStatus','required')">
+                        Lead Status is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                    <!-- </div> -->
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="row mb-2">
+                    <!-- <div class="col-2 mt-2"><label for="scheduledRemark">Comments<span
+                      class="text-danger"> *</span></label></div>
+                <div class="col-10"> -->
+                    <mat-form-field class="example-full-width">
+                      <textarea maxlength="500" matInput formControlName="scheduledRemark"
+                        placeholder="Enter Comments"></textarea>
+                      <mat-error *ngIf="isControlHasError('scheduledRemark','required')">
+                        Comments is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- </div> -->
+                  <div class="row cpommentScrollStyle">
+                    <div *ngFor="let item of allScheduleDetails">
+                      <div class="commentsStyle">
+                        <div>{{item.scheduledRemark}}</div>
+                        <div class="marginTop7px">
+                          <span class="fontSize10px">{{item.scheduleDate | date:'d MMMM , y'}} </span> <span
+                            class="marginLeft40px fontSize10px"> {{item.convenientTime | date:"h:mm a"}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="ViewLeadScheduleScreen && allLeadDetails.isConvertedFromEnquiry != true">
+            <!-- *ngIf="ViewLeadScheduleScreen" -->
+            <!-- <span class="mb-3 leadTitle">Lead Schedule Details :</span> -->
+            <div class="card">
+              <span class="mb-2 CardTitleStyle text-primary">Lead Schedule Details :</span>
+              <div class="row">
+                <div class="col-6 mb-2">
+                  <h5>Schedule Date</h5>
+                  <label class="d-block o_07">{{allLeadDetails.scheduleDate | date:'EEEE, MMMM d,y'}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Convenient Time</h5>
+                  <label class="d-block o_07">{{allLeadDetails.convenientTime}}</label>
+                </div>
+                <div class="col-6 mb-2" *ngIf="allLeadDetails.loanRemark == null">
+                  <h5>Lead Status</h5>
+                  <label class="d-block o_07">{{allLeadDetails?.leadStatus?.leadStatus}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Comments</h5>
+                  <label class="d-block o_07">{{allLeadDetails.scheduledRemark}}</label>
+                </div>
+              </div>
+            </div>
+            <!-- <p class="boredrBottomCore"></p> -->
+          </div>
+
+          <div class="row" *ngIf="ViewLeadScheduleCommentsScreen && allLeadDetails.isConvertedFromEnquiry != true">
+            <!-- *ngIf="ViewLeadScheduleScreen" -->
+            <!-- <span class="mb-3 leadTitle">Lead Schedule Details :</span> -->
+            <div class="card">
+              <span class="mb-2 CardTitleStyle text-primary">Lead Schedule Details :</span>
+              <div class="row cpommentScrollStyle mt-0">
+                <div *ngFor="let item of allScheduleDetails">
+                  <div class="commentsStyle">
+                    <div>{{item.scheduledRemark}}</div>
+                    <div class="marginTop7px">
+                      <span class="fontSize10px">{{item.scheduleDate | date:'d MMMM , y'}} </span> <span
+                        class="marginLeft40px fontSize10px"> {{item.convenientTime | date:"h:mm a"}}</span>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <p class="boredrBottomCore"></p> -->
+          </div>
+
+          <!-- not match screen -->
+          <div class="row" *ngIf="NSDLMissMatch">
+            <!-- *ngIf="LeadLoanScreen" -->
+            <!-- <span class="mb-3 leadTitle">Lead Loan :</span> -->
+
+            <div [ngClass]="VerifyBtnDiv ? '' : 'autoFoucusStyle' " class="card">
+              <span class="mb-2 CardTitleStyle text-primary">NSDL PAN Correction:</span>
+              <div class="row mt-2">
+
+                <div class="col-6" *ngIf="allLeadDetails?.isPanNameValid == false">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="firstName">First Name<span class="text-danger"> *</span></label>
+                    </div>
+                    <div class="col-8"> -->
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput formControlName="firstName" placeholder="Enter First Name">
+                      <mat-error *ngIf="isControlHasError('firstName','required')">
+                        First Name is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                    <!-- </div> -->
+                  </div>
+                </div>
+                <div class="col-6" *ngIf="allLeadDetails?.isPanNameValid == false">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="middleName">Middle Name<span class="text-danger"> *</span></label>
+                    </div>
+                    <div class="col-8"> -->
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput formControlName="middleName" placeholder="Enter Middle Name">
+                      <mat-error *ngIf="isControlHasError('middleName','required')">
+                        Middle Name is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                    <!-- </div> -->
+                  </div>
+                </div>
+                <div class="col-6" *ngIf="allLeadDetails?.isPanNameValid == false">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="lastName">Last Name<span class="text-danger"> *</span></label></div>
+                    <div class="col-8"> -->
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput formControlName="lastName" placeholder="Enter Last Name">
+                      <mat-error *ngIf="isControlHasError('lastName','required')">
+                        Last Name is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                    <!-- </div> -->
+                  </div>
+                </div>
+
+
+
+                <!-- <div class="col-6">
+                <div class="row mb-2">
+                    <mat-form-field class="example-full-width" >
+                      <input type="text" matInput formControlName="mobileNo"
+                        (keyup)="checkMobileAlreadyExit($event)"
+                        (keypress)="omitSpecialChar($event);omitCharacters($event);" minlength="10" maxlength="10"
+                        placeholder="Enter mobile number">
+                      <mat-error *ngIf="isControlHasError('mobileNo','pattern')">
+                        This field required only numeric values
+                      </mat-error>
+                      <mat-error *ngIf="isControlHasError('mobileNo','required')">
+                        Mobile Number is <strong>required</strong>
+                      </mat-error>
+                      <mat-error
+                        *ngIf="isControlHasError('mobileNo','maxlength') || isControlHasError('mobileNo','minlength') || mobileMax10Error">
+                        Mobile Number should be in 10 digits only
+                      </mat-error>
+                      <mat-error *ngIf="mobileExistError">
+                        Mobile Number is <strong>Already Exist.</strong>
+                      </mat-error>
+                    </mat-form-field>
+                </div>
+              </div> -->
+
+
+                <!-- <div class="col-6">
+                  <div class="row mb-2">
+                      <mat-form-field class="example-full-width" >
+                        <input type="email" matInput formControlName="email" placeholder="Enter Email Id">
+                        <mat-error *ngIf="isControlHasError('email','required')">
+                          Email Id is <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('email','email')">
+                          Please enter Valid Email Id
+                        </mat-error>
+                      </mat-form-field>
+                  </div>
+                </div> -->
+
+                <div class="col-6" *ngIf="allLeadDetails?.isPanValid == false">
+                  <div class="row mb-2">
+                    <mat-form-field class="w-100">
+                      <input autocomplete="off" matInput (focus)="picker.open()" [matDatepicker]="picker"
+                        formControlName="dateOfBirth" placeholder="Select Date Of Birth (DD/MM/YYYY)">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-error *ngIf="isValidAge">
+                        Age should be <strong>more than 18 </strong>
+                      </mat-error>
+                      <mat-error *ngIf="isControlHasError('dateOfBirth','required')">
+                        Date of Birth is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="col-6" *ngIf="allLeadDetails?.isPanValid == false">
+                  <div class="row mb-2">
+                    <mat-form-field class="example-full-width">
+                      <input type="text" #panCard matInput formControlName="pan"
+                        (keyup)="addEditForm.get('pan')?.patchValue(panCard.value.toUpperCase());checkPAnAlreadyExit($event)"
+                        maxlength="10" placeholder="Enter Pan Number">
+                      <mat-error *ngIf="isControlHasError('pan','pattern') || panPatternError">
+                        For Example <strong>BNZAA2318J</strong>
+                      </mat-error>
+                      <mat-error *ngIf="isControlHasError('pan','required')">
+                        Pan Number is <strong>required</strong>
+                      </mat-error>
+                      <mat-error *ngIf="panExistError">
+                        Pan Number is <strong>Already Exist.</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <!-- <div class="col-6">
+                  <div class="row mb-2">
+                      <mat-form-field class="example-full-width" >
+                        <input type="text" matInput formControlName="aadhar"
+                          (keypress)="omitSpecialChar($event);omitCharacters($event);" minlength="12" maxlength="12"
+                          placeholder="Enter Addhar Number">
+                        <mat-error *ngIf="isControlHasError('aadhar','pattern')">
+                          This field required only numeric values
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('aadhar','required')">
+                          Addhar Number is <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('aadhar','maxlength') || isControlHasError('aadhar','minlength')">
+                          Addhar Number should be in 12 digits only
+                        </mat-error>
+                      </mat-form-field>
+                  </div>
+                </div> -->
+
+                <div class="col-12 position-relative">
+                  <button type="button" mat-raised-button class="Save_btn saveDataMissmatch"
+                    (click)="saveDataMissmatch(allLeadDetails)">Save</button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- <p class="boredrBottomCore"></p> -->
+          </div>
+
+          <div class="row" *ngIf="LeadLoanScreen">
+            <!-- *ngIf="LeadLoanScreen" -->
+            <!-- <span class="mb-3 leadTitle">Lead Loan :</span> -->
+
+            <div [ngClass]="VerifyBtnDiv ? '' : 'autoFoucusStyle' " class="card">
+              <span class="mb-2 CardTitleStyle text-primary"> Loan Requirement :</span>
+              <div class="row">
+
+                <div class="col-6">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="loanAmount">Loan Ammount<span
+                        class="text-danger"> *</span></label></div>
+                  <div class="col-8"> -->
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput formControlName="loanAmount" autocomplete="off"
+                        (keypress)="omitSpecialChar($event);omitCharacters($event);" maxlength="8"
+                        placeholder="Enter Loan Ammount">
+                      <mat-error *ngIf="isControlHasError('loanAmount','required')">
+                        Loan Ammount is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <div class="col-6">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="loanType">Pincode<span class="text-danger"> *</span></label></div>
+                  <div class="col-8"> -->
+                    <mat-form-field (click)="focusLoanTypeSelect()" class="w-100 ">
+                      <mat-select (selectionChange)="loanTypeSelect($event.value)" formControlName="loanType"
+                        [placeholder]="SelectLoanTypePlaceholder">
+
+                        <mat-optgroup>
+                          <mat-form-field style="width:100%;padding-top: 9px;">
+                            <input #searchLoanType autocomplete="off" [formControl]="searchLoanTypeTextboxControl"
+                              placeholder="Search" aria-label="Search" matInput
+                              (keyup)="searchDropdown(searchLoanType.value,'loanType')">
+                            <button [disableRipple]="true" *ngIf="searchLoanType.value" matSuffix mat-icon-button
+                              aria-label="Clear" (click)="clearSearch($event,'loanType')">
+                              <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                            </button>
+                          </mat-form-field>
+                        </mat-optgroup>
+                        <mat-optgroup *ngIf="filterLoanTypeName?.length == 0">
+                          <div>No results found!</div>
+                        </mat-optgroup>
+
+                        <mat-option *ngFor="let name of filterLoanTypeName" [value]="name.id">
+                          {{name.loanTypeName}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="isControlHasError('loanType','required')">
+                        Loan Type is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="product">Product<span
+                        class="text-danger"> *</span></label></div>
+                  <div class="col-8"> -->
+
+                    <!-- <mat-form-field class="example-full-width" >
+                      <input type="text" matInput formControlName="product"
+                        placeholder="Enter Product">
+                      <mat-error *ngIf="isControlHasError('product','required')">
+                        Product is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div> -->
+
+                    <mat-form-field (click)="focusProductSelect()" class="example-full-width">
+                      <mat-select (selectionChange)="productSelect($event.value)" formControlName="product"
+                        [placeholder]="SelectProductPlaceholder">
+
+                        <mat-optgroup>
+                          <mat-form-field style="width:100%;padding-top: 9px;">
+                            <input #searchProduct autocomplete="off" [formControl]="searchProductTextboxControl"
+                              placeholder="Search" aria-label="Search" matInput
+                              (keyup)="searchDropdown(searchProduct.value,'product')">
+                            <button [disableRipple]="true" *ngIf="searchProduct.value" matSuffix mat-icon-button
+                              aria-label="Clear" (click)="clearSearch($event,'product')">
+                              <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                            </button>
+                          </mat-form-field>
+                        </mat-optgroup>
+                        <mat-optgroup *ngIf="filterProductName?.length == 0">
+                          <div>No results found!</div>
+                        </mat-optgroup>
+
+                        <mat-option *ngFor="let name of filterProductName" [value]="name.id">
+                          {{name.productName}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="isControlHasError('product','required')">
+                        Product is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <div class="col-6">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="tenor">Tenor<span
+                        class="text-danger"> *</span></label></div>
+                  <div class="col-8"> -->
+                    <!-- <mat-form-field class="example-full-width" >
+                      <input type="text" matInput formControlName="tenor" (keypress)="omitSpecialChar($event);omitCharacters($event);"
+                        placeholder="Enter Tenure">
+                      <mat-error *ngIf="isControlHasError('tenor','required')">
+                        Tenure is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field> -->
+
+                    <mat-form-field class="w-100">
+                      <mat-select formControlName="tenor" placeholder="Select Tenure">
+                        <mat-option *ngFor="let name of TenureArray" [value]="name.value">
+                          {{name.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="isControlHasError('tenor','required')">
+                        Tenure is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                    <!-- </div> -->
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="leadLoanStatus">Lead Status<span class="text-danger"> *</span></label></div>
+                  <div class="col-8"> -->
+                    <mat-form-field class="w-100" (click)="focusLeadLoanStatus()">
+                      <mat-select formControlName="leadLoanStatus" [placeholder]="leadStatusLoanPlaceholderName">
+                        <!-- (selectionChange)="LoanStatusSelect($event.value)" -->
+                        <mat-optgroup>
+                          <mat-form-field style="width:100%;padding-top: 9px;">
+                            <input #searchleadLoanStatus autocomplete="off"
+                              [formControl]="searchleadLoanStatusTextboxControl" placeholder="Search"
+                              aria-label="Search" matInput
+                              (keyup)="searchDropdown(searchleadLoanStatus.value,'leadLoanStatus')">
+                            <button [disableRipple]="true" *ngIf="searchleadLoanStatus.value" matSuffix mat-icon-button
+                              aria-label="Clear" (click)="clearSearch($event,'leadLoanStatus')">
+                              <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                            </button>
+                          </mat-form-field>
+                        </mat-optgroup>
+                        <mat-optgroup *ngIf="filterLoanStatusSelectName?.length == 0">
+                          <div>No results found!</div>
+                        </mat-optgroup>
+
+                        <mat-option *ngFor="let name of filterLoanStatusSelectName" [value]="name.id">
+                          {{name.leadStatus}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="isControlHasError('leadLoanStatus','required')">
+                        Lead Status is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <div class="col-6">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="loanAmount">Loan Ammount<span
+                        class="text-danger"> *</span></label></div>
+                  <div class="col-8"> -->
+                    <mat-form-field class="example-full-width">
+                      <input type="text" matInput formControlName="cibilScoreLeadLoan" maxlength="3" autocomplete="off"
+                        (keypress)="omitSpecialChar($event);omitCharacters($event);" placeholder="Enter Cibil Score">
+                      <mat-error *ngIf="isControlHasError('cibilScoreLeadLoan','required')">
+                        Cibil Score is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <!-- <div class="col-12" formArrayName="file_upload" *ngFor="let file of addEditForm.get('file_upload')?.value; let i=index">
+                <div class="row" [formGroupName]="i">
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-4 mt-2"><label for="type">Document Name<span
+                              class="text-danger"> *</span></label></div>
+                        <div class="col-8">
+                          <mat-form-field class="w-100" appearance="outline">
+                            <mat-select formControlName="type" placeholder="Select Document Name">
+                              <mat-option *ngFor="let name of documentUploadType"
+                                [value]="name.value">
+                                {{name.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="isControlHasError('type','required')">
+                              Document Name is <strong>required</strong>
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      </div>
+                    <div class="col-md-4"><input type="file" formControlName="file"></div>
+                    <div class="col-md-4"><input type="text" formControlName="name"></div>
+                </div>
+              </div>
+              <button type="button" mat-raised-button (click)="addMoreImage()"color="primary">Add More</button> -->
+                <div class="col-12">
+                  <div class="row mb-2">
+                    <!-- <div class="col-2 mt-2"><label for="remarkLeadLoan">Remark<span
+                        class="text-danger"> *</span></label></div>
+                  <div class="col-10"> -->
+                    <mat-form-field class="example-full-width">
+                      <textarea maxlength="500" matInput formControlName="remarkLeadLoan"
+                        placeholder="Enter Comment"></textarea>
+                      <mat-error *ngIf="isControlHasError('remarkLeadLoan','required')">
+                        Comment is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                    <!-- </div> -->
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="file_upload">File Upload<span
+                        class="text-danger"> *</span></label></div>
+                  <div class="col-8"> -->
+                    <!-- (change)="onSelectFile($event)" (change)="onUploadFiles($event.target.files)" -->
+
+                    <mat-form-field class="example-full-width">
+
+                      <input formControlName="selectFileUpload" class="cursor_pointer" matInput
+                        placeholder="Select File Upload" (click)="openFile()" [value]="displayFileCount" readonly />
+                      <i *ngIf="ifVerifyHideImgDesable" (click)="openFile()"
+                        class="ri-attachment-line attachmentStyle"></i>
+                      <input formControlName="file_upload" hidden />
+                      <input type="file" #imgFileInput (change)="onSelectFile($event)" multiple hidden
+                        accept="application/pdf,image/*">
+                      <mat-error style="font-size: 11px;" *ngIf="isControlHasError('file_upload','required')">
+                        File Upload is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+
+                    <!-- <input type="file" formControlName="file_upload" (change)="onSelectFile($event)" multiple
+                        placeholder="Select File Upload"> -->
+
+                    <!-- <input matInput placeholder="Select File Upload"  />
+
+                      <mat-error style="font-size: 11px;" *ngIf="isControlHasError('file_upload','required')">
+                        File Upload is <strong>required</strong>
+                      </mat-error> -->
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <div class="col-12">
+                  <mat-progress-bar class="matProgressBarStyle" *ngIf="showProgressBar" mode="determinate"
+                    [value]="percent"></mat-progress-bar>
+                  <div class="row">
+                    <div class="col-2 position-relative" *ngFor="let url of urls; index as i">
+                      <img
+                        [src]="url.type != 'application/pdf' ? url.data :'../../../../../assets/images/fileUpload.png' "
+                        style="height: 60px;width:100%;border: 1px solid;">
+                      <!-- <i matTooltip="Remove File"  class="icon-remove-circle remove_iocn"></i> -->
+                      <!-- <i (click)="removeFile(i)" class="ri-close-circle-line text-danger customRemove"></i> -->
+                      <i *ngIf="ifVerifyHideImgDesable" (click)="removeFile(i)"
+                        class="ri-close-circle-line text-danger customRemove"></i>
+                      <i style="font-size: 12px;" class="icon-ok">
+                        {{ (url.name.length>7)? (url.name | slice:0:7)+'...':(url.name)}}
+                        <!-- {{ url.name }} -->
+                      </i>
+                    </div>
+                    <!-- <a href="../../../../../assets/images/fileUpload.png"></a> -->
+                  </div>
+                  <!-- <div class="row ">
+                  <div class="col-2" *ngFor="let fileNames of fileName ; index as i">
+                    <i style="font-size: 12px;" class="icon-ok">{{ (fileNames.length>7)? (fileNames | slice:0:7)+'...':(fileNames)}}</i>
+                  </div> -->
+
+
+                  <!-- <ul *ngIf="fileName">
+                    <li *ngFor="let fileNames of fileName ;index as i">{{fileNames}}<i (click)="removeFile(i)" class="ri-close-circle-line text-danger customRemove"></i></li>
+                  </ul> -->
+                  <!-- </div> -->
+                </div>
+
+              </div>
+            </div>
+
+            <!-- <p class="boredrBottomCore"></p> -->
+          </div>
+          <!-- </div> -->
+
+
+          <!-- <div class="row" *ngIf="VerifyBtnDiv">
+            <div class="card autoFoucusStyle">
+              <span class="mb-2 CardTitleStyle text-primary">Verification:</span>
+              <div class="row">
+                <div class="col-12 mt-2">
+                  <div class="row mb-2">
+                    <div class="col-6">
+                      <mat-form-field class="example-full-width">
+                        <input type="text" matInput formControlName="mobileNoVarification"
+                          placeholder="Enter Mobile No. OTP Verification" (keyup)="OTPChnage($event)">
+                        <mat-error *ngIf="isControlHasError('mobileNoVarification','required')">
+                          Mobile No. OTP Verification is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-6 position-relative">
+                      <button mat-raised-button color="primary" (click)="mobileVerify()"
+                        [disabled]="getMobileNoFromResBtnDisable">{{mobileVerifyText}} </button>
+                      <button *ngIf="!ReSentOtpTimmer && !getMobileNoFromResBtnDisable"
+                        class="bg-success text-white ml-2" mat-raised-button (click)="reSentOTP()">Resend OTP </button>
+                      <button *ngIf="ReSentOtpTimmer && !getMobileNoFromResBtnDisable"
+                        class="bg-secondary text-white ml-2" mat-raised-button (click)="reSentOTP()"
+                        [disabled]="ReSentOtpTimmerBoleean">{{counter | formatTime }} </button>
+                      <i *ngIf="getMobileNoFromResBtnDisable"
+                        class="ri-checkbox-circle-line text-success optSucees"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="row" *ngIf="ViewLeadLoanScreen">
+            <!-- *ngIf="ViewLeadLoanScreen" -->
+            <!-- <span class="mb-3 leadTitle">Lead Loan Details :</span> -->
+            <div class="card">
+              <span class="mb-2 CardTitleStyle text-primary">Loan Requirement Details :</span>
+              <div class="row">
+                <div class="col-6 mb-2">
+                  <h5>Lead Ammount</h5>
+                  <label class="d-block o_07">{{allLeadDetails.loanAmount}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Product</h5>
+                  <label class="d-block o_07">{{allLeadDetails.product?.productName}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Tenor</h5>
+                  <label class="d-block o_07">{{allLeadDetails.tenor}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Cibil Score</h5>
+                  <label class="d-block o_07">{{allLeadDetails.cibilScore}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>File Upload</h5>
+                  <label class="d-block o_07 cursor_pointer"><a class="textPrimaryColor"
+                      (click)="viewUploadFile(allLeadDetails.id)">View Files</a></label>
+                </div>
+                <div class="col-6 mb-2" *ngIf="allLeadDetails.approvedRemark == null">
+                  <h5>Lead Status</h5>
+                  <label class="d-block o_07">{{allLeadDetails?.leadStatus?.leadStatus}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Comments</h5>
+                  <label class="d-block o_07">{{allLeadDetails.loanRemark}}</label>
+                </div>
+
+              </div>
+            </div>
+            <!-- <p class="boredrBottomCore"></p> -->
+          </div>
+
+          <div class="row" *ngIf="leadApprovalScreen">
+            <!-- *ngIf="leadApprovalScreen" -->
+            <!-- <span class="mb-3 leadTitle">Lead Approval :</span> -->
+            <div class="card autoFoucusStyle">
+              <span class="mb-2 CardTitleStyle text-primary">Lead Approval :</span>
+              <div class="row">
+
+                <div class="col-12 mt-2">
+                  <div class="row mb-2">
+                    <!-- <div class="col-2 mt-2"><label for="cibilScore">Cibil Score<span
+                      class="text-danger"> *</span></label></div> -->
+                    <div class="col-4">
+                      <mat-form-field class="example-full-width">
+                        <input type="text" matInput formControlName="cibilScore" placeholder="Cibil Score" readonly>
+                        <mat-error *ngIf="isControlHasError('cibilScore','required')">
+                          Cibil Score is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-8">
+                      <div class="row p-0">
+                        <div class="col-6"> <button mat-raised-button class="w-100">Cibil Trigger</button></div>
+                        <div class="col-6"><button mat-raised-button class="w-100">Cibil Report</button></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="row mb-2">
+                    <p class="m-0">Deviation :</p>
+                    <div class="mb-1" *ngFor="let item of DeviationDeatilaArray;let i=index;">
+                      <!-- *ngFor="let item of DeviationDeatilaArray" -->
+                      <!-- <mat-checkbox class="example-margin" [(ngModel)]="checked">Checked</mat-checkbox> -->
+
+                      <p class="m-0 verifiedLabel" style="font-size: 12px;">
+                        <span>{{i+1}}.&nbsp;&nbsp;</span>
+                        <!-- <mat-checkbox color="primary"(change)="BreChangeCheckBoxFn(i,$event,item.id)"> -->
+                        <!-- (change)="BreCheckBoxFn(item.id,item.description)"   (change)="BreCheckBoxFn(item.id,item.description,$event)"   -->
+                        {{item?.description}}
+                        <span *ngIf="item?.deviationLog">( {{item?.deviationLog}} )</span>
+                        <i *ngIf="item?.clickRejectBtn || (item?.isApproved == false && item?.rejectedBy!=null)"
+                          class="ri-close-circle-line text-danger mobileVerifiedIcon" style="top:-6px"></i>
+                        <i *ngIf="item?.clickApprovedBtn || item?.isApproved == true"
+                          class="ri-checkbox-circle-line text-success mobileVerifiedIcon" style="top:-6px"></i>
+                        <!-- </span> -->
+                        <!-- </mat-checkbox> -->
+                      </p>
+
+                      <div class="row mt-2">
+                        <div class="col-6">
+                          <button type="button" style="margin-left: 25px;" (click)="LeadApprovalChange('Approved',i)"
+                            class="btn approvedRejectBtn bg-success text-white">Approved</button>
+                          <button type="button" (click)="LeadApprovalChange('Reject',i)"
+                            class="btn approvedRejectBtn bg-danger text-white">Reject</button>
+                        </div>
+                        <div class="col-6" *ngIf="item?.clickRejectReasonFeild">
+                          <div class="row">
+                            <!-- <div class="col-4 mt-2"><label for="rejectReason">Reject Reason<span
+                                class="text-danger"> *</span></label></div>
+                          <div class="col-8"> -->
+                            <mat-form-field class="w-100"
+                              [ngClass]="item?.clickRejectReasonFeild==true ? 'ng-pristine ng-invalid ng-star-inserted mat-form-field-invalid ng-touched':''">
+                              <mat-select [(ngModel)]="item.rejectReason" name="rejectReason"
+                                (selectionChange)="rejectReasonSelectionChange(i,rejectReason.value)"
+                                #rejectReason="ngModel" [ngModelOptions]="{standalone: true}"
+                                [required]="item?.clickRejectReasonFeild==true ? true: false"
+                                [ngClass]="item?.clickRejectReasonFeild==true ? 'ng-pristine ng-invalid ng-star-inserted mat-form-field-invalid ng-touched':''"
+                                placeholder="Select Reject Reason">
+                                <mat-option *ngFor="let time of RejectReasonName" [value]="time.rejectReasonName">
+                                  {{time.rejectReasonName}}
+                                </mat-option>
+                              </mat-select>
+                              <mat-error [hidden]="rejectReason.valid">
+                                Reject Reason is <strong>required</strong>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <!-- </div> -->
+                        </div>
+                      </div>
+
+
+                    </div>
+                    <span class="noDevviation" *ngIf="DeviationDeatilaArray.length==0">No Deviation</span>
+                    <!-- <span class="noDevviation" *ngIf="DeviationDeatilaArray.message=='Go'">No Deviation</span> -->
+                  </div>
+                </div>
+
+                <!-- <div class="col-6 mt-2">
+              <div class="row mb-2">
+                  <mat-form-field class="w-100">
+                    <mat-select formControlName="leadStage" (valueChange)="LeadApprovalChange($event)"
+                      placeholder="Select Lead Approval">
+                      <mat-option *ngFor="let name of LeadApprovalArray"
+                        [value]="name.viewValue">
+                        {{name.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="isControlHasError('leadStage','required')">
+                      Lead Approval is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+            </div>
+            <div class="col-6 mt-2" *ngIf="RejectReasonSelect">
+              <div class="row mb-2">
+                  <mat-form-field class="w-100">
+                    <mat-select formControlName="rejectReason"
+                      placeholder="Select Reject Reason">
+                      <mat-option *ngFor="let time of RejectReasonName"
+                        [value]="time.rejectReasonName">
+                        {{time.rejectReasonName}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="isControlHasError('rejectReason','required')">
+                      Reject Reason is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+            </div> -->
+
+                <div class="col-6 mt-2" *ngIf="leadApprovedStatusOnlyViewNotEdit">
+                  <div class="row mb-2">
+                    <!-- <div class="col-4 mt-2"><label for="leadApprovedStatus">Lead Status<span class="text-danger"> *</span></label></div>
+                <div class="col-8"> -->
+                    <mat-form-field class="w-100">
+                      <mat-select formControlName="leadApprovedStatus"
+                        [placeholder]="leadStatusApprovedPlaceholderName">
+                        <mat-option *ngFor="let name of LeadStatusName" [value]="name.id">
+                          {{name.leadStatus}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="isControlHasError('leadApprovedStatus','required')">
+                        Lead Status is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <div class="col-12">
+                  <div class="row mb-2">
+                    <!-- <div class="col-2 mt-2"><label for="approvedRemark">Remark<span
+                      class="text-danger"> *</span></label></div>
+                <div class="col-10"> -->
+                    <mat-form-field class="example-full-width">
+                      <textarea maxlength="500" matInput formControlName="approvedRemark"
+                        placeholder="Enter Comment"></textarea>
+                      <mat-error *ngIf="isControlHasError('approvedRemark','required')">
+                        Comment is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+
+    </form>
+    <div class="btn_group boredrTopCore mt-2">
+      <button mat-raised-button class="mt-3" (click)="cancelAddEditForm()">Cancel</button>
+      <button mat-raised-button *ngIf="saveLeadApprovedBtn" class="Save_btn mt-3"
+        (click)="saveDeviation()">Save</button>
+      <button mat-raised-button class="mt-3" *ngIf="ReScheduledBtn" (click)="ReScheduled()"
+        color="primary">Re-Scheduled</button>
+      <button mat-raised-button class="mt-3" *ngIf="createBtn" (click)="createAddEditForm()"
+        color="primary">{{crateleadBtnName}}</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+<!-- </main> -->

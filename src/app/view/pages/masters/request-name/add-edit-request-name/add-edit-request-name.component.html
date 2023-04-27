@@ -1,0 +1,140 @@
+<mat-card>
+  <mat-card-title class="mat-card-title-style">{{addEditHeadTitle}} Request Type
+    <i class="ri-close-line cursor_pointer closeModelDialog" (click)="cancelAddEditForm()"></i></mat-card-title>
+  <mat-card-actions class="p-2">
+    <form [formGroup]="addEditForm">
+      <div class="row">
+        <div class="col-8">
+          <div class="row">
+            <div class="col-5 mt-2"><label for="requestNameCode">Request Name Code<span class="text-danger"> *</span></label></div>
+            <div class="col-7">
+              <mat-form-field appearance="outline" class="example-full-width codeMove" >
+                <input type="text" matInput (keyup)="checkRegionMasterCodeAlreadyExit($event)" formControlName="requestNameCode" placeholder="Enter Request Type Code">
+                <mat-error *ngIf="isControlHasError('requestNameCode','required')">
+                  Request Name Code is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="RegionMasterCodeExistError">
+                  Request Name Code is <strong>Already Exist.</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+          <div class="col-6">
+              <div class="row">
+                <div class="col-5 mt-2"><label for="requestItemId">Request Type<span class="text-danger"> *</span></label></div>
+                <div class="col-7">
+                  <mat-form-field appearance="outline" class="w-100 tatmove"  >
+                    <mat-select formControlName="requestItemId" placeholder="Select Request Name">
+                      <mat-optgroup >
+                        <mat-form-field style="width:100%;padding-top: 9px;">
+                          <input #searchBranchType autocomplete="off" [formControl]="searchBranchTypeTextboxControl" placeholder="Search" aria-label="Search" matInput (keyup)="searchDropdown(searchBranchType.value,'requestItemId')">
+                          <button [disableRipple]="true" *ngIf="searchBranchType.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event,'requestItemId')">
+                          <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                          </button>
+                        </mat-form-field>
+                        </mat-optgroup>
+                        <mat-optgroup *ngIf="filterBranchTypeName?.length == 0">
+                            <div>No results found!</div>
+                      </mat-optgroup>
+          
+          
+                      <mat-option *ngFor="let name of filterBranchTypeName" [value]="name.itemId">
+                        {{name.description}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isControlHasError('requestItemId','required')">
+                      Request Type is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-3 mt-2"><label for="reqName">Request Name<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-9">
+                <mat-form-field appearance="outline" class="example-full-width requestmove" >
+                  <input type="text" matInput formControlName="reqName" placeholder="Enter Request Name">
+                  <mat-error *ngIf="isControlHasError('reqName','required')">
+                    Request Name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-6 mt-2"><label for="reqDaysRequired">Final TAT (Operation Revert)<span class="text-danger"> *</span></label></div>
+            <div class="col-6">
+              <mat-form-field appearance="outline" class="example-full-width" >
+                <input type="text" matInput formControlName="reqDaysRequired" placeholder="No. Of Days">
+                <mat-error *ngIf="isControlHasError('reqDaysRequired','required')">
+                  Final TAT is <strong>required</strong>
+                </mat-error>
+                <!-- <mat-error *ngIf="RegionMasterCodeExistError">
+                  Final TAT <strong>Already Exist.</strong>
+                </mat-error> -->
+                <mat-error *ngIf="isControlHasError('reqDaysRequired','pattern')">
+                  Final TAT <strong>is incorrect.</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>         
+        <div class="col-8">
+          <div class="row">             
+            <div class="col-2"><label for="reqStatus" class="checkboxlabelmove">Active<span class="text-danger"> *</span>
+            </label></div>
+            <div class="col-2">
+                <mat-slide-toggle color="primary" formControlName="reqStatus" class="mt-2 togglemoves"></mat-slide-toggle>
+                <mat-error *ngIf="isControlHasError('reqStatus','required')">
+                  Active is <strong>required</strong>
+                </mat-error>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row">
+              <!-- <span class="text-danger">*</span> --> 
+            <div class="col-2"><label for="isPaidPopup" class="checkboxlabelmove">Paid Pop Up</label></div>
+            <div class="col-2">
+              <mat-slide-toggle [(ngModel)]="show" (change)="showOptions($event)" color="primary" formControlName="isPaidPopup" class="mt-2 togglemove"></mat-slide-toggle>
+              <!-- <mat-checkbox [(ngModel)]="show" (change)="showOptions($event)" color="primary" formControlName="isActive" class="mt-2 checkboxmove"></mat-checkbox> -->
+              <!-- <mat-error *ngIf="isControlHasError('isActive','required')">
+                Active is <strong>required</strong>
+              </mat-error> -->
+          </div> 
+        </div>
+        </div>
+        <div class="col-12" *ngIf="show == true">
+          <div class="row">
+              <!-- <span class="text-danger">*</span> --> 
+            <div class="col-2 labelmoves"><label for="payAmount">Amount<span class="text-danger"> *</span></label></div>
+            <div class="col-6">
+              <mat-form-field appearance="outline" class="example-full-width paidMove">
+                <input type="text" matInput formControlName="payAmount" placeholder="Enter Amount">       
+                <mat-error *ngIf="isControlHasError('payAmount','required')">
+                  Amount is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="isControlHasError('payAmount','pattern')">
+                  Amount is <strong>incorrect</strong>
+                </mat-error>
+              </mat-form-field>
+            </div> 
+        </div>
+        </div>
+      </div>
+    </form>
+    <div class="btn_group boredrTopCore mt-2">
+      <button mat-raised-button class="mt-3" (click)="cancelAddEditForm()">Close</button>
+      <!-- <button mat-raised-button *ngIf="saveBtn" class="Save_btn" (click)="saveAddEditForm()">Save</button> -->
+      <button mat-raised-button class="mt-3" *ngIf="createBtn" (click)="createAddEditForm()" color="primary">{{createAddEditBtnName}}</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+
+
+
+

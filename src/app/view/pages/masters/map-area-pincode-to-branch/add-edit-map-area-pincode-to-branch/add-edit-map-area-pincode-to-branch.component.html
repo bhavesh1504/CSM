@@ -1,0 +1,39 @@
+  <mat-card>
+    <mat-card-title class="mat-card-title-style">{{addEditHeadTitle}} Map Area/Pincode to Branch
+      <i class="ri-close-line cursor_pointer closeModelDialog" (click)="cancelAddEditForm()"></i></mat-card-title>
+    <mat-card-actions class="p-2">
+      <form [formGroup]="addEditForm">
+        <div class="row">
+          <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="branchCode">Branch Code<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field appearance="outline" class="example-full-width " >
+                <input type="text" matInput formControlName="branchCode" placeholder="Enter Branch Code">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="branchName">Branch Name<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field appearance="outline" class="example-full-width " >
+                <input type="text" matInput formControlName="branchName" placeholder="Enter Branch Name">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+          <div class="col-12">
+            <dual-list [sort]="keepSorted" [source]="source" [key]="key" [display]="display" [filter]="filter" [actionType]="actionType"
+            [(destination)]="confirmed" height="215px" [format]="format" [disabled]="disabled"></dual-list>
+          </div>
+        </div>
+      </form>
+      <div class="btn_group boredrTopCore mt-2">
+        <button mat-raised-button class="mt-3" (click)="cancelAddEditForm()">Close</button>
+        <!-- <button mat-raised-button *ngIf="saveBtn" class="Save_btn" (click)="saveAddEditForm()">Save</button> -->
+        <button mat-raised-button class="mt-3" *ngIf="createBtn" (click)="createAddEditForm()" color="primary">{{createAddEditBtnName}}</button>
+        </div>
+    </mat-card-actions>
+  </mat-card>

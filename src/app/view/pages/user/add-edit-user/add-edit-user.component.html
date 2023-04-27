@@ -1,0 +1,613 @@
+<!-- <main id="main" class="main"> -->
+  <mat-card>
+    <mat-card-title class="mat-card-title-style">{{addEditHeadTitle}} User
+      <i class="ri-close-line cursor_pointer closeModelDialog" (click)="cancelAddEditForm()"></i>
+    </mat-card-title>
+    <mat-card-actions class="p-2">
+      <form [formGroup]="addEditForm">
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="userType">User Type<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2">
+                  <mat-select formControlName="userType" placeholder="Enter User
+                    Type">
+                    <mat-option *ngFor="let name of userType" [value]="name.viewValue">
+                      {{name.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <mat-error *ngIf="isControlHasError('userType','required')">
+                    User Type is <strong>required</strong>
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="userName">User Name / Login Id<span class="text-danger">
+                    *</span></label></div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <input type="text" (keyup)="checkUserNameCodeAlreadyExit($event)" matInput formControlName="userName" placeholder="Enter User Name">
+                  <!-- <mat-error *ngIf="isControlHasError('userName','required')">
+                    User Name is <strong>required</strong>
+                  </mat-error> -->
+                  <mat-error *ngIf="UserNameCodeExistError">
+                    User Name is <strong>Already Exist.</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6" *ngIf="viewPasswordFeild">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="password">Password<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <input type="password" minlength="8" matInput formControlName="password" placeholder="Enter Password">
+                  <!-- <mat-error *ngIf="isControlHasError('password','required')">
+                    Password is <strong>required</strong>
+                  </mat-error> -->
+                  <mat-error *ngIf="addEditForm.get('password')?.hasError('minlength')">
+                    <!--   *ngIf="isControlHasError('password','minlength')" -->
+                    Password Minimum 8 characters <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6" *ngIf="viewPasswordFeild">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="c_password">Conform Password<span class="text-danger">
+                    *</span></label>
+              </div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <input type="password" (keypress)="checkConformPassword()" matInput formControlName="c_password"
+                    placeholder="Enter Conform Password">
+                  <!-- <mat-error *ngIf="isControlHasError('c_password','required')">
+                    Conform Password is <strong>required</strong>
+                  </mat-error> -->
+                  <mat-error *ngIf="isControlHasError('c_password','confirmPasswordValidator')">
+                    Password not <strong>Match</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row"> -->
+
+          <!-- <div class="col-4">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="salutation">Salutation<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="w-100" >
+                  <mat-select formControlName="salutation" placeholder="Select">
+                    <mat-option *ngFor="let name of salutationArray" [value]="name.viewValue">
+                      {{name.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('salutation','required')">
+                    Salutation is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div> -->
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="firstName">First Name<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <input type="text" matInput formControlName="firstName" placeholder="Enter First Name">
+                  <!-- <mat-error *ngIf="isControlHasError('firstName','required')">
+                    First Name is <strong>required</strong>
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="lastName">Last Name<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <input type="text" matInput formControlName="lastName" placeholder="Enter Last Name">
+                  <!-- <mat-error *ngIf="isControlHasError('lastName','required')">
+                    Last Name is <strong>required</strong>
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- </div> -->
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="mobileNo">Mobile Number<span class="text-danger"> *</span></label>
+              </div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <input type="text" matInput formControlName="mobileNo"
+                    (keypress)="omitSpecialChar($event);omitCharacters($event);" minlength="10" maxlength="10"
+                    placeholder="Enter mobile number">
+                  <mat-error *ngIf="isControlHasError('mobileNo','pattern')">
+                    This field required only numeric values
+                  </mat-error>
+                  <!-- <mat-error *ngIf="isControlHasError('mobileNo','required')">
+                    Mobile Number is <strong>required</strong>
+                  </mat-error> -->
+                  <mat-error *ngIf="isControlHasError('mobileNo','maxlength')
+                    ||
+                    isControlHasError('mobileNo','minlength')">
+                    Mobile Number should be in 10 digits only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="email">Email Id<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <input type="email" matInput formControlName="email" placeholder="Enter Email Id">
+                  <!-- <mat-error *ngIf="isControlHasError('email','required')">
+                    Email Id is <strong>required</strong>
+                  </mat-error> -->
+                  <mat-error *ngIf="isControlHasError('email','email')">
+                    Please enter Valid Email Id
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="emp_id">Employee Id<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                <input type="text" matInput formControlName="emp_id" placeholder="Enter Employee Id">
+                <mat-error *ngIf="isControlHasError('emp_id','required')">
+                  Employee Id is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="designation">Designation<span class="text-danger"> *</span></label>
+              </div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <mat-select  (selectionChange)="departmentSelectionChange($event)" formControlName="designation" placeholder="Select Designation">
+
+                    <!-- <mat-option *ngFor="let name of designation" [value]="name.designationName">
+                      {{name.designationName}}
+                    </mat-option>
+                  </mat-select> -->
+                  <mat-optgroup >
+                    <mat-form-field style="width:100%;padding-top: 9px;">
+                      <input #searchDesignation autocomplete="off" [formControl]="searchDesignationTextboxControl" placeholder="Search" aria-label="Search" matInput (keyup)="searchDropdown(searchDesignation.value,'designation')">
+                      <button [disableRipple]="true" *ngIf="searchDesignation.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event,'designation')">
+                      <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                      </button>
+                    </mat-form-field>
+                    </mat-optgroup>
+                    <mat-optgroup *ngIf="filterDesignationName?.length == 0">
+                        <div>No results found!</div>
+                  </mat-optgroup>
+
+
+                  <mat-option *ngFor="let name of filterDesignationName" [value]="name.designationName">
+                    {{name.designationName}}
+                  </mat-option>
+                </mat-select>
+                  <!-- <mat-error *ngIf="isControlHasError('designation','required')">
+                    Designation is <strong>required</strong>
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6" *ngIf="IsreportingManagerEmpty">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="reportingManager">Reporting
+                  Manager<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <!-- <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                <input type="text" matInput formControlName="reportingManager" placeholder="Enter Reporting Manager">
+                <mat-error *ngIf="isControlHasError('reportingManager','required')">
+                  Reporting Manager is <strong>required</strong>
+                </mat-error>
+              </mat-form-field> -->
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <mat-select formControlName="reportingManager" placeholder="Select Reporting Manage">
+                    <!-- <mat-option *ngFor="let name of reportingManagerArray" [value]="name.id">
+                      {{name.userName}}
+                    </mat-option>
+                  </mat-select> -->
+                  <mat-optgroup >
+                    <mat-form-field style="width:100%;padding-top: 9px;">
+                      <input #searchReportingManager autocomplete="off" [formControl]="searchReportingManagerTextboxControl" placeholder="Search" aria-label="Search" matInput (keyup)="searchDropdown(searchReportingManager.value,'reportingManager')">
+                      <button [disableRipple]="true" *ngIf="searchReportingManager.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event,'reportingManager')">
+                      <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                      </button>
+                    </mat-form-field>
+                    </mat-optgroup>
+                    <mat-optgroup *ngIf="filterReportingManagerName?.length == 0">
+                        <div>No results found!</div>
+                  </mat-optgroup>
+
+
+                  <mat-option *ngFor="let name of filterReportingManagerName" [value]="name.id">
+                    {{name.userName}}
+                  </mat-option>
+                </mat-select>
+                  <!-- <mat-error *ngIf="isControlHasError('reportingManager','required')">
+                    Reporting Manage is <strong>required</strong>
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="departmentIds">Departement<span class="text-danger"> *</span></label>
+            </div>
+            <div class="col-8">
+              <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                <mat-select formControlName="departmentIds" placeholder="Enter
+                  Departement">
+                  <mat-option *ngFor="let name of departement" [value]="name.id">
+                    {{name.departmentCode}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="departmentIds">Departement<span class="text-danger"> *</span></label>
+              </div>
+              <div class="col-8">
+                <mat-form-field appearance="outline"  class="example-full-width mt-2">
+                  <mat-select #sl formControlName="departmentIds" placeholder="Select Departement" (selectionChange)="departmentSelectionChange($event)" multiple>
+                    <mat-select-trigger>
+                      {{DepartmentSelctName[0]?.description || ''}}
+                      <span *ngIf="(addEditForm.get('departmentIds')?.value.length
+                        || 0)> 1" class="example-additional-selection">
+                        (+{{(addEditForm.get('departmentIds')?.value.length ||
+                        0) - 1}}
+                        {{addEditForm.get('departmentIds')?.value.length === 2 ?
+                        'other' : 'others'}})
+                      </span>
+                    </mat-select-trigger>
+
+                    <mat-optgroup >
+                      <mat-form-field style="width:100%;padding-top: 9px;">
+                        <input #searchDepartment autocomplete="off" [formControl]="searchDepartmentTextboxControl" placeholder="Search" aria-label="Search" matInput (keyup)="searchDropdown(searchDepartment.value,'department')">
+                        <button [disableRipple]="true" *ngIf="searchDepartment.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event,'department')">
+                        <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                        </button>
+                      </mat-form-field>
+                      </mat-optgroup>
+                      <mat-optgroup *ngIf="filterDepartmentName?.length == 0">
+                          <div>No results found!</div>
+                    </mat-optgroup>
+
+                    <mat-option *ngFor="let name of filterDepartmentName" [value]="name.id">{{name.description}}</mat-option>
+                    <div class="boredrTopCore"><button class="btn btn-primary selectApplyFR" (click)="sl.close()">Apply</button></div>
+
+                  </mat-select>
+                  <!-- <mat-error *ngIf="isControlHasError('departmentIds','required')">
+                    Departement is <strong>required</strong>
+                  </mat-error> -->
+                </mat-form-field>
+                <!-- <ng-multiselect-dropdown class="font12px" [placeholder]="'Select Departement'" [settings]="departmentDropdownSettings" [data]="departement"
+                formControlName="departmentIds" (onSelect)="departmentSelectionChange($event)"
+                (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown> -->
+              <!-- <mat-error *ngIf="isControlHasError('departmentIds','required')">
+                Departement is <strong>required</strong>
+              </mat-error> -->
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="branchIds">Branch<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field appearance="outline"  class="example-full-width mt-2">
+                  <mat-select #s2 formControlName="branchIds" placeholder="Select Branch" (selectionChange)="branchSelectionChange($event)" multiple>
+                    <mat-select-trigger>
+                      {{branchSelctName[0]?.branchName || ''}}
+                      <span *ngIf="(addEditForm.get('branchIds')?.value.length
+                        || 0)> 1" class="example-additional-selection">
+                        (+{{(addEditForm.get('branchIds')?.value.length || 0) -
+                        1}} {{addEditForm.get('branchIds')?.value.length === 2 ?
+                        'other' : 'others'}})
+                      </span>
+                    </mat-select-trigger>
+
+                    <mat-optgroup >
+                      <mat-form-field style="width:100%;padding-top: 9px;">
+                        <input #searchBranch autocomplete="off" [formControl]="searchBranchTextboxControl" placeholder="Search" aria-label="Search" matInput (keyup)="searchDropdown(searchBranch.value,'branch')">
+                        <button [disableRipple]="true" *ngIf="searchBranch.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event,'branch')">
+                        <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                        </button>
+                      </mat-form-field>
+                      </mat-optgroup>
+                      <mat-optgroup *ngIf="filterBranchName?.length == 0">
+                          <div>No results found!</div>
+                    </mat-optgroup>
+
+                    <mat-option *ngFor="let name of filterBranchName" [value]="name.id">{{name.branchName}}</mat-option>
+                    <div class="boredrTopCore"><button class="btn btn-primary selectApplyFR" (click)="s2.close()">Apply</button></div>
+                  </mat-select>
+                  <!-- <mat-error *ngIf="isControlHasError('branchIds','required')">
+                    Branch is <strong>required</strong>
+                  </mat-error> -->
+                </mat-form-field>
+                <!-- <ng-multiselect-dropdown class="font12px" [placeholder]="'Select Branch'" [settings]="branchDropdownSettings" [data]="branch"
+                formControlName="branchIds" (onSelect)="branchSelectionChange($event)"
+                (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown> -->
+               <!-- <mat-error *ngIf="isControlHasError('branchIds','required')">
+                    Branch is <strong>required</strong>
+                  </mat-error> -->
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="roleIds">Role<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field (click)="s3.open()" appearance="outline"  class="example-full-width mt-2" >
+                <mat-select #s3  formControlName="roleIds" placeholder="Select Role" (selectionChange)="roleSelectionChange($event)" multiple>
+                  <mat-select-trigger>
+                    {{RoleSelctName[0]?.roleName  || ''}}
+                    <span *ngIf="(addEditForm.get('roleIds')?.value.length || 0) > 1" class="example-additional-selection">
+                      (+{{(addEditForm.get('roleIds')?.value.length || 0) - 1}} {{addEditForm.get('roleIds')?.value.length === 2 ? 'other' : 'others'}})
+                    </span>
+                  </mat-select-trigger>
+
+                  <mat-optgroup >
+                    <mat-form-field style="width:100%;padding-top: 9px;">
+                      <input #searchRole autocomplete="off" [formControl]="searchRoleTextboxControl" placeholder="Search" aria-label="Search" matInput (keyup)="searchDropdown(searchRole.value,'role')">
+                      <button [disableRipple]="true" *ngIf="searchRole.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event,'role')">
+                      <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                      </button>
+                    </mat-form-field>
+                    </mat-optgroup>
+                    <mat-optgroup *ngIf="filterRoleName?.length == 0">
+                        <div>No results found!</div>
+                  </mat-optgroup>
+
+                  <mat-option *ngFor="let name of filterRoleName" [value]="name.id">{{name.roleName}}</mat-option>
+                  <div class="boredrTopCore"><button class="btn btn-primary selectApplyFR" (click)="s3.close()">Apply</button></div>
+                </mat-select>
+                <!-- <mat-error *ngIf="isControlHasError('roleIds','required')">
+                  Role is <strong>required</strong>
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+          <!-- <div class="col-6 mt-2">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="role">Role<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <!-- <mat-form-field appearance="outline" class="w-100" >
+                <mat-select formControlName="role" placeholder="Enter Role">
+                  <mat-option *ngFor="let name of role" [value]="name.id">
+                    {{name.roleName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="isControlHasError('role','required')">
+                  Role is <strong>required</strong>
+                </mat-error>
+              </mat-form-field> -->
+
+                <!-- <ng-multiselect-dropdown class="font12px" [placeholder]="'Select Role'" [settings]="roleDropdownSettings" [data]="role"
+                  formControlName="roleIds" (onSelect)="roleSelectionChange($event)"
+                  (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown> -->
+                <!-- <mat-error *ngIf="isControlHasError('roleIds','required')">
+                  Role is <strong>required</strong>
+                </mat-error> -->
+              <!-- </div>
+            </div>
+          </div> -->
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="level">Level Access<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                 <!-- <mat-form-field appearance="outline" class="w-100" >
+                 <mat-select formControlName="level" placeholder="Enter Level">
+                    <mat-option *ngFor="let name of level" [value]="name.viewValue">
+                      {{name.viewValue}}
+                    </mat-option>
+                  </mat-select> -->
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                <mat-select formControlName="level" placeholder="Select Level">
+                  <mat-option *ngFor="let name of level" [value]="name.viewValue">
+                    {{name.viewValue}}
+                  </mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="isControlHasError('role','required')">
+                  Role is <strong>required</strong>
+                </mat-error> -->
+              </mat-form-field>
+
+              <!-- <mat-form-field appearance="outline"  class="example-full-width mt-2" >
+                <mat-select formControlName="level" placeholder="Enter Level" (selectionChange)="levelSelectionChange($event)" multiple>
+                  <mat-select-trigger>
+                    {{LevelSelctName[0]?.viewValue  || ''}}
+                    <span *ngIf="(addEditForm.get('level')?.value.length || 0) > 1" class="example-additional-selection">
+                      (+{{(addEditForm.get('level')?.value.length || 0) - 1}} {{addEditForm.get('level')?.value.length === 2 ? 'other' : 'others'}})
+                    </span>
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let name of level" [value]="name.viewValue">{{name.viewValue}}</mat-option>
+                </mat-select>
+              </mat-form-field> -->
+
+                  <!-- <ng-multiselect-dropdown class="font12px" [placeholder]="'Select Level'" [settings]="levelDropdownSettings" [data]="level"
+                  formControlName="level" (onSelect)="levelSelectionChange($event)"
+                  (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown> -->
+                  <!-- <mat-error *ngIf="isControlHasError('level','required')">
+                    Level is <strong>required</strong>
+                  </mat-error> -->
+                <!-- </mat-form-field> -->
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="capacity">Capacity<span class="text-danger"> *</span></label>
+              </div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" class="example-full-width mt-2" >
+                  <input type="text" matInput formControlName="capacity" maxlength="4"
+                    (keypress)="omitSpecialChar($event);omitCharacters($event);"
+                    placeholder="Enter Capacity">
+                    <mat-error *ngIf="isControlHasError('capacity','maxlength')">
+                      Capacity not More than <strong>1000</strong>
+                    </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="viewSliderButtonFeild">
+            <div class="col-4 mb-2">
+              <div class="row">
+                <div class="col-4 mt-3"><label for="lock">Locked<span class="text-danger"> *</span></label></div>
+                <div class="col-8">
+                  <mat-slide-toggle color="primary" formControlName="lock" class="mt-3"></mat-slide-toggle>
+                  <!-- <mat-error *ngIf="isControlHasError('lock','required')">
+                    Locked is <strong>required</strong>
+                  </mat-error> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-4 mb-2">
+              <div class="row">
+                <div class="col-4 mt-3"><label for="isActive">Enable<span class="text-danger"> *</span></label></div>
+                <div class="col-8">
+                  <mat-slide-toggle color="primary" formControlName="isActive" class="mt-3"></mat-slide-toggle>
+                  <!-- <mat-error *ngIf="isControlHasError('isActive','required')">
+                    Enable is <strong>required</strong>
+                  </mat-error> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-4 mb-2">
+              <div class="row">
+                <div class="col-4 mt-3"><label for="expired">Expired<span class="text-danger"> *</span></label></div>
+                <div class="col-8">
+                  <mat-slide-toggle color="primary" formControlName="expired" class="mt-3"></mat-slide-toggle>
+                  <!-- <mat-error *ngIf="isControlHasError('expired','required')">
+                    Expired is <strong>required</strong>
+                  </mat-error> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-3 mt-4" *ngIf="viewActionOnly">
+          <span class="card_header text-primary">Account Statistics</span>
+          <div class="row">
+
+            <div class="col-6">
+              <div class="row">
+                <div class="col-4 mt-2"><label for="assign_To">Created On</label></div>
+                <div class="col-8">
+                  <!-- Saturday, September 01, 2018 17:58:06 -->
+                  <span class="form-control spanTextBoxHeight">{{LoginDetails.createdTime
+                    | date:'EEEE, MMMM d, y, h:mm:ss a'}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-4 mt-2"><label for="assign_To">Account Status</label></div>
+                <div class="col-8">
+                  <span class="form-control spanTextBoxHeight">{{LoginDetails.isActive=='Yes'
+                    ? 'Active': 'Inactive'}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mt-2">
+              <div class="row">
+                <div class="col-4 mt-2"><label for="assign_To">Last Modified On</label></div>
+                <div class="col-8">
+                  <span class="form-control spanTextBoxHeight">{{userLoginDetails.lastModifiedTime
+                    | date:'EEEE, MMMM d, y, h:mm:ss a'}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mt-2">
+              <div class="row">
+                <div class="col-4 mt-2"><label for="assign_To">Lock Status</label></div>
+                <div class="col-8">
+                  <span class="form-control spanTextBoxHeight">{{LoginDetails.lock=='Yes'
+                    ? 'Open': 'Close'}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mt-2">
+              <div class="row">
+                <div class="col-4 mt-2"><label for="assign_To">Last Password
+                    Changed</label></div>
+                <div class="col-8">
+                  <span class="form-control spanTextBoxHeight">{{LoginDetails.lastPasswordChanged
+                    | date:'EEEE, MMMM d, y, h:mm:ss a'}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mt-2">
+              <div class="row">
+                <div class="col-4 mt-2"><label for="assign_To">Successful Login
+                    Count</label></div>
+                <div class="col-8">
+                  <span class="form-control spanTextBoxHeight">{{LoginDetails.succsessfulLoginCount}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mt-1">
+              <div class="row">
+                <div class="col-4 mt-2"><label for="assign_To">Last Logged On</label></div>
+                <div class="col-8">
+                  <span class="form-control spanTextBoxHeight">{{LoginDetails.lastLoggedOn
+                    | date:'EEEE, MMMM d, y, h:mm:ss a'}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mt-1">
+              <div class="row">
+                <div class="col-4 mt-2"><label for="assign_To">Failed Login
+                    Count</label></div>
+                <div class="col-8">
+                  <span class="form-control spanTextBoxHeight">{{LoginDetails.failedLoginCount}}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+      <div class="btn_group boredrTopCore mt-3">
+        <button mat-raised-button  class="mt-3" (click)="cancelAddEditForm()">Close</button>
+        <!-- <button mat-raised-button *ngIf="saveBtn" class="Save_btn" (click)="saveAddEditForm()">Save</button> -->
+        <button mat-raised-button  class="mt-3" *ngIf="createBtn" (click)="createAddEditForm()"
+          color="primary">{{createAddEditBtnName}}</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+<!-- </main> -->

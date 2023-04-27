@@ -1,0 +1,93 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 88%;
+    position: relative;
+    right: 2.6rem;
+  }
+  .mat-card-title-style{
+    padding-bottom: 12px;
+    border-bottom: 1px solid gainsboro;
+  }
+  .Save_btn{
+    color: white;
+    background-color: gray;
+  }
+  .btn_group{
+    display: flex;
+    justify-content: right;
+  }
+  .cursor_pointer{
+    cursor: pointer;
+  }
+  .closeModelDialog{
+    float: right;
+  }
+  .boredrTopCore{
+    border-top: 1px solid gainsboro;
+  }
+
+  .move{
+    position: relative;
+    left: 4.6rem;
+    width: 80%
+  }
+
+  .togglemove{
+    position: relative;
+    left: 5.2rem;
+  }
+
+  .labelmove{
+    position: relative;
+    left: 0.2rem;
+  }
+
+  .tatmove{
+    position: relative;
+    left: 2.8rem;
+  }
+
+  .checkboxmove{
+    position: relative;
+    left: 0.2rem;
+    bottom:0.5rem;
+  }
+
+  .requestmove{
+    position: relative;
+    left: 0.8rem;
+    width: 37%
+  }
+
+  .paidMove{
+    position: relative;
+    width: 59%;
+    left: 4.5rem;
+    top: 0.5rem;
+
+  }
+
+  .labelmoves{
+    position: relative;
+    top: 1rem;
+  }
+
+  .codeMove{
+    position: relative;
+    left: -0.5rem;
+    width: 74%
+  }
+  
+  .togglemoves{
+    position: relative;
+    left: 7.6rem;
+  }
+
+.mat-card:not([class*=mat-elevation-z]) {
+    box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 0%), 0px 0px 0px 0px rgb(0 0 0 / 0%), 0px 0px 0px 0px rgb(0 0 0 / 0%);
+}

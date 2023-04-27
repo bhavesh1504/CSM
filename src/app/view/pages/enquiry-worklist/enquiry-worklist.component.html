@@ -1,0 +1,88 @@
+<main id="main" class="main">
+  <div class="row">
+    <div [ngClass]="salesRole ? 'col-8'  : 'col-6' " >
+      <div class="pagetitle">
+        <h1>Enquiry Worklist</h1>
+        <nav>
+           <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+              <li class="breadcrumb-item">Leads</li>
+              <li class="breadcrumb-item active">Enquiry Worklist</li>
+           </ol>
+        </nav>
+     </div>
+    </div>
+    <!-- <div [ngClass]="salesRole ? 'col-4'  : 'col-4' ">
+      <mat-form-field appearance="standard" class="filterStyle pt-0">
+        <mat-label>Search</mat-label>
+        <input matInput #dataSourceFilter class="padding3px0px" (keyup)="applyFilter(dataSourceFilter.value)" placeholder="Search" #input>
+    </mat-form-field>
+    </div> -->
+    <div class="col-4">
+      <div class="row">
+        <div class="col-10">
+          <mat-form-field appearance="standard" class="filterStyle pt-0">
+            <mat-label>Search</mat-label>
+            <input matInput #dataSourceFilter class="padding3px0px" (keyup)="applyFilter(dataSourceFilter.value)" placeholder="Search" #input>
+          </mat-form-field>
+        </div>
+        <div class="col-2"><i class="bi bi-arrow-repeat reloadStyle" matTooltip="Refresh" (click)="reloadData()"></i></div>
+      </div>
+    </div>
+    <!-- <div [ngClass]="salesRole ? 'd-none'  : 'col-2' "> -->
+      <!-- <div class=" col-2 ">
+      <button mat-raised-button color="primary" class="w-100" (click)="addData()">Create</button>
+    </div> -->
+  </div>
+  <div>
+      <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="enquiryWorklistId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Enquiry Id </th>
+              <td mat-cell *matCellDef="let row"><a class="text-primary cursor_pointer" (click)="editViewAction(row.id,'view')">{{row.enquiryId}}</a></td>
+          </ng-container>
+              <ng-container matColumnDef="firstName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                  <td mat-cell *matCellDef="let row"> {{row.firstName  | truncate:[15, '...']}} </td>
+              </ng-container>
+              <ng-container matColumnDef="lastName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                  <td mat-cell *matCellDef="let row"> {{row.lastName  | truncate:[15, '...']}} </td>
+              </ng-container>
+              <ng-container matColumnDef="mobileNo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile No </th>
+                  <td mat-cell *matCellDef="let row"> {{row.mobileNo}} </td>
+              </ng-container>
+              <ng-container matColumnDef="product">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Product </th>
+                  <td mat-cell *matCellDef="let row"> {{row.product?.productName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> City </th>
+                <td mat-cell *matCellDef="let row"> {{row.city.cityName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="pincode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Enquiry Status </th>
+              <td mat-cell *matCellDef="let row"> {{row.enquiryStatus.enquiryStatusName}} </td>
+          </ng-container>
+              <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                  <td mat-cell *matCellDef="let row">
+                   <!-- <span class="text-primary" (click)="editViewAction(row.id,'view')"><i class="ri-eye-fill" matTooltip="View"></i></span>
+                   <span class="px-2" *ngIf="!row.isConvertedToLead">|</span> -->
+                   <span class="text-danger" *ngIf="!row.isConvertedToLead" (click)="editViewAction(row.id,'edit')"><i class="bx bxs-edit" matTooltip="Edit"></i></span>
+                  </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell text-center" colspan="8">No Record Found...</td>
+              </tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons aria-label="Select page of users">
+          </mat-paginator>
+      </div>
+  </div>
+  </main>

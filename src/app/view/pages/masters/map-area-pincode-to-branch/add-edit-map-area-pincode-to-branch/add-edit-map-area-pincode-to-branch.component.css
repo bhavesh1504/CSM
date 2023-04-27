@@ -1,0 +1,39 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .example-full-width {
+    width: 100%;
+  }
+  .mat-card-title-style{
+    padding-bottom: 12px;
+    border-bottom: 1px solid gainsboro;
+  }
+  .Save_btn{
+    color: white;
+    background-color: gray;
+  }
+  .btn_group{
+    display: flex;
+    justify-content: right;
+  }
+
+  /* :host ::ng-deep .dual-list .listbox{
+    width: 42% !important;
+  }
+
+  :host ::ng-deep .dual-list{
+    justify-content: space-between !important;
+  } */
+
+  .cursor_pointer{
+    cursor: pointer;
+  }
+  .closeModelDialog{
+    float: right;
+  }
+  .boredrTopCore{
+    border-top: 1px solid gainsboro;
+  }

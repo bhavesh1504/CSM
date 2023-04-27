@@ -1,0 +1,78 @@
+{
+  "posts":
+
+    {
+      "message": "logged in Successfully",
+      "msgKey": "Success",
+      "data": {
+          "id": 3,
+          "firstName": "Akash",
+          "lastName": "Divekar",
+          "userType": "4",
+          "designation": "Designation 3",
+          "reportingManager": "Rahul",
+          "lock": "Yes",
+          "gender": null,
+          "createdTime": "2022-11-03T12:43:40.947+00:00",
+          "lastModifiedTime": "2022-11-03T12:43:40.947+00:00",
+          "userName": "akash",
+          "active": "Yes",
+          "departement": [
+              {
+                  "id": 4,
+                  "departmentName": null,
+                  "departmentCode": "D4",
+                  "description": "Department 4",
+                  "active": "Yes",
+                  "createdTime": "2022-11-03T12:07:29.214+00:00",
+                  "lastModifiedTime": "2022-11-03T12:07:29.214+00:00"
+              }
+          ],
+          "branch": [
+              {
+                  "id": 3,
+                  "branchName": "Delhi",
+                  "branchCode": "Delhi",
+                  "addressLine1": "Delhi",
+                  "postalCode": 3,
+                  "city": 2,
+                  "state": 3,
+                  "country": 1,
+                  "region": 2,
+                  "parentBranch": "Delhi",
+                  "active": "Yes",
+                  "area": "Gudgaov",
+                  "phoneNo": "6436456436",
+                  "branchType": "Head Office",
+                  "createdTime": "2022-11-03T12:41:44.205+00:00",
+                  "externalBranchCode": "Delhi",
+                  "lastModifiedTime": "2022-11-03T12:41:44.205+00:00"
+              }
+          ],
+          "role": [
+
+              {
+                "id": 1,
+                "roleName": "Admin",
+                "roleCode": "Admin",
+                "createdTime": "2022-11-03T11:49:38.714+00:00",
+                "lastModifiedTime": "2022-11-03T11:49:38.714+00:00"
+            }
+          ],
+          "expired": "Yes",
+          "level": "3",
+          "mobile_no": "5645643645",
+          "email": "akash@gmail.com",
+          "salutation": "Mr"
+      }
+  }
+  ,
+  "comments": [{
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+  }],
+  "profile": {
+      "name": "typicode"
+  }
+}

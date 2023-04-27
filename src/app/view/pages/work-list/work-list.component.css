@@ -1,0 +1,37 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-form-field-appearance-standard .mat-form-field-flex
+{
+  padding-top: 0px;
+}
+.filterStyle
+{
+  margin-top: -9px;
+}
+
+/* ::ng-deep .mat-form-field-flex{
+  padding: 0px !important;
+} */
+
+.datatableTitle{
+  padding-top: 0.75em;
+}
+
+.padding3px0px{
+  padding: 3px 0px
+}
+
+.cursor_pointer{
+  cursor: pointer;
+}
+.reloadStyle{
+  font-size: 28px;
+  cursor: pointer;
+}

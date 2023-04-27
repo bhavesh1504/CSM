@@ -1,0 +1,151 @@
+<mat-card>
+  <mat-card-title class="mat-card-title-style">Edit Not Match Data
+      <i class="ri-close-line cursor_pointer closeModelDialog" (click)="cancelAddEditForm()"></i>
+  </mat-card-title>
+  <mat-card-actions class="p-2">
+    <form [formGroup]="addEditForm">
+      <div class="row">
+
+        <div class="col-6">
+          <div class="row mb-2">
+            <!-- <div class="col-4 mt-2"><label for="firstName">First Name<span class="text-danger"> *</span></label>
+            </div>
+            <div class="col-8"> -->
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="firstName" placeholder="Enter First Name">
+                <mat-error *ngIf="isControlHasError('firstName','required')">
+                  First Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            <!-- </div> -->
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row mb-2">
+            <!-- <div class="col-4 mt-2"><label for="middleName">Middle Name<span class="text-danger"> *</span></label>
+            </div>
+            <div class="col-8"> -->
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="middleName" placeholder="Enter Middle Name">
+                <mat-error *ngIf="isControlHasError('middleName','required')">
+                  Middle Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            <!-- </div> -->
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row mb-2">
+            <!-- <div class="col-4 mt-2"><label for="lastName">Last Name<span class="text-danger"> *</span></label></div>
+            <div class="col-8"> -->
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="lastName" placeholder="Enter Last Name">
+                <mat-error *ngIf="isControlHasError('lastName','required')">
+                  Last Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            <!-- </div> -->
+          </div>
+        </div>
+
+
+
+      <!-- <div class="col-6">
+        <div class="row mb-2">
+            <mat-form-field class="example-full-width" >
+              <input type="text" matInput formControlName="mobileNo"
+                (keyup)="checkMobileAlreadyExit($event)"
+                (keypress)="omitSpecialChar($event);omitCharacters($event);" minlength="10" maxlength="10"
+                placeholder="Enter mobile number">
+              <mat-error *ngIf="isControlHasError('mobileNo','pattern')">
+                This field required only numeric values
+              </mat-error>
+              <mat-error *ngIf="isControlHasError('mobileNo','required')">
+                Mobile Number is <strong>required</strong>
+              </mat-error>
+              <mat-error
+                *ngIf="isControlHasError('mobileNo','maxlength') || isControlHasError('mobileNo','minlength') || mobileMax10Error">
+                Mobile Number should be in 10 digits only
+              </mat-error>
+              <mat-error *ngIf="mobileExistError">
+                Mobile Number is <strong>Already Exist.</strong>
+              </mat-error>
+            </mat-form-field>
+        </div>
+      </div> -->
+
+
+        <!-- <div class="col-6">
+          <div class="row mb-2">
+              <mat-form-field class="example-full-width" >
+                <input type="email" matInput formControlName="email" placeholder="Enter Email Id">
+                <mat-error *ngIf="isControlHasError('email','required')">
+                  Email Id is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="isControlHasError('email','email')">
+                  Please enter Valid Email Id
+                </mat-error>
+              </mat-form-field>
+          </div>
+        </div> -->
+
+        <div class="col-6">
+          <div class="row mb-2">
+              <mat-form-field class="w-100" >
+                <input autocomplete="off" matInput (focus)="picker.open()"
+                  [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="Select Date Of Birth (DD/MM/YYYY)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="isValidAge">
+                  Age should be <strong>more than 18 </strong>
+                </mat-error>
+                <mat-error *ngIf="isControlHasError('dateOfBirth','required')">
+                  Date of Birth is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="row mb-2">
+              <mat-form-field class="example-full-width" >
+                <input type="text" #panCard matInput formControlName="pan" (keyup)="addEditForm.get('pan')?.patchValue(panCard.value.toUpperCase());checkPAnAlreadyExit($event)" maxlength="10" placeholder="Enter Pan Number">
+                <mat-error *ngIf="isControlHasError('pan','pattern') || panPatternError">
+                  For Example <strong>BNZAA2318J</strong>
+                </mat-error>
+                <mat-error *ngIf="isControlHasError('pan','required')">
+                  Pan Number is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="panExistError">
+                  Pan Number is <strong>Already Exist.</strong>
+                </mat-error>
+              </mat-form-field>
+          </div>
+        </div>
+
+        <!-- <div class="col-6">
+          <div class="row mb-2">
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="aadhar"
+                  (keypress)="omitSpecialChar($event);omitCharacters($event);" minlength="12" maxlength="12"
+                  placeholder="Enter Addhar Number">
+                <mat-error *ngIf="isControlHasError('aadhar','pattern')">
+                  This field required only numeric values
+                </mat-error>
+                <mat-error *ngIf="isControlHasError('aadhar','required')">
+                  Addhar Number is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="isControlHasError('aadhar','maxlength') || isControlHasError('aadhar','minlength')">
+                  Addhar Number should be in 12 digits only
+                </mat-error>
+              </mat-form-field>
+          </div>
+        </div> -->
+
+      </div>
+    </form>
+    <div class="btn_group boredrTopCore mt-2">
+      <button mat-raised-button class="mt-3" (click)="cancelAddEditForm()">Cancel</button>
+    </div>
+  </mat-card-actions>
+</mat-card>

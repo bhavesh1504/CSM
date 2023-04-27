@@ -1,0 +1,323 @@
+<main id="main" class="main">
+<mat-card>
+  <mat-card-title class="mat-card-title-style">{{addEditHeadTitle}} Lead
+    Maintanance</mat-card-title>
+  <mat-card-actions class="p-2">
+    <form [formGroup]="addEditForm">
+      <div class="card p-3">
+        <span class="card_header text-primary">Lead Details</span>
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="leadId">Lead Id<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input type="text" matInput formControlName="leadId"
+                    placeholder="Enter Lead Id" readonly>
+                  <mat-error *ngIf="isControlHasError('leadId','required')">
+                    Lead Id is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="salutation">Name<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input type="text" matInput formControlName="name"
+                    placeholder="Enter Name" readonly>
+                  <mat-error *ngIf="isControlHasError('name','required')">
+                    Name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="mobileNo">Mobile Number<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input type="text" matInput formControlName="mobileNo"
+                    (keypress)="omitSpecialChar($event);omitCharacters($event);"
+                    minlength="10" maxlength="10"
+                    placeholder="Enter mobile number" readonly>
+                  <mat-error *ngIf="isControlHasError('mobileNo','pattern')">
+                    This field required only numeric values
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('mobileNo','required')">
+                    Mobile Number is <strong>required</strong>
+                  </mat-error>
+                  <mat-error
+                    *ngIf="isControlHasError('mobileNo','maxlength') ||
+                    isControlHasError('mobileNo','minlength')">
+                    Mobile Number should be in 10 digits only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="email">Email Id<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input type="email" matInput formControlName="email"
+                    placeholder="Enter Email Id" readonly>
+                  <mat-error *ngIf="isControlHasError('email','required')">
+                    Email Id is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('email','email')">
+                    Please enter Valid Email Id
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="dateOfBirth">Date of Birth<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input matInput [matDatepicker]="picker"
+                    formControlName="dateOfBirth" placeholder="MM/DD/YYYY"
+                    readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error
+                    *ngIf="isControlHasError('dateOfBirth','required')">
+                    Date of Birth is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="pan">Pan Number<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input type="text" matInput formControlName="pan" readonly
+                    placeholder="Enter Pan Number">
+                  <mat-error *ngIf="isControlHasError('pan','pattern')">
+                    This field required only numeric values
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('pan','required')">
+                    Pan Number is <strong>required</strong>
+                  </mat-error>
+                  <mat-error
+                    *ngIf="isControlHasError('pan','maxlength') ||
+                    isControlHasError('pan','minlength')">
+                    Pan Number should be in 6 digits only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="aadhar">Addhar Number<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input type="text" matInput formControlName="aadhar" readonly
+                    (keypress)="omitSpecialChar($event);omitCharacters($event);"
+                    minlength="12" maxlength="12"
+                    placeholder="Enter Addhar Number">
+                  <mat-error *ngIf="isControlHasError('aadhar','pattern')">
+                    This field required only numeric values
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('aadhar','required')">
+                    Addhar Number is <strong>required</strong>
+                  </mat-error>
+                  <mat-error
+                    *ngIf="isControlHasError('aadhar','maxlength') ||
+                    isControlHasError('aadhar','minlength')">
+                    Addhar Number should be in 12 digits only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="city">City<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-select formControlName="city" placeholder="Select City">
+                    <mat-option *ngFor="let name of CityName" [value]="name.id">
+                      {{name.cityName}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('city','required')">
+                    City is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="city">City<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-select formControlName="city" placeholder="Select City">
+                    <mat-option *ngFor="let name of cityName"
+                      [value]="name.value">
+                      {{name.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('city','required')">
+                    City is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div> -->
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="leadSource">Lead Source<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-select formControlName="leadSource" placeholder="Select Lead Source">
+                    <mat-option *ngFor="let name of LeadSourceName" [value]="name.id">
+                      {{name.leadSourceName}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('leadSource','required')">
+                    Lead Source is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="leadSource">Lead Source<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input type="text" matInput formControlName="leadSource"
+                    placeholder="Enter Lead Source" readonly>
+                  <mat-error
+                    *ngIf="isControlHasError('leadSource','required')">
+                    Lead Source is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+        </div>
+      </div>
+      <div class="card p-3 mt-4 mt-r">
+        <span class="card_header text-primary">Lead Maintanance</span>
+        <div class="row">
+
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="assign_To">Asssined To<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input type="text" matInput formControlName="assign_To"
+                    placeholder="Enter Asssined To">
+                  <mat-error *ngIf="isControlHasError('assign_To','required')">
+                    Asssined To is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="leadStage">Lead Status<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input type="text" matInput formControlName="leadStage"
+                    placeholder="Enter Lead Status">
+                  <mat-error *ngIf="isControlHasError('leadStage','required')">
+                    Lead Status is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="scheduleDate">Schedule Date<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input matInput [matDatepicker]="picker1"
+                    formControlName="scheduleDate" placeholder="MM/DD/YYYY">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <mat-error
+                    *ngIf="isControlHasError('scheduleDate','required')">
+                    Schedule Date is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-3"><label for="convenientTime">Convenient
+                  Time<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-select formControlName="convenientTime"
+                    placeholder="Select Convenient Time">
+                    <mat-option *ngFor="let time of ConvenientTime"
+                      [value]="time.value">
+                      {{time.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="isControlHasError('convenientTime','required')">
+                    Convenient Time <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-2 mt-3"><label for="scheduledRemark">Remark<span
+                    class="text-danger"> *</span></label></div>
+              <div class="col-10">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <textarea matInput formControlName="scheduledRemark" placeholder="Enter Remark"></textarea>
+                  <mat-error *ngIf="isControlHasError('scheduledRemark','required')">
+                    Remark is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="btn_group mt-2">
+      <button mat-raised-button (click)="cancelAddEditForm()">Close</button>
+      <!-- <button mat-raised-button *ngIf="saveBtn" class="Save_btn"
+        (click)="saveAddEditForm()">Save</button> -->
+      <button mat-raised-button *ngIf="createBtn" (click)="createAddEditForm()"
+        color="primary">{{crateleadBtnName}}</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+</main>

@@ -1,0 +1,49 @@
+<main id="main" class="main">
+<mat-card>
+  <mat-card-title class="mat-card-title-style">{{addEditHeadTitle}} Localities/Areas</mat-card-title>
+  <mat-card-actions class="p-2">
+    <form [formGroup]="addEditForm">
+      <div class="row">
+        <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="name">Area Name<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <input type="text" matInput formControlName="name" placeholder="Enter Area Name">
+                <mat-error *ngIf="isControlHasError('name','required')">
+                  Area Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-3"><label for="city">City<span
+                  class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-select formControlName="city" placeholder="Select City">
+                  <mat-option *ngFor="let name of cityName"
+                    [value]="name.value">
+                    {{name.viewValue}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="isControlHasError('city','required')">
+                  City is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="btn_group mt-2">
+      <button mat-raised-button (click)="cancelAddEditForm()">Close</button>
+      <!-- <button mat-raised-button *ngIf="saveBtn" class="Save_btn" (click)="saveAddEditForm()">Save</button> -->
+      <button mat-raised-button *ngIf="createBtn" (click)="createAddEditForm()" color="primary">{{createAddEditBtnName}}</button>
+      </div>
+  </mat-card-actions>
+</mat-card>
+</main>
+

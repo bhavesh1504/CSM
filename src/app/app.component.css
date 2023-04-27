@@ -1,0 +1,8 @@
+/* app-footer {
+  position: absolute;
+    width: 100%;
+    bottom: 0px;
+} */
+::ng-deep .mat-dialog-container {
+  overflow: hidden;
+}

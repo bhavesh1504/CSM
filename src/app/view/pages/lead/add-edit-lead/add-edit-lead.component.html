@@ -1,0 +1,1133 @@
+<!-- <main id="main" class="main"> -->
+  <mat-card>
+    <mat-card-title class="mat-card-title-style">{{addEditHeadTitle}}
+      <i class="ri-close-line cursor_pointer closeModelDialog" (click)="cancelAddEditForm()"></i>
+    </mat-card-title>
+    <mat-card-actions class="p-2">
+      <form [formGroup]="addEditForm">
+        <div class="row" *ngIf="hideAddEditForm">
+          <!-- <div>
+            <p>Wrong Data :</p>
+            <span>Date of Birth is Not Match as per Pan Card.</span>
+            <span>Name is Not Match as per Pan Card.</span>
+          </div> -->
+
+          <!-- <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="salutation">Salutation<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="salutation" placeholder="Enter Salutation">
+                <mat-error *ngIf="isControlHasError('salutation','required')">
+                  Salutation is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="firstName">First Name<span class="text-danger"> *</span></label>
+              </div>
+              <div class="col-8"> -->
+                <mat-form-field class="example-full-width" >
+                  <input type="text" matInput formControlName="firstName" placeholder="Enter First Name">
+                  <mat-error *ngIf="isControlHasError('firstName','required')">
+                    First Name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="middleName">Middle Name<span class="text-danger"> *</span></label>
+              </div>
+              <div class="col-8"> -->
+                <mat-form-field class="example-full-width" >
+                  <input type="text" matInput formControlName="middleName" placeholder="Enter Middle Name">
+                  <mat-error *ngIf="isControlHasError('middleName','required')">
+                    Middle Name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="lastName">Last Name<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <mat-form-field class="example-full-width" >
+                  <input type="text" matInput formControlName="lastName" placeholder="Enter Last Name">
+                  <mat-error *ngIf="isControlHasError('lastName','required')">
+                    Last Name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+
+          <!-- <div class="row m-0 p-0">
+
+          <div class="col-4">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="salutation">Salutation<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="w-100" >
+                  <mat-select formControlName="salutation" placeholder="Select Salutation">
+                    <mat-option *ngFor="let name of salutationArray" [value]="name.viewValue">
+                      {{name.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('salutation','required')">
+                    Salutation is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="firstName">First Name<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" >
+                  <input type="text" matInput formControlName="firstName" placeholder="Enter First Name">
+                  <mat-error *ngIf="isControlHasError('firstName','required')">
+                    First Name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="lastName">Last Name<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="example-full-width" >
+                  <input type="text" matInput formControlName="lastName" placeholder="Enter Last Name">
+                  <mat-error *ngIf="isControlHasError('lastName','required')">
+                    Last Name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+        </div> -->
+
+        <div class="col-6">
+          <div class="row mb-2">
+            <!-- <div class="col-4 mt-2"><label for="mobileNo">Mobile Number<span class="text-danger"> *</span></label></div>
+            <div class="col-8"> -->
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="mobileNo"
+                  (keyup)="checkMobileAlreadyExit($event)"
+                  (keypress)="omitSpecialChar($event);omitCharacters($event);" minlength="10" maxlength="10"
+                  placeholder="Enter mobile number">
+                <mat-error *ngIf="isControlHasError('mobileNo','pattern')">
+                  This field required only numeric values
+                </mat-error>
+                <mat-error *ngIf="isControlHasError('mobileNo','required')">
+                  Mobile Number is <strong>required</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="isControlHasError('mobileNo','maxlength') || isControlHasError('mobileNo','minlength') || mobileMax10Error">
+                  Mobile Number should be in 10 digits only
+                </mat-error>
+                <mat-error *ngIf="mobileExistError">
+                  Mobile Number is <strong>Already Exist.</strong>
+                </mat-error>
+              </mat-form-field>
+            <!-- </div> -->
+          </div>
+        </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="alternateMobileNo">Alternate Mobile No.<span class="text-danger"> *</span></label>
+              </div>
+              <div class="col-8"> -->
+                <mat-form-field class="example-full-width" >
+                  <input type="text" matInput formControlName="alternateMobileNo"
+                    (keypress)="omitSpecialChar($event);omitCharacters($event);" minlength="10" maxlength="10"
+                    placeholder="Enter Alternate Mobile Number">
+                  <mat-error *ngIf="isControlHasError('alternateMobileNo','pattern')">
+                    This field required only numeric values
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('alternateMobileNo','required')">
+                    Mobile Number is <strong>required</strong>
+                  </mat-error>
+                  <mat-error
+                    *ngIf="isControlHasError('alternateMobileNo','maxlength') || isControlHasError('alternateMobileNo','minlength')">
+                    Mobile Number should be in 10 digits only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            <!-- </div> -->
+          </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="email">Email Id<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <mat-form-field class="example-full-width" >
+                  <input type="email" matInput formControlName="email" placeholder="Enter Email Id">
+                  <mat-error *ngIf="isControlHasError('email','required')">
+                    Email Id is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('email','email')">
+                    Please enter Valid Email Id
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="gender">Gender<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <mat-form-field class="w-100" >
+                  <mat-select formControlName="gender" placeholder="Select Gender">
+                    <mat-option *ngFor="let name of genderName" [value]="name.viewValue">
+                      {{name.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('gender','required')">
+                    Gender is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="dateOfBirth">Date of Birth<span class="text-danger">
+                    *</span></label></div>
+              <div class="col-8"> -->
+                <mat-form-field class="w-100" >
+                  <!--  [max]="maxDob"  -->
+                  <input autocomplete="off" matInput (focus)="picker.open()"
+                    [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="Select Date Of Birth (DD/MM/YYYY)">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="isValidAge">
+                    Age should be <strong>more than 18 </strong>
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('dateOfBirth','required')">
+                    Date of Birth is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="pan">Pan Number<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <mat-form-field class="example-full-width" >
+                  <input type="text" #panCard matInput formControlName="pan" (keyup)="addEditForm.get('pan')?.patchValue(panCard.value.toUpperCase());checkPAnAlreadyExit($event)" maxlength="10" placeholder="Enter Pan Number">
+                  <mat-error *ngIf="isControlHasError('pan','pattern') || panPatternError">
+                    For Example <strong>BNZAA2318J</strong>
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('pan','required')">
+                    Pan Number is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="panExistError">
+                    Pan Number is <strong>Already Exist.</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="aadhar">Addhar Number<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <mat-form-field class="example-full-width" >
+                  <input type="text" matInput formControlName="aadhar"
+                    (keypress)="omitSpecialChar($event);omitCharacters($event);" minlength="12" maxlength="12"
+                    placeholder="Enter Addhar Number">
+                  <mat-error *ngIf="isControlHasError('aadhar','pattern')">
+                    This field required only numeric values
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('aadhar','required')">
+                    Addhar Number is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="isControlHasError('aadhar','maxlength') || isControlHasError('aadhar','minlength')">
+                    Addhar Number should be in 12 digits only
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+
+          <!-- <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="city">City<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="w-100" >
+                <mat-select formControlName="city" placeholder="Select City">
+                  <mat-option *ngFor="let name of cityName" [value]="name.value">
+                    {{name.viewValue}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="isControlHasError('city','required')">
+                  City is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="state">State<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="w-100" >
+                <mat-select formControlName="state" placeholder="Select State">
+                  <mat-option *ngFor="let name of StateName" [value]="name.id">
+                    {{name.stateName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="isControlHasError('state','required')">
+                  State is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="country">Country<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="w-100" >
+                <mat-select formControlName="country" placeholder="Select Country">
+                  <mat-option *ngFor="let name of countryName" [value]="name.value">
+                    {{name.viewValue}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="isControlHasError('country','required')">
+                  Country is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="postalCode">Pincode Number<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="postalCode"
+                  (keypress)="omitSpecialChar($event);omitCharacters($event);" minlength="6" maxlength="6"
+                  placeholder="Enter Pincode Number">
+                <mat-error *ngIf="isControlHasError('postalCode','pattern')">
+                  This field required only numeric values
+                </mat-error>
+                <mat-error *ngIf="isControlHasError('postalCode','required')">
+                  Pincode Number is <strong>required</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="isControlHasError('postalCode','maxlength') || isControlHasError('postalCode','minlength')">
+                  Pincode Number should be in 10 digits only
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-6">
+          <div class="row mb-2">
+            <!-- <div class="col-4 mt-2"><label for="postalCode">Pincode<span class="text-danger"> *</span></label></div>
+            <div class="col-8"> -->
+              <mat-form-field (clickOutside)="closeClickOutside($event)" (click)="hidePincodeDropAreaNameTrue()"  class="w-100 " >
+                <mat-select  (selectionChange)="pincodeSelect($event.value)" formControlName="postalCode" [placeholder]="pincodePlaceHolder">
+
+                  <mat-optgroup >
+                    <mat-form-field style="width:100%;padding-top: 9px;">
+                      <input #searchPincode autocomplete="off" [formControl]="searchPincodeTextboxControl" placeholder="Search" aria-label="Search" matInput (keyup)="searchDropdown(searchPincode.value,'pincode')" autofocus="true">
+                      <button [disableRipple]="true" *ngIf="searchPincode.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event,'pincode')">
+                      <i class="ri-close-line cursor_pointer fontSize18px"></i>
+                      </button>
+
+                    </mat-form-field>
+
+                    </mat-optgroup>
+                    <mat-optgroup *ngIf="filterPincodeName?.length == 0">
+                        <div>No results found!</div>
+                  </mat-optgroup>
+                  <mat-option class="pincodeAreaHeadingStyle vtpincodeBorder" *ngIf="filterPincodeName?.length != 0">
+                    <div class="row">
+                      <div class="col-3 br_pincode">Pincode </div>
+                      <div class="col-4" style="padding-left:15px">Area</div>
+                    </div>
+                  </mat-option>
+                  <mat-option class="vtpincodeBorder" (mouseleave)="closeDropdown()" (click)="hidePincodeDropAreaNameFalse($event)" *ngFor="let name of filterPincodeName" [value]="name.id">
+                    <div class="row">
+                      <div class="col-3 br_pincode">{{name.pincode}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                      <div class="col-4" *ngIf="hidePincodeDropAreaName">{{name.areaName}}</div>
+                    </div>
+
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="isControlHasError('postalCode','required')">
+                  Pincode is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <!--  -->
+
+        <!-- <div class="col-6">
+          <div class="row mb-2">
+              <mat-form-field class="w-100" >
+                <mat-select (selectionChange)="pincodeSelect($event.value)" formControlName="postalCode"
+                  [placeholder]="pincodePlaceHolder">
+                  <mat-option *ngFor="let name of PincodeName" [value]="name.id">
+                    {{name.pincode}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="isControlHasError('postalCode','required')">
+                  Pincode is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+          </div>
+        </div> -->
+
+        <!--  -->
+
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="city">City<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <span class="dropDownSpanStyle" *ngIf="viewDropdownSpan">Select City</span>
+                <mat-form-field class="w-100" >
+                  <mat-select (selectionChange)="citySelect($event.value)" formControlName="city"
+                    [placeholder]="cityPlaceHolder">
+                    <mat-option *ngFor="let name of CityName" [value]="name.id">
+                      {{name.cityName}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('city','required')">
+                    City is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="state">State<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <span class="dropDownSpanStyle" *ngIf="viewDropdownSpan">Select State</span>
+                <mat-form-field class="w-100" >
+                  <mat-select (selectionChange)="stateSelect($event.value)" formControlName="state"
+                    [placeholder]="satetPlaceHolder">
+                    <mat-option *ngFor="let name of StateName" [value]="name.id">
+                      {{name.stateName}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('state','required')">
+                    State is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="country">Country<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <span class="dropDownSpanStyle" *ngIf="viewDropdownSpan">Select Country</span>
+                <mat-form-field class="w-100" >
+                  <mat-select (selectionChange)="countrySelect($event.value)" formControlName="country"
+                    [placeholder]="countryPlaceHolder">
+                    <mat-option *ngFor="let name of countryName" [value]="name.id">
+                      {{name.countryName}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('country','required')">
+                    Country is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="area">Area<span class="text-danger"> *</span></label></div>
+              <div class="col-8"> -->
+                <mat-form-field class="example-full-width" >
+                  <input type="text" matInput formControlName="area" placeholder="Enter Area">
+                  <mat-error *ngIf="isControlHasError('area','required')">
+                    Area is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row mb-2">
+              <!-- <div class="col-4 mt-2"><label for="leadSource">Lead Source<span class="text-danger"> *</span></label>
+              </div>
+              <div class="col-8"> -->
+                <mat-form-field class="w-100" >
+                  <mat-select formControlName="leadSource" [placeholder]="leadSourcePlaceHolder">
+                    <mat-option *ngFor="let name of LeadSourceName" [value]="name.id">
+                      {{name.leadSourceName}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('leadSource','required')">
+                    Lead Source is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              <!-- </div> -->
+            </div>
+          </div>
+          <!-- <div class="col-6">
+            <div class="row">
+              <div class="col-4 mt-2"><label for="leadStatus">Lead Status<span class="text-danger"> *</span></label></div>
+              <div class="col-8">
+                <mat-form-field class="w-100" >
+                  <mat-select formControlName="leadStatus"
+                    [placeholder]="leadStatusPlaceholderName">
+                    <mat-option *ngFor="let name of LeadStatusName" [value]="name.id">
+                      {{name.leadStatus}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="isControlHasError('leadStatus','required')">
+                    Lead Status is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div> -->
+
+
+          <!-- <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="leadSource">Lead Source<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="leadSource" placeholder="Enter Lead Source">
+                <mat-error *ngIf="isControlHasError('leadSource','required')">
+                  Lead Source is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+          <!-- <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="leadStage">Lead Status<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="leadStage" placeholder="Enter Lead Status">
+                <mat-error *ngIf="isControlHasError('leadStage','required')">
+                  Lead Status is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+          <!-- <div class="col-6">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="assign_To">Asssined To<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="example-full-width" >
+                <input type="text" matInput formControlName="assign_To" placeholder="Enter Asssined To">
+                <mat-error *ngIf="isControlHasError('assign_To','required')">
+                  Asssined To is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+
+          <!-- <div class="col-6" *ngIf="assignToHideForSales">
+          <div class="row">
+            <div class="col-4 mt-2"><label for="userId">Asssined To<span class="text-danger"> *</span></label></div>
+            <div class="col-8">
+              <mat-form-field class="w-100" >
+                <mat-select formControlName="userId" [placeholder]="AsssinedToPlaceHolder">
+                  <mat-option *ngFor="let name of AssignToName" [value]="name.id">
+                    {{name.firstName}} {{name.lastName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="isControlHasError('userId','required')">
+                  Asssined To is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+        </div>
+
+
+
+          <section>
+          <div class="row leadDetailsStyle"  *ngIf="viewLeadAllDetailsOnly">
+            <div [ngClass]="allLeadDetails.scheduleDate ==null && allLeadDetails.loanRemark == null && allLeadDetails.approvedRemark == null ? 'col-12'  : 'col-6 br_gainsboro' ">
+              <div class="row">
+                <br>
+                <div class="card">
+                  <span class="mb-2 CardTitleStyle text-primary">Basic Details :</span>
+                  <div class="row">
+                    <div class="col-6 mb-2">
+                      <h5>lead ID</h5>
+                      <label class="d-block o_07">{{allLeadDetails.leadId}}</label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Full Name</h5>
+                      <label class="d-block o_07 verifiedLabel">{{allLeadDetails.firstName}} {{allLeadDetails?.middleName}} {{allLeadDetails.lastName}}
+                        <i *ngIf="allLeadDetails?.isPanNameValid == false" class="ri-close-circle-line text-danger mobileVerifiedIcon" style="top:-6px"></i>
+                        <i *ngIf="allLeadDetails?.isPanNameValid == true" class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i>
+                      </label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Mobile Number</h5>
+                      <label class="d-block o_07 verifiedLabel">{{allLeadDetails.mobileNo}}
+                        <i *ngIf="allLeadDetails.isMobileVerified == true" class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i>
+                      </label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Alternate Mobile Number</h5>
+                      <label class="d-block o_07">{{!allLeadDetails.alternateMobileNo ? '-':allLeadDetails.alternateMobileNo}}</label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Email Id</h5>
+                      <label class="d-block o_07 verifiedLabel">{{allLeadDetails.email}}<i *ngIf="allLeadDetails.isEmailVerified == true" class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i></label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Gender</h5>
+                      <label class="d-block o_07">{{allLeadDetails.gender}}</label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Date of Birth</h5>
+                      <label class="d-block o_07 verifiedLabel">{{allLeadDetails.dateOfBirth | date:'d MMMM , y'}}
+                        <i *ngIf="allLeadDetails?.isPanValid == false" class="ri-close-circle-line text-danger mobileVerifiedIcon" style="top:-6px"></i>
+                        <i *ngIf="allLeadDetails?.isPanValid == true" class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <span class="mb-2 CardTitleStyle text-primary">KYC Details :</span>
+                  <div class="row">
+                    <div class="col-6 mb-2">
+                      <h5>Pan Number</h5>
+                      <label class="d-block o_07 verifiedLabel">{{allLeadDetails.pan}}<i *ngIf="allLeadDetails.isPanVerified == true" class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i></label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Addhar Number</h5>
+                      <label class="d-block o_07">{{allLeadDetails.aadhar}}</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <span class="mb-2 CardTitleStyle text-primary">Location Details :</span>
+                  <div class="row">
+                    <!-- <div class="col-6 mb-2">
+                      <h5>Country</h5>
+                      <label class="d-block o_07">{{allLeadDetails.country?.countryName}}</label>
+                    </div> -->
+                    <div class="col-6 mb-2">
+                      <h5>City</h5>
+                      <label class="d-block o_07">{{allLeadDetails.city?.cityName}}</label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>State</h5>
+                      <label class="d-block o_07">{{allLeadDetails.state?.stateName}}</label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Pincode</h5>
+                      <label class="d-block o_07">{{allLeadDetails.pincode?.pincode}}</label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Area</h5>
+                      <label class="d-block o_07">{{allLeadDetails.pincode?.areaName}}</label>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <h5>Branch Name</h5>
+                      <label class="d-block o_07">{{allLeadDetails.pincode?.branch?.branchName}}</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" *ngIf="allLeadDetails.isConvertedFromEnquiry == false">
+                  <span class="mb-2 CardTitleStyle text-primary">Lead Information :</span>
+                    <div class="row">
+                      <div class="col-6 mb-2">
+                        <h5>Lead Source</h5>
+                        <label class="d-block o_07">{{allLeadDetails.leadSource?.leadSourceName}}</label>
+                      </div>
+                      <div class="col-6 mb-2" *ngIf="allLeadDetails?.leadStatus?.leadStatus != 'Sent To LOS'">
+                        <h5>Lead Stage</h5>
+                        <label class="d-block o_07">{{allLeadDetails.leadStage}}</label>
+                      </div>
+                      <div class="col-6 mb-2"  *ngIf="allLeadDetails.leadStatus?.id == '1' || allLeadDetails?.leadStatus?.leadStatus != 'Sent To LOS'">
+                        <h5>Lead Status</h5>
+                        <label class="d-block o_07">{{allLeadDetails?.leadStatus?.leadStatus}}</label>
+                      </div>
+                      <div class="col-6 mb-2" *ngIf="allLeadDetails?.assignTo != null">
+                        <h5>Asssined To</h5>
+                        <label class="d-block o_07">{{allLeadDetails.assignTo?.firstName}} {{allLeadDetails.assignTo?.lastName}}</label>
+                      </div>
+                      <div class="col-6 mb-2" *ngIf="allLeadDetails?.appId">
+                        <h5>App ID</h5>
+                        <label class="d-block o_07">{{allLeadDetails.appId}}</label>
+                      </div>
+                      <!-- <div class="col-6 mb-2" *ngIf="allLeadDetails?.leadStage == 'Approved'">
+                        <h5>Lead Status</h5>
+                        <label class="d-block o_07">{{allLeadDetails?.leadStatus?.leadStatus}}</label>
+                      </div> -->
+                    </div>
+                </div>
+                <div class="card" *ngIf="allLeadDetails.isConvertedFromEnquiry == true">
+                  <span class="mb-2 CardTitleStyle text-primary">Enquiry Information :</span>
+                    <div class="row">
+                      <!-- <div class="col-6 mb-2">
+                        <h5>Enquiry Source</h5>
+                        <label class="d-block o_07">{{allLeadDetails.leadSource?.leadSourceName}}</label>
+                      </div> -->
+                      <div class="col-6 mb-2">
+                        <h5>Enquiry Stage</h5>
+                        <label class="d-block o_07">{{allLeadDetails.leadStage}}</label>
+                      </div>
+                      <div class="col-6 mb-2">
+                        <h5>Enquiry Status</h5>
+                        <label class="d-block o_07">{{allLeadDetails.isConvertedFromEnquiry == true ? 'Converted To Lead' : '-'}}</label>
+                      </div>
+                      <div class="col-6 mb-2" *ngIf="allLeadDetails?.assignTo != null">
+                        <h5>Asssined To</h5>
+                        <label class="d-block o_07">{{allLeadDetails.assignTo?.firstName}} {{allLeadDetails.assignTo?.lastName}}</label>
+                      </div>
+                      <div class="col-6 mb-2" *ngIf="allLeadDetails?.appId">
+                        <h5>App ID</h5>
+                        <label class="d-block o_07">{{allLeadDetails.appId}}</label>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div [ngClass]="allLeadDetails.scheduleDate ==null && allLeadDetails.loanRemark == null && allLeadDetails.approvedRemark == null ? ' '  : 'col-6' " >
+              <div class="row"  *ngIf="viewLeadAllDetailsOnly && allLeadDetails.createdBy!='Sales' && allLeadDetails.scheduleDate !=null ">
+                <!-- <span class="mb-3 leadTitle">Lead Schedule Details :</span> -->
+                <div class="card">
+                  <span class="mb-2 CardTitleStyle text-primary">Lead Schedule Details :</span>
+                  <div class="row">
+                <div class="col-6 mb-2">
+                    <h5>Schedule Date</h5>
+                    <label class="d-block o_07">{{allLeadDetails.scheduleDate | date:'EEEE, MMMM d,y'}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Convenient Time</h5>
+                  <label class="d-block o_07">{{allLeadDetails.convenientTime}}</label>
+                </div>
+                <div class="col-6 mb-2" *ngIf="allLeadDetails.loanRemark == null">
+                  <h5>Lead Status</h5>
+                  <label class="d-block o_07">{{allLeadDetails?.leadStatus?.leadStatus}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Comments</h5>
+                  <label class="d-block o_07">{{allLeadDetails.scheduledRemark}}</label>
+                </div>
+                </div>
+                </div>
+                <!-- <p class="boredrBottomCore"></p> -->
+              </div>
+<!-- Lead Loan Details -->
+              <div class="row" *ngIf="(viewLeadAllDetailsOnly && (allLeadDetails.leadStage=='Under process') || allLeadDetails.leadStage=='Approved' || allLeadDetails.leadStage=='Reject' || allLeadDetails.leadStage=='Under Review' || allLeadDetails.leadStage=='Closed')">
+                <!-- <span class="mb-3 leadTitle">Lead Loan Details :</span> -->
+                <div class="card">
+                  <span class="mb-2 CardTitleStyle text-primary">Lead Loan Details :</span>
+                  <div class="row">
+                <div class="col-6 mb-2">
+                    <h5>Lead Amount</h5>
+                    <label class="d-block o_07">{{allLeadDetails.loanAmount}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Product</h5>
+                  <label class="d-block o_07">{{allLeadDetails.product?.productName}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Tenure</h5>
+                  <label class="d-block o_07">{{allLeadDetails.tenor}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>File Upload</h5>
+                  <label class="d-block o_07 cursor_pointer"><a class="textPrimaryColor" (click)="viewUploadFile(allLeadDetails.id)">View Files</a></label>
+                </div>
+                <div class="col-6 mb-2" *ngIf="allLeadDetails.leadStatus?.id != '1'">
+                  <h5>Lead Status</h5>
+                  <label class="d-block o_07">{{allLeadDetails?.leadStatus?.leadStatus}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Cibil Score</h5>
+                  <label class="d-block o_07">{{allLeadDetails.cibilScore}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Comments</h5>
+                  <label class="d-block o_07">{{allLeadDetails.loanRemark}}</label>
+                </div>
+                </div>
+                </div>
+                <!-- <p class="boredrBottomCore"></p> -->
+              </div>
+
+              <div class="row" *ngIf="(viewLeadAllDetailsOnly && allLeadDetails.leadStage=='Closed')">
+                <!-- <span class="mb-3 leadTitle">Lead Loan Details :</span> -->
+                <div class="card">
+                  <span class="mb-2 CardTitleStyle text-primary">Lead Reject Reason :</span>
+                  <div class="row">
+                <div class="col-6 mb-2">
+                    <h5>Reject Reason</h5>
+                    <label class="d-block o_07">{{allLeadDetails.rejectReason}}</label>
+                </div>
+                </div>
+                </div>
+                <!-- <p class="boredrBottomCore"></p> -->
+              </div>
+
+              <!-- Lead Approval Details -->
+              <div class="row" *ngIf="viewLeadAllDetailsOnly && ( allLeadDetails.leadStage=='Approved' || allLeadDetails.leadStage=='Reject' || allLeadDetails.leadStage=='Under Review')">
+                <!-- <span class="mb-3 leadTitle">Lead Approval Details :</span> -->
+                <div class="card">
+                  <span class="mb-2 CardTitleStyle text-primary">Lead Approval Details :</span>
+                  <div class="row">
+                <div class="col-6 mb-2">
+                    <h5>Authorized By</h5>
+                    <label class="d-block o_07">{{CreditUsername}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Authorized Date</h5>
+                  <label class="d-block o_07">{{lastApprovalDate | date:'d MMMM , y'}}</label>
+                </div>
+                <div class="col-6 mb-2">
+                  <h5>Lead Approval</h5>
+                  <label class="d-block o_07">{{allLeadDetails.leadStage}}</label>
+                </div>
+                <!-- <div class="col-6 mb-2" *ngIf="allLeadDetails.leadStage=='Reject'">
+                  <h5>Reject Reason</h5>
+                  <label class="d-block o_07">{{allLeadDetails.rejectReason}}</label>
+                </div> -->
+                <div class="col-6 mb-2">
+                  <h5>Comments</h5>
+                  <label class="d-block o_07">{{allLeadDetails.approvedRemark}}</label>
+                </div>
+                <div class="col-12 mb-2">
+                  <h5>Deviation Name</h5>
+                  <label class="d-block o_07">
+                    <ol *ngFor="let item of DeviationDeatilaArray">
+                      <!-- <mat-checkbox color="primary" [checked]="item.isApproved" disabled=""></mat-checkbox> -->
+                      <li>
+                        {{item.description}}
+                        <i *ngIf="item?.isApproved == false" class="ri-close-circle-line text-danger "></i>
+                        <i *ngIf="item?.isApproved == true" class="ri-checkbox-circle-line text-success "></i>
+                        <div *ngIf="item?.isApproved == false">Reject Reason: {{item?.isApproved == false ? item.rejectReason : ''}}</div>
+                      </li>
+                    </ol>
+                  </label>
+
+                  <!-- <label class="d-block o_07 verifiedLabel">{{allLeadDetails.firstName}} {{allLeadDetails?.middleName}} {{allLeadDetails.lastName}}
+                    <i *ngIf="allLeadDetails?.isPanNameValid == false" class="ri-close-circle-line text-danger mobileVerifiedIcon" style="top:-6px"></i>
+                    <i *ngIf="allLeadDetails?.isPanNameValid == true" class="ri-checkbox-circle-line text-success mobileVerifiedIcon"></i>
+                  </label> -->
+                </div>
+                </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+            <!-- <div class="card p-3 mt-4" *ngIf="viewLeadAllDetailsOnly"> -->
+              <!-- && allLeadDetails.leadStage=='New' -->
+            <!-- <span class="card_header text-primary">Lead Details</span> -->
+            <!-- <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Lead Id</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.leadId}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Name</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.firstName}}
+                      {{allLeadDetails.lastName}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Mobile Number</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.mobileNo}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Mobile Number 2</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.alternateMobileNo}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Email Id</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.email}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Gender</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.gender}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Date of Birth</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.dateOfBirth | date:'d MMMM , y'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Pan Number</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.pan}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Addhar Number</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.aadhar}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >City</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.city?.cityName}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Area</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.pincode?.areaName}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >State</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.state?.stateName}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Lead Source</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.leadSource?.leadSourceName}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Lead Stage</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.leadStage}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2" *ngIf="allLeadDetails.leadStatus?.id == '1'">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Lead Status</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails?.leadStatus?.leadStatus}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Asssined To</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.assignTo?.firstName}} {{allLeadDetails.assignTo?.lastName}}</span>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <!-- </div> -->
+          </section>
+
+          <!-- <section>
+            <div class="card p-3 mt-4" *ngIf="viewLeadAllDetailsOnly && allLeadDetails.createdBy!='Sales' && allLeadDetails.scheduleDate !=null ">
+            <span class="card_header text-primary">Lead Schedule</span>
+            <div class="row">
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Schedule Date</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.scheduleDate | date:'EEEE, MMMM d,y'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Convenient Time</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.convenientTime}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Remark</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.scheduledRemark}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2" *ngIf="allLeadDetails.loanRemark == null">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Lead Status</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails?.leadStatus?.leadStatus}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </section>
+
+          <section>
+            <div class="card p-3 mt-4" *ngIf="(viewLeadAllDetailsOnly && (allLeadDetails.leadStage=='Under process') || allLeadDetails.leadStage=='Approved' || allLeadDetails.leadStage=='Reject' || allLeadDetails.leadStage=='Under Review')">
+            <span class="card_header text-primary">Lead Loan Details</span>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Lead Ammount</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.loanAmount}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Product</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.product}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Tenor</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.tenor}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >File Upload</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.file_upload}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2" *ngIf="allLeadDetails.approvedRemark == null">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Lead Status</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails?.leadStatus?.leadStatus}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Remark</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.loanRemark}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </section>
+
+          <section>
+            <div class="card p-3 mt-4" *ngIf="viewLeadAllDetailsOnly && ( allLeadDetails.leadStage=='Approved' || allLeadDetails.leadStage=='Reject' || allLeadDetails.leadStage=='Under Review')">
+            <span class="card_header text-primary">Lead Approval Deatils</span>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Cibil Score</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.cibilScore}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Lead Approval</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.leadStage}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2" *ngIf="hideRejectReason">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Reject Reason</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.rejectReason}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Lead Status</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails?.leadStatus?.leadStatus}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mt-2">
+                <div class="row">
+                  <div class="col-4 mt-2"><label >Remark</label></div>
+                  <div class="col-8">
+                    <span class="form-control spanTextBoxHeight">{{allLeadDetails.approvedRemark}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </section> -->
+
+      </form>
+      <div class="btn_group boredrTopCore mt-2">
+        <button mat-raised-button class="mt-3" (click)="cancelAddEditForm()">Cancel</button>
+        <!-- <button mat-raised-button *ngIf="saveBtn" class="Save_btn" (click)="saveAddEditForm()">Save</button> -->
+        <button mat-raised-button *ngIf="createBtn" (click)="createAddEditForm()" class="mt-3"
+          color="primary">{{createAddEditBtnName}}</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+<!-- </main> -->

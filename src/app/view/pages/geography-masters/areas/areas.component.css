@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+/* td, th {
+  width: 25%;
+} */
+.mat-form-field-appearance-standard .mat-form-field-flex
+{
+  padding-top: 0px;
+}
+.filterStyle
+{
+    /* width: 20%; */
+    /* margin-left: 80%; */
+    margin-top: -9px;
+}
+
+/* ::ng-deep .mat-form-field-flex{
+  padding: 0px !important;
+} */
+
+.padding3px0px{
+  padding: 3px 0px
+}

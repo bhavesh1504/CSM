@@ -1,0 +1,20 @@
+<header id="header" class="header fixed-top d-flex">
+   <div class="d-flex justify-content-between">
+         <img src="assets/images/goFIN_product_logo.jpg" alt="">
+         <span class="d-none d-lg-block"></span>    
+   </div>
+   <div style="position: relative;left: 28rem;top: 0.6rem;">
+      <h3 style="color: #258cf1; font-weight: 800;">CSM</h3>
+   </div>
+   <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+         <li class="nav-item dropdown pe-3">
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"><p style="position: relative; right: 0.1rem; font-size: 14px; top: 0.5rem;">Welcome</p>&nbsp;{{customerName}}&nbsp;&nbsp;<img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> <span class="d-none d-md-block dropdown-toggle ps-2"></span> </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+               <li> <a class="dropdown-item d-flex align-items-center signout" (click)="logout()"  routerLink="/"> <i class="ri-logout-box-r-line"></i><span>Sign Out</span></a></li>
+            </ul>
+         </li>
+      </ul>
+   </nav>
+</header>
+ 
