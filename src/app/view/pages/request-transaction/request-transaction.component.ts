@@ -92,7 +92,7 @@ export class RequestTransactionComponent implements OnInit, AfterViewInit {
       }
     }
 
-   this.getAllDataTable();
+  //  this.getAllDataTable();
   }
   editViewAction(id: any, type: any) {
     // let navigationExtras = {
@@ -113,76 +113,76 @@ export class RequestTransactionComponent implements OnInit, AfterViewInit {
     //   this.AllLeadsDetails=[]
     // });
   }
-  getAllDataTable() {
-    setTimeout(() => {
-      this.leadService.getLeadList().subscribe(res => {
-      let filtrerArray=res.data
+  // getAllDataTable() {
+  //   setTimeout(() => {
+  //     this.leadService.getLeadList().subscribe(res => {
+  //     let filtrerArray=res.data
 
-      if(this.BMRole==true)
-      {
-        let BranchIdArray=[]
-        let BranchDeatilsArray=this.userDetailAtoBValue?.branch;
-        for(let a=0;a<BranchDeatilsArray.length;a++){
-          BranchIdArray.push(BranchDeatilsArray[a]?.id)
-        }
+  //     if(this.BMRole==true)
+  //     {
+  //       let BranchIdArray=[]
+  //       let BranchDeatilsArray=this.userDetailAtoBValue?.branch;
+  //       for(let a=0;a<BranchDeatilsArray.length;a++){
+  //         BranchIdArray.push(BranchDeatilsArray[a]?.id)
+  //       }
 
-        for(let i=0;i<filtrerArray.length;i++){
+  //       for(let i=0;i<filtrerArray.length;i++){
 
-          if(BranchIdArray.includes(filtrerArray[i].pincode?.branch?.id)){
-            this.AllLeadsDetails.push(filtrerArray[i])
-          }
-        }
-        this.dataSource.data = this.AllLeadsDetails as LeadElement[];
+  //         if(BranchIdArray.includes(filtrerArray[i].pincode?.branch?.id)){
+  //           this.AllLeadsDetails.push(filtrerArray[i])
+  //         }
+  //       }
+  //       this.dataSource.data = this.AllLeadsDetails as LeadElement[];
 
-      }else if(this.ZSHRole==true){
+  //     }else if(this.ZSHRole==true){
 
-        let ZoneIdArray=[]
-        let ZoneDeatilsArray=this.userDetailAtoBValue?.branch;
-        for(let a=0;a<ZoneDeatilsArray.length;a++){
-          ZoneIdArray.push(ZoneDeatilsArray[a]?.region?.id)
-        }
+  //       let ZoneIdArray=[]
+  //       let ZoneDeatilsArray=this.userDetailAtoBValue?.branch;
+  //       for(let a=0;a<ZoneDeatilsArray.length;a++){
+  //         ZoneIdArray.push(ZoneDeatilsArray[a]?.region?.id)
+  //       }
 
-        for(let i=0;i<filtrerArray.length;i++){
+  //       for(let i=0;i<filtrerArray.length;i++){
 
-          if(ZoneIdArray.includes(filtrerArray[i].pincode?.branch?.region?.id)){
-            this.AllLeadsDetails.push(filtrerArray[i])
-          }
-        }
-        this.dataSource.data = this.AllLeadsDetails as LeadElement[];
+  //         if(ZoneIdArray.includes(filtrerArray[i].pincode?.branch?.region?.id)){
+  //           this.AllLeadsDetails.push(filtrerArray[i])
+  //         }
+  //       }
+  //       this.dataSource.data = this.AllLeadsDetails as LeadElement[];
 
-      }else if(this.salesRole==false ){
+  //     }else if(this.salesRole==false ){
 
-        for(let i=0;i<filtrerArray.length;i++){
+  //       for(let i=0;i<filtrerArray.length;i++){
 
-          if(this.userDetailAtoBValue?.id == filtrerArray[i].assignTo?.id || this.userDetailAtoBValue?.id == filtrerArray[i]?.primaryAssigned){
-            this.AllLeadsDetails.push(filtrerArray[i])
-          }
-        }
+  //         if(this.userDetailAtoBValue?.id == filtrerArray[i].assignTo?.id || this.userDetailAtoBValue?.id == filtrerArray[i]?.primaryAssigned){
+  //           this.AllLeadsDetails.push(filtrerArray[i])
+  //         }
+  //       }
 
-        // this.dataSource.data = this.AllLeadsDetails as LeadElement[];
+  //       // this.dataSource.data = this.AllLeadsDetails as LeadElement[];
 
-      }else if( this.creditRole==false ){
+  //     }else if( this.creditRole==false ){
 
-        for(let i=0;i<filtrerArray.length;i++){
+  //       for(let i=0;i<filtrerArray.length;i++){
 
-          if(this.userDetailAtoBValue?.id == filtrerArray[i].assignTo?.id || this.userDetailAtoBValue?.id == filtrerArray[i]?.creditAssigned){
-            this.AllLeadsDetails.push(filtrerArray[i])
-          }
-        }
+  //         if(this.userDetailAtoBValue?.id == filtrerArray[i].assignTo?.id || this.userDetailAtoBValue?.id == filtrerArray[i]?.creditAssigned){
+  //           this.AllLeadsDetails.push(filtrerArray[i])
+  //         }
+  //       }
 
-        this.dataSource.data = this.AllLeadsDetails as LeadElement[];
+  //       this.dataSource.data = this.AllLeadsDetails as LeadElement[];
 
-      }
-      else if(this.BHRole==true){
-        this.dataSource.data = res.data as LeadElement[]
-      }
+  //     }
+  //     else if(this.BHRole==true){
+  //       this.dataSource.data = res.data as LeadElement[]
+  //     }
 
 
-       // this.dataSource.data = res.data as LeadElement[]
-      });
-    }, 500);
+  //      // this.dataSource.data = res.data as LeadElement[]
+  //     });
+  //   }, 500);
 
-  }
+  // }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -233,7 +233,7 @@ ngOnDestroy(){
   {
     this.AllLeadsDetails=[]
     // this.dataSource.disconnect()
-    this.getAllDataTable();
+    // this.getAllDataTable();
   }
 
 }

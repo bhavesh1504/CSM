@@ -93,7 +93,7 @@ export class AddEditRequestServiceComponent implements OnInit {
   dataSource = new MatTableDataSource<LoanDetailsElement>(this.ELEMENT_DATAS);
 
   constructor(private toastr: ToastrService, private fb: FormBuilder, private router: Router, private reasonMasterService: ReasonMasterService, private routes: ActivatedRoute, private service: RequestServiceService,private ngxhttploader: NgxHttpLoaderService,
-    public dialogRef: MatDialogRef<AddEditRequestServiceComponent>,
+    public dialogRef: MatDialogRef<AddEditRequestServiceComponent>,public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.serviceRequestForm = this.fb.group({
@@ -446,7 +446,6 @@ export class AddEditRequestServiceComponent implements OnInit {
 
     this.toastr.success(_msg)
 
-    this.dialogRef.afterClosed().subscribe(res => {
       this.ngxhttploader.show();
       setTimeout(() => {
         this.ngxhttploader.hide();
@@ -456,9 +455,6 @@ export class AddEditRequestServiceComponent implements OnInit {
         this.showCard = false;
         this.isDisabled = false;
       }, 1000);
-    })
-
-
   }
 
   // selectLoanAmount(loanId: any) {

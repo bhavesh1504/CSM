@@ -8,6 +8,7 @@ export const environment = {
 // appUrl: "http://110.227.192.222:9999/backend/",
 
 baseUrl :'http://192.168.0.107:8080/',
+// baseUrl :'http://localhost:8080/',
 // appUrl: "http://110.227.192.222:9999/backend/",
 
 // baseUrls :'http://110.227.192.222:9999/csmbackend/',

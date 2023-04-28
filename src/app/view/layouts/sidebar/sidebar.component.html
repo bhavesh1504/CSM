@@ -182,12 +182,12 @@
             <span>Request Name</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a [routerLink]="['/home/reason-master']" [routerLinkActive]="['active']" [skipLocationChange]="true">
             <i class="bi bi-circle"></i>
             <span>Region Master</span>
           </a>
-        </li>
+        </li> -->
         <!-- <li>
           <a [routerLink]="['/home/reject-reason']" [routerLinkActive]="['active']" [skipLocationChange]="true">
             <i class="bi bi-circle"></i>
@@ -246,6 +246,12 @@
         <i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="geographyMasters-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/home/reason-master']" [routerLinkActive]="['active']" [skipLocationChange]="true">
+            <i class="bi bi-circle"></i>
+            <span>Region Master</span>
+          </a>
+        </li>
         <li>
           <a [routerLink]="['/home/countries']"  [routerLinkActive]="['active']" [skipLocationChange]="true">
             <i class="bi bi-circle"></i>

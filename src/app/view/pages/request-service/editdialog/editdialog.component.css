@@ -37,7 +37,7 @@
 }
 
 ::ng-deep .mat-dialog-container {
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 ::ng-deep .mat-card:not([class*=mat-elevation-z]) {
