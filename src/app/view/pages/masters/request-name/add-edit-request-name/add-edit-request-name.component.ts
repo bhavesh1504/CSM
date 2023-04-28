@@ -145,8 +145,8 @@ export class AddEditRequestNameComponent implements OnInit {
   searchDropdown(searchText:any,type:any){
   if(type=='requestItemId'){
       if(searchText != ''){
-        this.filterBranchTypeName=this.branchTypeName.filter((Option: { requestItemId: { description: string; }; })=>{
-          return Option.requestItemId?.description.toLocaleLowerCase().startsWith(searchText.toLowerCase())
+        this.filterBranchTypeName=this.branchTypeName.filter((Option: { description: string; } )=>{
+          return Option.description?.toLocaleLowerCase().includes(searchText?.toLowerCase())
         })
       }else{
         this.filterBranchTypeName=this.branchTypeName
@@ -184,6 +184,8 @@ export class AddEditRequestNameComponent implements OnInit {
   getSingleData(id:any){
     this.requestNameService.getReasonMasterById(id).subscribe(res => {
        this.addEditForm.patchValue(res.data)
+      //  this.addEditForm.patchValue(res.data.requestTypeId)
+      //  this.addEditForm.get('requestItemId')?.patchValue(res.data.requestTypeId)
        this.addEditForm.get('requestItemId')?.setValue(res.data.requestTypeId)
      // this.chekcToggleYesNo(res.data)
     });
@@ -242,6 +244,7 @@ export class AddEditRequestNameComponent implements OnInit {
     if(this.data.type=='edit'){
      // this.customeTrueFalseName()
       this.requestNameService.updateReasonMasterById(this.data.id,this._addEditFormData).subscribe(res => {
+        console.log('res',res);
         console.log(this.data);
         
         this.toastr.success('Request Name Updated Successfully','', { timeOut: 2000 });

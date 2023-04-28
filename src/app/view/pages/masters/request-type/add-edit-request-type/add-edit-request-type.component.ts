@@ -67,7 +67,7 @@ export class AddEditRequestTypeComponent implements OnInit {
 
     setTimeout(() => {
       for(let i=0;i<this.checkRegionMasterCodeArray?.length;i++){
-        this.checkRegionMasterCode.push(this.checkRegionMasterCodeArray[i]?.requestTypeCode.toLowerCase())
+        this.checkRegionMasterCode.push(this.checkRegionMasterCodeArray[i]?.requestTypeCode?.toLowerCase())
       }
     }, 500);
   }

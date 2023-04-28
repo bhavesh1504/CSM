@@ -25,6 +25,6 @@ export class RequestNameService {
   }
 
   updateReasonMasterById(id: Number, reasonMaster: RequestNameElement): Observable<object> {
-    return this.httpClient.put(environment.baseUrl+`api/v1/csm/update-request-item/`+id, reasonMaster);
+    return this.httpClient.put(environment.baseUrl+`api/v1/csm/update-request-item/`+reasonMaster.requestItemId, reasonMaster);
   }
 }

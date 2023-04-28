@@ -32,7 +32,7 @@ export class AddEditRequestServiceComponent implements OnInit {
 
   datas: any = [];
   dataDetails: any;
-  loanAccount: any;
+
   show: boolean = false;
   loanDetailsForm!: FormGroup;
   transcatForm!: FormGroup;
@@ -59,8 +59,10 @@ export class AddEditRequestServiceComponent implements OnInit {
   selectedLoanAccount: any;
   serviceRequest: any;
   branchTypeName: any = [];
+  loanTypeName: any = []
   filterBranchTypeName: any = this.branchTypeName;
   searchBranchTypeTextboxControl = new FormControl();
+
   queryNames: any;
   isDisabled: boolean = false;
   showCard: Boolean = false;
@@ -83,6 +85,11 @@ export class AddEditRequestServiceComponent implements OnInit {
   serviceRequestid: any;
 
   ELEMENT_DATAS!: LoanDetailsElement[];
+
+  loanAccount: any;
+  searchLoanTypeTextboxControl = new FormControl();
+  filterLoanTypeName: any = this.loanTypeName;
+
   dataSource = new MatTableDataSource<LoanDetailsElement>(this.ELEMENT_DATAS);
 
   constructor(private toastr: ToastrService, private fb: FormBuilder, private router: Router, private reasonMasterService: ReasonMasterService, private routes: ActivatedRoute, private service: RequestServiceService,private ngxhttploader: NgxHttpLoaderService,
@@ -297,7 +304,9 @@ export class AddEditRequestServiceComponent implements OnInit {
   myRequest() {
     setTimeout(() => {
       this.service.getAllServiceRequest().subscribe(res => {
+        
         this.loanAccount = res.data
+        this.filterLoanTypeName=this.loanAccount;
         // console.log(this.loanAccount);
 
         this.dataSource.data = res.data as LoanDetailsElement[]
@@ -341,16 +350,42 @@ export class AddEditRequestServiceComponent implements OnInit {
   }
 
   searchDropdown(searchText: any, type: any) {
+    console.log(searchText, type);
+    
     if (type == 'requestType') {
       if (searchText != '') {
-        this.filterBranchTypeName = this.branchTypeName.filter((Option: { searchText: { description: string; }; }) => {
-          console.log(this.filterBranchTypeName);
+        this.filterBranchTypeName = this.branchTypeName.filter((Option: { description: string; }) => {
           
-          return Option.searchText?.description.toLocaleLowerCase().startsWith(searchText.toLowerCase())
+          return Option.description?.toLocaleLowerCase().includes(searchText?.toLowerCase())
         })
       } else {
         this.filterBranchTypeName = this.branchTypeName
         console.log(this.filterBranchTypeName);
+        
+      }
+    }
+  }
+
+  clearLoanSearch(event: any, type: any) {
+    if (type == 'loanMasterId') {
+      event.stopPropagation();
+      this.searchLoanTypeTextboxControl.patchValue('');
+      this.filterLoanTypeName = this.loanAccount;
+    }
+  }
+
+  searchLoanDropdown(searchText: any, type: any) {
+    console.log(searchText, type);
+    
+    if (type == 'loanMasterId') {
+      if (searchText != '') {
+        this.filterLoanTypeName = this.loanAccount.filter((Option: any) => {
+          
+          return Option.loanMaster.loanAcctNo?.toLocaleLowerCase().includes(searchText?.toLowerCase()) || Option.loanMaster.customerName?.toLocaleLowerCase().includes(searchText?.toLowerCase())
+        })
+      } else {
+        this.filterLoanTypeName = this.loanAccount
+        console.log(this.loanAccount);
         
       }
     }

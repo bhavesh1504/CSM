@@ -10,26 +10,26 @@
             <div class="col-6 mt-2"><label for="loanMasterId">Loan Account No.<span class="text-danger"> *</span></label></div>
               <div class="col-6">
                 <mat-form-field appearance="outline" class="">             
-                  <mat-select formControlName="loanMasterId"
+                  <mat-select  formControlName="loanMasterId"
                     disableRipple (selectionChange)="changeSomething($event.value)" placeholder="Select Loan Account No.">
                     <mat-optgroup>
-                      <mat-form-field class="searchDrop" style="position: relative; top:0.4rem;">
-                        <input #searchBranchType autocomplete="off" [formControl]="searchBranchTypeTextboxControl"
+                      <mat-form-field style="position: relative; top: 0.3rem;" class="searchDrop">
+                        <input #searchLoanType autocomplete="off" [formControl]="searchLoanTypeTextboxControl"
                           placeholder="Search" aria-label="Search" matInput
-                          (keyup)="searchDropdown(searchBranchType.value,'loanMasterId')">
-                        <button [disableRipple]="true" *ngIf="searchBranchType.value" matSuffix mat-icon-button
-                          aria-label="Clear" (click)="clearSearch($event,'loanMasterId')">
+                          (keyup)="searchLoanDropdown(searchLoanType.value,'loanMasterId')">
+                        <button [disableRipple]="true" *ngIf="searchLoanType.value" matSuffix mat-icon-button
+                          aria-label="Clear" (click)="clearLoanSearch($event,'loanMasterId')">
                           <i class="ri-close-line cursor_pointer fontSize18px"></i>
                         </button>
                       </mat-form-field>
                     </mat-optgroup>
-                    <mat-optgroup *ngIf="filterBranchTypeName?.length == 0">
+                    <mat-optgroup *ngIf="filterLoanTypeName?.length == 0">
                       <div>No results found!</div>
                     </mat-optgroup>
-                    <mat-option *ngFor="let loan of loanAccount" [value]="loan.loanMaster.loanMasterId
+                    <mat-option *ngFor="let loan of filterLoanTypeName" [value]="loan.loanMaster.loanMasterId
                     ">{{loan.loanMaster.loanAcctNo}}</mat-option>
                   </mat-select>
-                  <mat-error *ngIf="isControlHasError('requestType','required')">
+                  <mat-error *ngIf="isControlHasError('loanMasterId','required')">
                     Loan Account is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
@@ -47,14 +47,13 @@
             <div class="col-5 mt-2"><label for="requestType">Request Type<span class="text-danger"> *</span></label></div>                         
               <div class="col-7">
                 <mat-form-field appearance="outline" class="requestMove">                
-                  <mat-select disableRipple (selectionChange)="somethingChanged($event.value)"
-  formControlName="requestType" placeholder="Select Request Type" mat-select-filter>
+                  <mat-select disableRipple (selectionChange)="somethingChanged($event.value)" formControlName="requestType" placeholder="Select Request Type" mat-select-filter>
                     <mat-optgroup>
-                      <mat-form-field class="searchDrop">
-                        <input #searchBranchType autocomplete="off" [formControl]="searchBranchTypeTextboxControl"
+                      <mat-form-field style="position: relative; top: 0.3rem;" class="searchDrop">
+                        <input  #searchRequestType autocomplete="off" [formControl]="searchBranchTypeTextboxControl"
                           placeholder="Search" aria-label="Search" matInput
-                          (keyup)="searchDropdown(searchBranchType.value,'requestType')">
-                        <button [disableRipple]="true" *ngIf="searchBranchType.value" matSuffix mat-icon-button
+                          (keyup)="searchDropdown(searchRequestType.value,'requestType')">
+                        <button [disableRipple]="true" *ngIf="searchRequestType.value" matSuffix mat-icon-button
                           aria-label="Clear" (click)="clearSearch($event,'requestType')">
                           <i class="ri-close-line cursor_pointer fontSize18px"></i>
                         </button>
@@ -74,8 +73,6 @@
               </div>
           </div>
         </div>
-        
-
 
         <div class="col-6 upload">
           <div class="row">
@@ -135,3 +132,19 @@
     </div>
   </mat-card-actions>
 </mat-card>
+<!-- <mat-form-field class="width">
+  <input
+    matInput
+    placeholder="Country"
+    aria-label="Country"
+    [matAutocomplete]="auto"
+    [formControl]="countryCtrl"
+    required/>
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option
+      *ngFor="let country of filteredCountry | async"
+      [value]="country.name">
+      <span>{{ country.name }} | {{ country.code }}</span>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field> -->

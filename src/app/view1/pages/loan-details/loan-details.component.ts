@@ -460,7 +460,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   }
 
   clearSearch(event: any, type: any) {
-    if (type == 'requestItemId') {
+    if (type == 'requestType') {
       event.stopPropagation();
       this.searchBranchTypeTextboxControl.patchValue('');
       this.filterBranchTypeName = this.branchTypeName;
@@ -468,13 +468,13 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   }
 
   searchDropdown(searchText: any, type: any) {
-    if (type == 'requestItemId') {
+    if (type == 'requestType') {
       if (searchText != '') {
         this.filterBranchTypeName = this.branchTypeName.filter(
-          (Option: { requestItemId: { description: string } }) => {
-            return Option.requestItemId?.description
-              .toLocaleLowerCase()
-              .startsWith(searchText.toLowerCase());
+          (Option: { description: string } ) => {
+            return Option?.description
+              ?.toLocaleLowerCase()
+              .includes(searchText?.toLowerCase());
           }
         );
       } else {

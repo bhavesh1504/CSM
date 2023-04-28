@@ -10,7 +10,7 @@
               <div class="col-8">
                 <mat-form-field appearance="outline" class="example-full-width" >
                   <input type="text" matInput (keyup)="checkRegionMasterCodeAlreadyExit($event)" formControlName="requestTypeCode" placeholder="Enter Request Type Code">
-                  <mat-error *ngIf="isControlHasError('regionCode','required')">
+                  <mat-error *ngIf="isControlHasError('requestTypeCode','required')">
                     Request Type Code is <strong>required</strong>
                   </mat-error>
                   <mat-error *ngIf="RegionMasterCodeExistError">
@@ -27,7 +27,7 @@
               <div class="col-10">
                 <mat-form-field appearance="outline" class="example-full-width move" >
                   <textarea matInput formControlName="description" placeholder="Enter Description"></textarea>
-                  <mat-error *ngIf="isControlHasError('regionName','required')">
+                  <mat-error *ngIf="isControlHasError('description','required')">
                     Description is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
