@@ -12,6 +12,8 @@ export class RequestNameService {
 
   constructor(private httpClient: HttpClient){}
 
+
+
   getReasonMasterList(): Observable<any> {
     return this.httpClient.get<any>(environment.baseUrl+`api/v1/csm/get-all-request-type`);
   }
@@ -24,7 +26,23 @@ export class RequestNameService {
     return this.httpClient.get<any>(environment.baseUrl+`api/v1/csm/get-request-type/`+id);
   }
 
+
+
   updateReasonMasterById(id: Number, reasonMaster: RequestNameElement): Observable<object> {
-    return this.httpClient.put(environment.baseUrl+`api/v1/csm/update-request-item/`+reasonMaster.requestItemId, reasonMaster);
+
+    const config = {
+    "requestTypeId": reasonMaster.requestTypeId,
+    "reqName": reasonMaster.reqName,
+    "reqStatus": reasonMaster.reqStatus,
+    "reqDaysRequired": reasonMaster.reqDaysRequired,
+    "isPaidPopup": reasonMaster.isPaidPopup,
+    "payAmount": reasonMaster.payAmount,
+    "createdAt": reasonMaster.createdAt,
+    "updatedAt": reasonMaster.updatedAt,
+    "requestItemId": reasonMaster.requestItemId,
+    "requestNameCode": reasonMaster.requestNameCode,
+    "remark": reasonMaster.remark
+    }
+    return this.httpClient.put(environment.baseUrl+`api/v1/csm/update-request-type/`+ id, config);
   }
 }

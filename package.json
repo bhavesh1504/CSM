@@ -29,6 +29,7 @@
     "ngx-http-loader": "^14.0.0",
     "ngx-mat-timepicker": "^14.0.2",
     "ngx-toastr": "^15.2.1",
+    "razorpay": "^2.8.6",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

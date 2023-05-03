@@ -25,6 +25,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LoanDetailsDialogComponent } from './loan-details-dialog/loan-details-dialog.component';
 import { NgxHttpLoaderService } from 'ngx-http-loader';
 import { PaidpopupDailogComponent } from './paidpopup-dailog/paidpopup-dailog.component';
+declare var Razorpay: any;
 
 export interface PeriodicElement {
   ReqNo: number;
@@ -93,10 +94,28 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   paidMsg:string = 'Paid Service';
 
   overDueAmount: boolean = false;
+  showTopUp: boolean = false;
 
   sortedData: any = [];
   sortColumn: string = 'ReqNo';
   sortDirection: string = 'asc';
+
+  razorPay: any;
+  gridsize: any;
+
+  razorPayOptions = {
+    "key": "rzp_test_ai34JM7uh5soSu",
+    "amount": "100",
+    "currency": "INR",
+    "name": "",
+    "mobile": "",
+    "description": "GoFin Payments",
+    "orderid": "",
+    "handler": (res: any) => {
+      console.log(res);
+      
+    }
+  };
 
   requestType = [
     { name: 'Query' },
@@ -285,6 +304,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       zip_codes: this.fb.array([]),
       selectFileUpload: [''],
       file_upload: [''],
+      topUpAmount: [''],
       textArea: ['', []],
     });
   }
@@ -319,7 +339,20 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  makePayment() {}
+  makePayment() {
+    this.ngxhttploader.show()
+    this.razorPayOptions.key
+    this.razorPayOptions.orderid = this.datas.id
+    this.razorPayOptions.name = this.datas.customerName
+    this.razorPayOptions.mobile =  this.datas.mobileNumber
+    this.razorPayOptions.amount
+
+    let rzp1 = new Razorpay(this.razorPayOptions);
+    rzp1.open();
+    this.ngxhttploader.hide()
+    console.log('opened');
+    
+  }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -358,6 +391,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
         this.hima = this.queryList[0].requestTypeId;
         
       }
+      this.showTopUp = false;
       console.log(this.checkBoxValue);
     }
     if (descListArray.description == 'Query') {
@@ -366,18 +400,33 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = true;
       this.checkBoxValue = false;
+      this.showTopUp = false;
     } else if (descListArray.description == 'Complain') {
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = true;
       this.checkBoxValue = false;
+      this.showTopUp = false;
     } else if (descListArray.description == 'Request') {
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = true;
       this.checkBoxValue = false;
+      this.showTopUp = false;
+    }
+    else if (descListArray.description == 'Top-Up') {
+      this.isDisabled = false;
+      this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
+      this.serviceRequestForm.controls['textArea'].clearValidators();
+      this.showCard = false;
+      if (this.queryList[0].requestTypeId) {
+        this.checkBoxValue = true;
+        this.hima = this.queryList[0].requestTypeId;
+      }
+      this.showTopUp = true;
+
     }
     this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
   }
@@ -525,6 +574,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     this._addEditFormData.requestTypeId = this.selectQueryArray;
     this._addEditFormData.requestType = filterBranchTypeNameValue.description;
     this._addEditFormData.remark = this.serviceRequestForm.controls['textArea'].value;
+    this._addEditFormData.topUpAmount =  this.gridsize
     console.log(this._addEditFormData);
 
     this.service.createReasonMaster(this._addEditFormData).subscribe((res) => {
@@ -745,6 +795,10 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       autoFocus: false,
       data: { result: this.queryList ,'requestTypeId':requestTypeId}
     });
+  }
+
+  updateSetting(event:any) {
+    this.gridsize = event.value;
   }
 
 

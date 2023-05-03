@@ -26,7 +26,8 @@ export class LoanDetailService {
       "rbiQueries":requestName.rbiQueries,
       "loanMasterId":requestName.loanMasterId,
       "requestTypeId":requestName.requestTypeId,
-      "remark":requestName.remark
+      "remark":requestName.remark,
+      "topUpAmount":requestName.topUpAmount,
   }
   
     return this.http.post<any>(environment.baseUrl+`api/v1/csm/add-service-request`, config);

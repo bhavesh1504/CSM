@@ -36,9 +36,18 @@
   .card-body {
      padding: 1rem;
   }
-  
 
+::ng-deep .mat-slider.mat-accent .mat-slider-track-fill, .mat-slider.mat-accent .mat-slider-thumb, .mat-slider.mat-accent .mat-slider-thumb-label {
+    background-color: #258cf1;
+}
 
+/* .mat-slider.mat-accent .mat-slider-track-fill, .mat-slider.mat-accent .mat-slider-thumb, .mat-slider.mat-accent .mat-slider-thumb-label {
+    background-color: #ff4081;
+} */
+
+::ng-deep  .mat-slider.mat-accent .mat-slider-thumb {
+    background-color: #258cf1;
+}
 
  ::ng-deep .mat-tab-body-content {
     height: 100%;

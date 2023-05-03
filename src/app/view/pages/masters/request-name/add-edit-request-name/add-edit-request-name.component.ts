@@ -24,6 +24,7 @@ export class AddEditRequestNameComponent implements OnInit {
   createAddEditBtnName='';
   _addEditFormData:any;
   show:boolean = false;
+  typeId: any;
 
   checkRegionMasterCodeArray:any[]=[];
   checkRegionMasterCode:any[]=[]
@@ -39,13 +40,14 @@ export class AddEditRequestNameComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     ) {
     this.addEditForm = this.fb.group({
-      id:[''],
+      requestTypeId: [''],
       requestNameCode: ['', Validators.compose([Validators.required])],
       requestItemId: ['', Validators.compose([Validators.required])],
       reqDaysRequired: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]*$/)])],
       reqName: ['', Validators.compose([Validators.required])],
       reqStatus: [true],
       payAmount: [''],
+      remark: [''],
       // payAmount: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]*$/)])],
       isPaidPopup: [''],
      
@@ -184,9 +186,12 @@ export class AddEditRequestNameComponent implements OnInit {
   getSingleData(id:any){
     this.requestNameService.getReasonMasterById(id).subscribe(res => {
        this.addEditForm.patchValue(res.data)
+       this.typeId = res.data;
+       console.log(this.typeId);
+       
       //  this.addEditForm.patchValue(res.data.requestTypeId)
       //  this.addEditForm.get('requestItemId')?.patchValue(res.data.requestTypeId)
-       this.addEditForm.get('requestItemId')?.setValue(res.data.requestTypeId)
+       this.addEditForm.get('requestItemId')?.setValue(res.data.requestItemId.itemId)
      // this.chekcToggleYesNo(res.data)
     });
   }
@@ -240,10 +245,10 @@ export class AddEditRequestNameComponent implements OnInit {
       return;
     }
      this._addEditFormData = this.addEditForm.value;
-
+     this._addEditFormData.requestNameCode=this.addEditForm.get('requestNameCode')?.value;
     if(this.data.type=='edit'){
      // this.customeTrueFalseName()
-      this.requestNameService.updateReasonMasterById(this.data.id,this._addEditFormData).subscribe(res => {
+      this.requestNameService.updateReasonMasterById(this.typeId.requestTypeId, this._addEditFormData).subscribe(res => {
         console.log('res',res);
         console.log(this.data);
         
@@ -254,7 +259,7 @@ export class AddEditRequestNameComponent implements OnInit {
     }
     else{
      // this.customeTrueFalseName()
-     //  this._addEditFormData.isActive='Yes'
+     //  this._addEditFormData.requestNameCode=this.addEditForm.get('requestNameCode).value
       this.requestNameService.createReasonMaster(this._addEditFormData).subscribe(res => {
         console.log(res);
         

@@ -160,7 +160,7 @@
                                                         class="mdi mdi-currency-inr"></i></span>
                                             </div>
                                             <mat-form-field *ngIf="overDueAmount" style="position: relative; top: 2rem; right: 5rem;">
-                                                <input matInput value='&#8377;&nbsp;{{datas[0]?.otherCharges}}'>
+                                                <input matInput value='&#8377;&nbsp;{{datas[0]?.dueInstallment}}'>
                                             </mat-form-field> 
                                         </div>
                                     </div>
@@ -281,6 +281,27 @@
                                         <input type="file" #imgFileInput (change)="onSelectFile($event)" multiple hidden
                                           accept="application/pdf,image/*">
                                       </mat-form-field>
+                                </div>
+
+                                <div *ngIf="showTopUp" class="form-group row" style="position: relative; right: 2rem;">
+                                    <label class="col-form-label col-md-4 enquirylabel">Loan Amount</label>
+                                    <div class="col-md-4" style="position: relative; right: 9.5rem;">
+                                        <mat-slider #gridsize (change)="updateSetting($event)"  min="10000" max="1000000" step="10000"  (value)="gridsize" showTickMarks discrete>
+                                            <input matSliderThumb>
+                                        </mat-slider>
+                                        <mat-form-field style="position: absolute; top: 1.7rem;" class="example-full-width" >
+                                            <input type="text" matInput formControlName="topUpAmount" placeholder="" value={{gridsize.value}}>
+                                            <mat-error *ngIf="isControlHasError('topUpAmount','required')">
+                                              Top-Up Amount is <strong>required</strong>
+                                            </mat-error>
+                                        </mat-form-field>
+                                       
+                                    </div>
+                                    
+                                        
+                                    
+                                        
+                                       
                                 </div>
                         
                                 <div class="form-group row" style="position: relative; top: 1rem;">      
@@ -532,6 +553,12 @@
                                                     <label class="col-form-label col-md-4">Request For:</label>
                                                     <div class="col-md-6">
                                                         <input type="text" readonly class="form-control-plaintext" *ngFor="let items of serviceRequest?.requests" value="{{items.reqName}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-4">Top-Up Amount:</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" readonly class="form-control-plaintext" value="{{serviceRequest?.topUpAmount}}">
                                                     </div>
                                                 </div>
                                                                                      

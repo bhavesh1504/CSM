@@ -1,10 +1,14 @@
 export class RequestNameElement {
-    id!: number;
-    requestItemId!: number;
+    requestTypeId!: number;
     reqName!: string;
-    reqStatus!: string;
-    reqDaysRequired!:string;
-    isPaidPopup!: string;
-    payAmount!: string;
+    reqStatus!: boolean;
+    reqDaysRequired!: number;
+    isPaidPopup!: number;
+    payAmount!: number;
+    createdAt!: string;
+    updatedAt!: string;
+    requestItemId!: number;
+    requestNameCode! : string;
+    remark!: string;
 
   }

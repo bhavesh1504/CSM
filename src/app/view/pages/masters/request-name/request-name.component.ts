@@ -19,7 +19,7 @@ export class RequestNameComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   ELEMENT_DATA!: RequestNameElement[];
-  displayedColumns: string[] = ['s#', 'requestName', 'action'];
+  displayedColumns: string[] = ['s#', 'requestName', 'requestType', 'action'];
   dataSource = new MatTableDataSource<RequestNameElement>(this.ELEMENT_DATA);
   constructor(private router: Router, public dialog: MatDialog, private requestNameService: RequestNameService) { }
 
