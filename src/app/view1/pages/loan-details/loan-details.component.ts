@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
   ViewEncapsulation,
+  NgZone
 } from '@angular/core';
 import {
   FormBuilder,
@@ -25,6 +26,9 @@ import { ToastrService } from 'ngx-toastr';
 import { LoanDetailsDialogComponent } from './loan-details-dialog/loan-details-dialog.component';
 import { NgxHttpLoaderService } from 'ngx-http-loader';
 import { PaidpopupDailogComponent } from './paidpopup-dailog/paidpopup-dailog.component';
+import { HttpClient } from '@angular/common/http';
+import {DatePipe} from '@angular/common';
+import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
 declare var Razorpay: any;
 
 export interface PeriodicElement {
@@ -101,20 +105,37 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   sortDirection: string = 'asc';
 
   razorPay: any;
+  paymentStatus:string = 'failed';
+  topUpStatus:string = 'open';
+  otherDetails: any;
   gridsize: any;
+  someDateVar: any;
+  descListArray: any;
+  
 
   razorPayOptions = {
     "key": "rzp_test_ai34JM7uh5soSu",
     "amount": "100",
     "currency": "INR",
-    "name": "",
+    "customer_name": "",
     "mobile": "",
     "description": "GoFin Payments",
     "orderid": "",
+    "session_token": "",
     "handler": (res: any) => {
-      console.log(res);
-      
-    }
+      this.razorPay = res.razorpay_payment_id;
+      if(this.razorPay == res.razorpay_payment_id){
+        this.paymentStatus = 'Success'; 
+      }
+      this.service.createPayment(this.razorPay,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].dueInstallment,this.paymentStatus,this.someDateVar).subscribe(res=>{
+        console.log('yyyy',res);
+        this.zone.run(() =>this.dialog.open(PaymentDialogComponent, {
+          width: '550px',
+          autoFocus: false,
+          data: {result: this.razorPay}
+        }));  
+      })    
+    } 
   };
 
   requestType = [
@@ -259,6 +280,9 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     public dialog: MatDialog,
     private toaster: ToastrService,
+    private http: HttpClient,
+    public datepipe: DatePipe,
+    private zone: NgZone,
     private ngxhttploader: NgxHttpLoaderService
   ) {
     this.loanDetailsForm = new FormGroup({
@@ -283,6 +307,9 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     this.getLoanDetail();
     // this.viewDownload(this.data.id);
     this.sortedData = this.dataSource.data.slice();
+    let myDate = new Date(); 
+    this.someDateVar = this.datepipe.transform(myDate, 'yyyy-MM-dd');
+    console.log(this.someDateVar);
   }
 
   editViewAction(id: any) {
@@ -342,17 +369,17 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   makePayment() {
     this.ngxhttploader.show()
     this.razorPayOptions.key
+    this.razorPayOptions.session_token
     this.razorPayOptions.orderid = this.datas.id
-    this.razorPayOptions.name = this.datas.customerName
+    this.razorPayOptions.customer_name = this.datas.customerName
     this.razorPayOptions.mobile =  this.datas.mobileNumber
     this.razorPayOptions.amount
 
     let rzp1 = new Razorpay(this.razorPayOptions);
     rzp1.open();
     this.ngxhttploader.hide()
-    console.log('opened');
-    
-  }
+    console.log('opened',rzp1);
+}
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -374,11 +401,11 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this.queryList.push(queryListArray.requestTypes[i]);
     }
     console.log(this.queryList);
-    let descListArray = this.branchTypeName.find(
+    this.descListArray = this.branchTypeName.find(
       (res: { itemId: any }) => res.itemId == enent
     );
-    console.log('vai:', descListArray.description);
-    if (descListArray.description == 'Others') {
+    console.log('vai:', this.descListArray.description);
+    if (this.descListArray.description == 'Others') {
       this.isDisabled = true;
       this.serviceRequestForm.controls['textArea'].setValidators(
         Validators.required
@@ -394,21 +421,21 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this.showTopUp = false;
       console.log(this.checkBoxValue);
     }
-    if (descListArray.description == 'Query') {
+    if (this.descListArray.description == 'Query') {
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = true;
       this.checkBoxValue = false;
       this.showTopUp = false;
-    } else if (descListArray.description == 'Complain') {
+    } else if (this.descListArray.description == 'Complain') {
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = true;
       this.checkBoxValue = false;
       this.showTopUp = false;
-    } else if (descListArray.description == 'Request') {
+    } else if (this.descListArray.description == 'Request') {
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
@@ -416,7 +443,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this.checkBoxValue = false;
       this.showTopUp = false;
     }
-    else if (descListArray.description == 'Top-Up') {
+    else if (this.descListArray.description == 'Top-Up') {
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
@@ -576,22 +603,51 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     this._addEditFormData.remark = this.serviceRequestForm.controls['textArea'].value;
     this._addEditFormData.topUpAmount =  this.gridsize
     console.log(this._addEditFormData);
+    if(this.descListArray.description == 'Request' || this.descListArray.description == 'Others' || this.descListArray.description == 'Query' || this.descListArray.description == 'Complain'){
+      this.service.createReasonMaster(this._addEditFormData).subscribe((res) => {
+        this.serviceId = res;
+        console.log('yyy', this.serviceId);
+        if (this.serviceId) {
+          const dialogRef = this.dialog.open(LoanDetailsDialogComponent, {
+            width: '550px',
+            autoFocus: false,
+            data: { result: this.serviceId.data, id: this.serviceId.days },
+          });
+        }
+  
+        if (this.myFiles.length != 0) {
+          this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
+        }
+      });
+    }
 
-    this.service.createReasonMaster(this._addEditFormData).subscribe((res) => {
-      this.serviceId = res;
-      console.log('yyy', this.serviceId);
-      if (this.serviceId) {
-        const dialogRef = this.dialog.open(LoanDetailsDialogComponent, {
-          width: '550px',
-          autoFocus: false,
-          data: { result: this.serviceId.data, id: this.serviceId.days },
-        });
-      }
+    if (this.descListArray.description == 'Top-Up'){
+      this.service.createReasonMaster(this._addEditFormData).subscribe((res) => {
+        this.serviceId = res;
+        console.log('yyy', this.serviceId);
+        if (this.serviceId) {
+          const dialogRef = this.dialog.open(LoanDetailsDialogComponent, {
+            width: '550px',
+            autoFocus: false,
+            data: { result: this.serviceId.data, id: this.serviceId.days },
+          });
+        }
+  
+        if (this.myFiles.length != 0) {
+          this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
+        }
+      });
+      setTimeout(() => {
+        
+        this.service.createTopUps(this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe(res=>{
+          console.log('topup',res);
+          if(res.msgKey == 'Success'){
+          this.toaster.success(res.message)
+      }})
+      }, 500);
 
-      if (this.myFiles.length != 0) {
-        this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
-      }
-    });
+    }
+   
 
     this.service.getAllServiceRequest().subscribe((res) => {
       console.log(res.data);
@@ -799,6 +855,14 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
 
   updateSetting(event:any) {
     this.gridsize = event.value;
+  }
+
+  formatLabel(value: number): string {
+    if (value >= 10000) {
+      return Math.round(value / 10000) + 'k';
+    }
+
+    return `${value}`;
   }
 
 

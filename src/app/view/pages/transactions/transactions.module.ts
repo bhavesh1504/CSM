@@ -19,14 +19,17 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ViewTransactionsComponent } from './view-transactions/view-transactions.component';
 
 const routes = [
-  {path: '', component:TransactionsComponent}
+  {path: '', component:TransactionsComponent},
+  {path: 'viewtranscations', component:ViewTransactionsComponent}
 ]
 
 @NgModule({
   declarations: [
-    TransactionsComponent
+    TransactionsComponent,
+    ViewTransactionsComponent
   ],
   imports: [
     CommonModule,

@@ -18,18 +18,24 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { PaidpopupDailogComponent } from './paidpopup-dailog/paidpopup-dailog.component';
+import {DatePipe} from '@angular/common';
+import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
+import { MatCardModule } from '@angular/material/card';   
+
 
 const routes = [
   {path: '', component:LoanDetailsComponent}  ,
   {path: 'loandetaildialog', component:LoanDetailsDialogComponent},
-  {path: 'paidpopupdialog', component:PaidpopupDailogComponent}
+  {path: 'paidpopupdialog', component:PaidpopupDailogComponent},
+  {path: 'paymentdialog', component:PaymentDialogComponent}
 ]
 
 @NgModule({
   declarations: [
     LoanDetailsComponent,
     LoanDetailsDialogComponent,
-    PaidpopupDailogComponent
+    PaidpopupDailogComponent,
+    PaymentDialogComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +57,10 @@ const routes = [
     MatDialogModule,
     MatPaginatorModule,
     MatSortModule,
+    MatCardModule,
     RouterModule.forChild(routes),
-  ]
+  ],
+  providers: [DatePipe],
+  entryComponents: [PaymentDialogComponent]
 })
 export class LoanDetailsModule { }

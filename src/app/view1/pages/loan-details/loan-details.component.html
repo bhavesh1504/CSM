@@ -286,7 +286,7 @@
                                 <div *ngIf="showTopUp" class="form-group row" style="position: relative; right: 2rem;">
                                     <label class="col-form-label col-md-4 enquirylabel">Loan Amount</label>
                                     <div class="col-md-4" style="position: relative; right: 9.5rem;">
-                                        <mat-slider #gridsize (change)="updateSetting($event)"  min="10000" max="1000000" step="10000"  (value)="gridsize" showTickMarks discrete>
+                                        <mat-slider #gridsize (change)="updateSetting($event)"  min="10000" max="1000000" step="10000"  (value)="gridsize" showTickMarks discrete [displayWith]="formatLabel">
                                             <input matSliderThumb>
                                         </mat-slider>
                                         <mat-form-field style="position: absolute; top: 1.7rem;" class="example-full-width" >

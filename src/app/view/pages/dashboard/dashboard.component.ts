@@ -14,6 +14,7 @@ import { LeadStatusService } from 'src/app/core/lead-status/service/leadStatus.s
 import { LeadService } from 'src/app/core/lead/service/lead.service';
 import { ManualAssignmentService } from 'src/app/core/manual-assignment/service/manual-assignment.service';
 import { RequestServiceService } from 'src/app/core/request-service/service/request-service.service';
+import { TransactionService } from 'src/app/core/transactions/transaction.service';
 import { UserService } from 'src/app/core/user/service/user.service';
 import { WorkListService } from 'src/app/core/work-list/service/work-list.service';
 
@@ -67,6 +68,7 @@ export class DashboardComponent implements OnInit {
 
   data: any[] = []; // assuming your data is an array of objects
   dataCount: number = 0;
+  dataCounts: number = 0;
 
   date = new Date();
   weekDate: any;
@@ -87,7 +89,7 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService, private userService: UserService, private enquiryService: EnquiryService, private enquiryStatusService: EnquiryStatusService,
     private leadService: LeadService, private workListService: WorkListService, private enquiryWorklistService: EnquiryWorklistService,
     private manualAssignmentService: ManualAssignmentService, private dashboardService: DashboardService,
-    private service:RequestServiceService) { }
+    private service:RequestServiceService, private services: TransactionService) { }
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
@@ -200,6 +202,7 @@ export class DashboardComponent implements OnInit {
     //   }, 200);
     // }
     this.getData();
+    this.getDatas();
   }
 
   // getSingleData(id:any){
@@ -670,6 +673,13 @@ export class DashboardComponent implements OnInit {
     // after getting the data, set the dataCount variable to the length of the data array
     this.service.getAllServiceRequest().subscribe(res => {
       this.dataCount = res.data.length;
+    }
+  )}
+  getDatas() {
+    // call your get-all-service-request API to fetch the data
+    // after getting the data, set the dataCount variable to the length of the data array
+    this.services.getTransactions().subscribe(res => {
+      this.dataCounts = res.data.length;
     }
   )}
 }

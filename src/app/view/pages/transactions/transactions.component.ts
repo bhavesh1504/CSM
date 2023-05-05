@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +9,9 @@ import { LeadElement } from '../../../core/lead/models/lead.model'
 import { MatDialog } from '@angular/material/dialog';
 import { NgxHttpLoaderService } from 'ngx-http-loader';
 import { ToastrService } from 'ngx-toastr';
+import { TransactionService } from 'src/app/core/transactions/transaction.service';
+import { map } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-transactions',
@@ -20,9 +23,10 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('TABLE') table!: ElementRef;
 
   ELEMENT_DATA!: LeadElement[];
-  displayedColumns: string[] = ['transactionid','loanNo', 'name', 'amount','date','paymentstatus','indusstatus','action'];
+  displayedColumns: string[] = ['transactionid','loanNo', 'name', 'amount','date','paymentstatus'];
   dataSource = new MatTableDataSource<LeadElement>(this.ELEMENT_DATA);
 
   callCenterRole:boolean=true;
@@ -42,7 +46,7 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   roleArray:any=[];
   AllLeadsDetails:any=[]
 
-  constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private ngxhttploader: NgxHttpLoaderService, private toastr: ToastrService) {
+  constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private ngxhttploader: NgxHttpLoaderService, private toastr: ToastrService, private service: TransactionService) {
     this.userDetails=sessionStorage.getItem('UserDetails')
     this.userDetailAtoBValue=JSON.parse(atob(this.userDetails));
     for(let i=0;i<this.userDetailAtoBValue.role.length;i++)
@@ -91,6 +95,8 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
         this.BMRole=true;
       }
     }
+
+    this.transactions();
 
   //  this.getAllDataTable();
   }
@@ -234,6 +240,32 @@ ngOnDestroy(){
     this.AllLeadsDetails=[]
     // this.dataSource.disconnect()
     // this.getAllDataTable();
+  }
+
+  transactions(){
+    setTimeout(() => {
+      this.service.getTransactions().pipe(map(res=>{
+        if(res.msgKey == 'Success'){
+        this.dataSource.data = res.data
+        this.toastr.success(res.message);
+        console.log('transactions',this.dataSource.data);
+        }else{
+          this.toastr.error(res.message)
+        }  
+      }
+      )).subscribe();
+    }, 500);
+    
+  }
+
+  ExportTOExcel(){
+    const ws: XLSX.WorkSheet=XLSX.utils.json_to_sheet(this.dataSource.data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    
+    /* save to file */
+    XLSX.writeFile(wb, 'Transcations.xlsx');
+    
   }
 
 }

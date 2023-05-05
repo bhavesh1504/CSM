@@ -58,4 +58,31 @@ getLoanDetailsByAcc(id: Number): Observable<any> {
   return this.http.get<any>(environment.baseUrl+`api/v1/csm/get-service-request-by-accountno/`+id);
 }
 
+createPayment(razorPay: any,loanAcctNo: any,customerName: any,dueInstallment: any,paymentStatus: any,paymentDate: any) {
+  let config={
+    "transactionId":razorPay,
+    "loanAccNo":loanAcctNo,
+    "name":customerName,
+    "amount":dueInstallment,
+    "paymentStatus":paymentStatus,
+    "paymentDate":paymentDate
+}
+
+  return this.http.post<any>(environment.baseUrl+`api/v1/csm/addPaymentDetails`, config);
+}
+
+createTopUps(loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any) {
+  let config={
+    "loanAccNo": loanAccNo,
+    "appliedBy":appliedBy,
+    "pancard":pancard,
+    "extraLoanAmount": extraLoanAmount,
+    "mobileNo": mobileNo,
+    "status": status,
+    "topUpDate": date
+}
+
+  return this.http.post<any>(environment.baseUrl+`api/v1/csm/addTopUp`, config);
+}
+
 }

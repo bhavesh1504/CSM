@@ -9,6 +9,8 @@ import { LeadElement } from '../../../core/lead/models/lead.model'
 import { MatDialog } from '@angular/material/dialog';
 import { NgxHttpLoaderService } from 'ngx-http-loader';
 import { ToastrService } from 'ngx-toastr';
+import { TopupsService } from 'src/app/core/top-ups/topups.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-top-ups',
@@ -22,7 +24,7 @@ export class TopUpsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ELEMENT_DATA!: LeadElement[];
-  displayedColumns: string[] = ['s#','loanNo', 'name', 'pancard','extraloanamount','mobileNo','remarks','appliedby','applieduser','status','date','action'];
+  displayedColumns: string[] = ['s#','loanNo', 'pancard','extraloanamount','mobileNo','appliedby','status','date','action'];
   dataSource = new MatTableDataSource<LeadElement>(this.ELEMENT_DATA);
 
   callCenterRole:boolean=true;
@@ -42,7 +44,7 @@ export class TopUpsComponent implements OnInit, AfterViewInit {
   roleArray:any=[];
   AllLeadsDetails:any=[]
 
-  constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private ngxhttploader: NgxHttpLoaderService, private toastr: ToastrService) {
+  constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private ngxhttploader: NgxHttpLoaderService, private toastr: ToastrService, private service: TopupsService) {
     this.userDetails=sessionStorage.getItem('UserDetails')
     this.userDetailAtoBValue=JSON.parse(atob(this.userDetails));
     for(let i=0;i<this.userDetailAtoBValue.role.length;i++)
@@ -92,7 +94,7 @@ export class TopUpsComponent implements OnInit, AfterViewInit {
       }
     }
 
-  //  this.getAllDataTable();
+   this.topups();
   }
   editViewAction(id: any, type: any) {
     // let navigationExtras = {
@@ -234,6 +236,22 @@ ngOnDestroy(){
     this.AllLeadsDetails=[]
     // this.dataSource.disconnect()
     // this.getAllDataTable();
+  }
+
+  topups(){
+    setTimeout(() => {
+      this.service.getTopUps().pipe(map(res=>{
+        if(res.msgKey == 'Success'){
+        this.dataSource.data = res.data
+        this.toastr.success(res.message);
+        console.log('topups',this.dataSource.data);
+        }else{
+          this.toastr.error(res.message)
+        }  
+      }
+      )).subscribe();
+    }, 500);
+    
   }
 
 }
