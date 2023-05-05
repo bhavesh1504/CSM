@@ -45,9 +45,21 @@
     background-color: #ff4081;
 } */
 
-::ng-deep  .mat-slider.mat-accent .mat-slider-thumb {
+::ng-deep .mat-slider.mat-accent .mat-slider-thumb {
     background-color: #258cf1;
 }
+
+::ng-deep .mat-slider.mat-accent .mat-slider-thumb-label {
+    background-color: #258cf1;
+}
+
+::ng-deep .mat-slider-wrapper .mat-slider-thumb-container .mat-slider-thumb-label {
+        width: 40px;
+        height: 40px;
+        top: -62px;
+        right: -25px;
+    }
+
 
  ::ng-deep .mat-tab-body-content {
     height: 100%;
@@ -925,6 +937,19 @@ border-color:  rgb(228, 142, 0);
     list-style-type: none;
 }
 
+/* ::ng-deep .mat-slider-thumb-label {
+    transform: rotate(45deg) !important;
+    border-radius: 50% 50% 0 !important;
+  }
+
+  ::ng-deep .mat-slider-thumb {
+    transform: scale(0) !important;
+}
+
+::ng-deep .mat-slider-thumb-label-text {
+    opacity: 1 !important;
+} */
+
 .label-container {
     display: flex;
     flex-direction: column;
@@ -1008,7 +1033,7 @@ border-color:  rgb(228, 142, 0);
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-:host()::ng-deep .mat-slider.mat-primary {
+/* :host()::ng-deep .mat-slider.mat-primary {
     --slider-handle-color: #258cf1;
     --slider-focus-handle-color: #258cf1;
     --slider-hover-handle-color: #258cf1;
@@ -1019,7 +1044,7 @@ border-color:  rgb(228, 142, 0);
     --mat-slider-ripple-color: #258cf1;
     --mat-slider-hover-ripple-color: rgba(63, 81, 181, 0.05);
     --mat-slider-focus-ripple-color: rgba(63, 81, 181, 0.2);
-}
+} */
 
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
     background-color: #258cf1;
@@ -1033,11 +1058,16 @@ border-color:  rgb(228, 142, 0);
     top: 1rem;
 }
 
+
+.reloadStyle{
+    font-size: 28px;
+    cursor: pointer;
+  }
+
 :host()::ng-deep .are {
     position: relative;
     width: 35rem;
-    right: 2.95rem;
-    top: 4.25rem;
+    top: 3.25rem;
     height: 5rem;
  }
 

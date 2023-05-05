@@ -21,6 +21,7 @@ import { PaidpopupDailogComponent } from './paidpopup-dailog/paidpopup-dailog.co
 import {DatePipe} from '@angular/common';
 import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
 import { MatCardModule } from '@angular/material/card';   
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 const routes = [
@@ -59,8 +60,12 @@ const routes = [
     MatSortModule,
     MatCardModule,
     RouterModule.forChild(routes),
+    MatSlideToggleModule
   ],
   providers: [DatePipe],
-  entryComponents: [PaymentDialogComponent]
+  entryComponents: [PaymentDialogComponent],
+  exports: [MatSliderModule,
+    MatSlideToggleModule
+  ]
 })
 export class LoanDetailsModule { }

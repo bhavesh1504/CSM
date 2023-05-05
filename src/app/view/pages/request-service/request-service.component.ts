@@ -12,6 +12,7 @@ import { LoanDetailsElement } from 'src/app/core/request-service/model/service-r
 import { RequestServiceService } from 'src/app/core/request-service/service/request-service.service';
 import { ViewdialogComponent } from './viewdialog/viewdialog.component';
 import { EditdialogComponent } from './editdialog/editdialog.component';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-request-service',
@@ -213,6 +214,16 @@ ngOnDestroy(){
     // this.AllLeadsDetails=[]
     // this.dataSource.disconnect()
     this.getAllDataTable();
+  }
+
+  ExportTOExcel(){
+    const ws: XLSX.WorkSheet=XLSX.utils.json_to_sheet(this.queryListArray);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    
+    /* save to file */
+    XLSX.writeFile(wb, 'All service request.xlsx');
+    
   }
 
 }

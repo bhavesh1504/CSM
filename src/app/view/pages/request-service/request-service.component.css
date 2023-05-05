@@ -36,7 +36,14 @@ table {
   cursor: pointer;
 }
 
-.ngclass {
+/* .ngclass {
   position: relative;
   left:10rem;
+} */
+
+.change {
+  width: 12rem;
+  position: relative;
+  right: 5rem;
 }
+

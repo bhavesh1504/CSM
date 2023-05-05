@@ -11,6 +11,7 @@ import { RequestServiceService } from 'src/app/core/request-service/service/requ
 import { LoanDetailsElement } from 'src/app/core/request-service/model/service-request';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxHttpLoaderService } from 'ngx-http-loader';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-add-edit-request-service',
@@ -83,18 +84,26 @@ export class AddEditRequestServiceComponent implements OnInit {
   myFiles: any[] = [];
   displayFileCount: any = 'Select File';
   serviceRequestid: any;
+  serviceId: any;
 
   ELEMENT_DATAS!: LoanDetailsElement[];
 
   loanAccount: any;
   searchLoanTypeTextboxControl = new FormControl();
   filterLoanTypeName: any = this.loanTypeName;
+  descListArray: any;
+  showTopUp: boolean = false;
+  rbiQuery: boolean = false;
+  gridsize: any;
+  topUpStatus:string = 'open';
+  someDateVar: any;
+  loanMasterIdValue: any = [];
 
   dataSource = new MatTableDataSource<LoanDetailsElement>(this.ELEMENT_DATAS);
 
   constructor(private toastr: ToastrService, private fb: FormBuilder, private router: Router, private reasonMasterService: ReasonMasterService, private routes: ActivatedRoute, private service: RequestServiceService,private ngxhttploader: NgxHttpLoaderService,
     public dialogRef: MatDialogRef<AddEditRequestServiceComponent>,public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,public datepipe: DatePipe,
   ) {
     this.serviceRequestForm = this.fb.group({
       id: [''],
@@ -105,6 +114,7 @@ export class AddEditRequestServiceComponent implements OnInit {
       selectFileUpload: [''],
       file_upload: [''],
       textArea: ['', []],
+      topUpAmount: [''],
       CustomerName:['']
       // zip_codes: this.fb.array([])
     })
@@ -149,6 +159,9 @@ export class AddEditRequestServiceComponent implements OnInit {
     // this.getSingleData(this.data.id)
 
     this.spliteRoleName=sessionStorage.getItem('role');
+    let myDate = new Date(); 
+    this.someDateVar = this.datepipe.transform(myDate, 'yyyy-MM-dd');
+    console.log(this.someDateVar);
 
 
   }
@@ -238,24 +251,26 @@ export class AddEditRequestServiceComponent implements OnInit {
 
 
     console.log(this.queryList);
-    let descListArray = this.branchTypeName.find((res: { itemId: any; }) => res.itemId == enent)
+     this.descListArray = this.branchTypeName.find((res: { itemId: any; }) => res.itemId == enent)
     // descListArray.forEach((item: { isPaidPopup: any; }) => {
     //   console.log(item.isPaidPopup);
     // });
-    for (let i = 0; i < descListArray.requestTypes.length; i++) {
-      this.paidPopUp.push(descListArray.requestTypes[i].isPaidPopup)
+    for (let i = 0; i < this.descListArray.requestTypes.length; i++) {
+      this.paidPopUp.push(this.descListArray.requestTypes[i].isPaidPopup)
       
     }
 
     console.log(this.paidPopUp);
     
-    console.log('vai:',descListArray.requestTypes)
+    console.log('vai:',this.descListArray.requestTypes)
     // this.paidPopUp = descListArray.isPaidPopup;
     // console.log(this.paidPopUp);
-    if(descListArray.description == 'Others'){
+    if(this.descListArray.description == 'Others'){
       this.isDisabled = true;
       this.serviceRequestForm.controls['textArea'].setValidators(Validators.required);
       this.showCard = false;
+      this.showTopUp = false;
+      this.rbiQuery = true;
       if (this.queryList[0].requestTypeId) {
         this.checkBoxValue = true;
         this.hima = this.queryList[0].requestTypeId;
@@ -263,27 +278,46 @@ export class AddEditRequestServiceComponent implements OnInit {
       }
  
     }
-    else if(descListArray.description == 'Query'){
+    else if(this.descListArray.description == 'Query'){
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = true;
       this.checkBoxValue = false;
+      this.showTopUp = false;
+      this.rbiQuery = true;
     }
-    else if(descListArray.description == 'Complain'){
+    else if(this.descListArray.description == 'Complain'){
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = true;
       this.checkBoxValue = false;
+      this.showTopUp = false;
+      this.rbiQuery = true;
     }
-    else if(descListArray.description == 'Request'){
+    else if(this.descListArray.description == 'Request'){
       // if(this.desListArray)
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = true;
       this.checkBoxValue = false;
+      this.showTopUp = false;
+      this.rbiQuery = true;
+    }
+     else if (this.descListArray.description == 'Top-Up') {
+      this.isDisabled = false;
+      this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
+      this.serviceRequestForm.controls['textArea'].clearValidators();
+      this.showCard = false;
+      this.rbiQuery = false;
+      if (this.queryList[0].requestTypeId) {
+        this.checkBoxValue = true;
+        this.hima = this.queryList[0].requestTypeId;
+      }
+      this.showTopUp = true;
+
     }
     this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
 
@@ -291,13 +325,13 @@ export class AddEditRequestServiceComponent implements OnInit {
 
 
   changeSomething(event: any) {
-    let loanMasterIdValue
+    this.loanMasterIdValue
     console.log('new',event);
-    loanMasterIdValue=  this.loanAccount.filter((res: { loanMaster: { loanMasterId: any; }; }) => {
+    this.loanMasterIdValue =  this.loanAccount.filter((res: { loanMaster: { loanMasterId: any; }; }) => {
    return  res.loanMaster.loanMasterId == event
     }) ;
-    this.serviceRequestForm.get('CustomerName')?.patchValue(loanMasterIdValue[0].loanMaster.customerName)
-    console.log(loanMasterIdValue[0].loanMaster.customerName);
+    this.serviceRequestForm.get('CustomerName')?.patchValue(this.loanMasterIdValue[0].loanMaster.customerName)
+    console.log(this.loanMasterIdValue[0].loanMaster.customerName);
   }
 
 
@@ -422,21 +456,61 @@ export class AddEditRequestServiceComponent implements OnInit {
     }
     let filterBranchTypeNameValue = this.filterBranchTypeName.find((res: { itemId: any; }) => res.itemId == this.serviceRequestForm.get('requestType')?.value)
     console.log(filterBranchTypeNameValue.description);
-
+    if(this.descListArray.description == 'Query' || this.descListArray.description == 'Request' || this.descListArray.description == 'Complain' || this.descListArray.description == 'Top-Up'){
     this._addEditFormData = this.serviceRequestForm.value
     this._addEditFormData.requestTypeId = this.selectQueryArray
     this._addEditFormData.requestType = filterBranchTypeNameValue.description
-    this._addEditFormData.remark = this.serviceRequestForm.controls['textArea'].value
+    // this._addEditFormData.remark = this.serviceRequestForm.controls['textArea'].value
+    this._addEditFormData.topUpAmount =  this.gridsize
     console.log(this._addEditFormData);
-
-    this.service.createReasonMaster(this._addEditFormData).subscribe(res => {
+    
+    this.service.createReasonMaster(this._addEditFormData,this.loanMasterIdValue[0].loanMaster.loanAcctNo,this.loanMasterIdValue[0].loanMaster.customerName,this.loanMasterIdValue[0].loanMaster.pancard,this.gridsize,this.loanMasterIdValue[0].loanMaster.mobileNumber, this.topUpStatus,this.someDateVar).subscribe(res => {
       console.log(res);
 
       if (this.myFiles.length != 0) {
         this.service.fileUpload(res.data, this.myFiles).subscribe(res => {
         });
       }
-    })
+    });
+  
+  }
+
+  if(this.descListArray.description == 'Others'){
+    this._addEditFormData = this.serviceRequestForm.value;
+    this._addEditFormData.requestTypeId = this.selectQueryArray;
+    this._addEditFormData.requestType = filterBranchTypeNameValue.description;
+    this._addEditFormData.remark = this.serviceRequestForm.controls['textArea'].value;
+    this._addEditFormData.topUpAmount =  this.gridsize
+    console.log(this._addEditFormData);
+    
+      this.service.createReasonMaster(this._addEditFormData,this.loanMasterIdValue[0].loanMaster.loanAcctNo,this.loanMasterIdValue[0].loanMaster.customerName,this.loanMasterIdValue[0].loanMaster.pancard,this.gridsize,this.loanMasterIdValue[0].loanMaster.mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
+        this.serviceId = res;
+        console.log('yyy', this.serviceId); 
+        if (this.myFiles.length != 0) {
+          this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
+        }
+      });
+    
+    }
+  // if (this.descListArray.description == 'Top-Up'){
+  //   this.service.createReasonMaster(this._addEditFormData).subscribe((res) => {
+  //     this.serviceId = res;
+  //     console.log('yyy', this.serviceId);
+
+  //     if (this.myFiles.length != 0) {
+  //       this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
+  //     }
+  //   });
+  //   setTimeout(() => {
+      
+  //     this.service.createTopUps(this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe(res=>{
+  //       console.log('topup',res);
+  //       if(res.msgKey == 'Success'){
+  //       this.toastr.success(res.message)
+  //   }})
+  //   }, 500);
+
+  // }
 
     this.service.getAllServiceRequest().subscribe(res => {
       console.log(res.data);
@@ -562,6 +636,18 @@ export class AddEditRequestServiceComponent implements OnInit {
     }
 
     this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
+  }
+
+  updateSetting(event:any) {
+    this.gridsize = event.value;
+  }
+
+  formatLabel(value: number): string {
+    if (value >= 10000) {
+      return Math.round(value / 10000) + 'k';
+    }
+
+    return `${value}`;
   }
 
 

@@ -63,6 +63,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   loanDetailsForm!: FormGroup;
   transcatForm!: FormGroup;
   serviceRequestForm!: FormGroup;
+  followUpForm!: FormGroup;
   topUpForm!: FormGroup;
   queryForm!: FormGroup;
   requestForm!: FormGroup;
@@ -111,7 +112,11 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   gridsize: any;
   someDateVar: any;
   descListArray: any;
-  
+  rbiQuery: boolean = false;
+  followValue:any;
+  AllLeadsDetails:any=[]
+
+  clicked: boolean = false;
 
   razorPayOptions = {
     "key": "rzp_test_ai34JM7uh5soSu",
@@ -302,6 +307,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.loanData();
     this.serviceForm();
+    this.followupForm();
     this.getServiceRequestList();
     // this.myRequest();
     this.getLoanDetail();
@@ -321,6 +327,12 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  followupForm(){
+    this.followUpForm = this.fb.group({
+        text:['']
+    });
+  }
+
   serviceForm() {
     this.serviceRequestForm = this.fb.group({
       id: [''],
@@ -332,7 +344,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       selectFileUpload: [''],
       file_upload: [''],
       topUpAmount: [''],
-      textArea: ['', []],
+      textArea: [''],
     });
   }
 
@@ -407,6 +419,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     console.log('vai:', this.descListArray.description);
     if (this.descListArray.description == 'Others') {
       this.isDisabled = true;
+      this.rbiQuery = true;
       this.serviceRequestForm.controls['textArea'].setValidators(
         Validators.required
       );
@@ -423,11 +436,13 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     }
     if (this.descListArray.description == 'Query') {
       this.isDisabled = false;
+      this.serviceRequestForm.controls['textArea'].patchValue('');
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = true;
       this.checkBoxValue = false;
       this.showTopUp = false;
+      this.rbiQuery = true;
     } else if (this.descListArray.description == 'Complain') {
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
@@ -435,6 +450,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this.showCard = true;
       this.checkBoxValue = false;
       this.showTopUp = false;
+      this.rbiQuery = true;
     } else if (this.descListArray.description == 'Request') {
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
@@ -442,12 +458,14 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this.showCard = true;
       this.checkBoxValue = false;
       this.showTopUp = false;
+      this.rbiQuery = true;
     }
     else if (this.descListArray.description == 'Top-Up') {
       this.isDisabled = false;
       this.serviceRequestForm.controls['textArea'].updateValueAndValidity();
       this.serviceRequestForm.controls['textArea'].clearValidators();
       this.showCard = false;
+      this.rbiQuery = false;
       if (this.queryList[0].requestTypeId) {
         this.checkBoxValue = true;
         this.hima = this.queryList[0].requestTypeId;
@@ -503,6 +521,17 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   }
 
   getRequestDetails() {
+    this.followValue = this.followUpForm.controls['text'].value;
+    this.service.followTopUps(this.serviceRequest.serviceRequestId,this.followValue).pipe(map(res=>{
+      console.log('follow',res);
+      
+    })).subscribe();
+    this.toaster.success('Follow-Up Request Successfully')
+    
+    this.followUpForm.reset();                                        
+  }
+
+  closeRequestDetails() {
     this.showRequest = false;
     this.paginator?.firstPage();
     // console.log('vaibhav',this.serviceLoan);
@@ -596,15 +625,15 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
         res.itemId == this.serviceRequestForm.get('requestType')?.value
     );
     console.log(filterBranchTypeNameValue.description);
-
+    if(this.descListArray.description == 'Query' || this.descListArray.description == 'Request' || this.descListArray.description == 'Complain' || this.descListArray.description == 'Top-Up'){
     this._addEditFormData = this.serviceRequestForm.value;
     this._addEditFormData.requestTypeId = this.selectQueryArray;
     this._addEditFormData.requestType = filterBranchTypeNameValue.description;
-    this._addEditFormData.remark = this.serviceRequestForm.controls['textArea'].value;
+    // this._addEditFormData.remark = this.serviceRequestForm.controls['textArea'].value;
     this._addEditFormData.topUpAmount =  this.gridsize
     console.log(this._addEditFormData);
-    if(this.descListArray.description == 'Request' || this.descListArray.description == 'Others' || this.descListArray.description == 'Query' || this.descListArray.description == 'Complain'){
-      this.service.createReasonMaster(this._addEditFormData).subscribe((res) => {
+    
+      this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
         this.serviceId = res;
         console.log('yyy', this.serviceId);
         if (this.serviceId) {
@@ -619,34 +648,59 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
           this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
         }
       });
+    
     }
-
-    if (this.descListArray.description == 'Top-Up'){
-      this.service.createReasonMaster(this._addEditFormData).subscribe((res) => {
-        this.serviceId = res;
-        console.log('yyy', this.serviceId);
-        if (this.serviceId) {
-          const dialogRef = this.dialog.open(LoanDetailsDialogComponent, {
-            width: '550px',
-            autoFocus: false,
-            data: { result: this.serviceId.data, id: this.serviceId.days },
-          });
-        }
+    if(this.descListArray.description == 'Others'){
+      this._addEditFormData = this.serviceRequestForm.value;
+      this._addEditFormData.requestTypeId = this.selectQueryArray;
+      this._addEditFormData.requestType = filterBranchTypeNameValue.description;
+      this._addEditFormData.remark = this.serviceRequestForm.controls['textArea'].value;
+      this._addEditFormData.topUpAmount =  this.gridsize
+      console.log(this._addEditFormData);
+      
+        this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
+          this.serviceId = res;
+          console.log('yyy', this.serviceId);
+          if (this.serviceId) {
+            const dialogRef = this.dialog.open(LoanDetailsDialogComponent, {
+              width: '550px',
+              autoFocus: false,
+              data: { result: this.serviceId.data, id: this.serviceId.days },
+            });
+          }
+    
+          if (this.myFiles.length != 0) {
+            this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
+          }
+        });
+      
+      }
+    // if (this.descListArray.description == 'Top-Up'){
+    //   this.service.createReasonMaster(this._addEditFormData).subscribe((res) => {
+    //     this.serviceId = res;
+    //     console.log('yyy', this.serviceId);
+    //     if (this.serviceId) {
+    //       const dialogRef = this.dialog.open(LoanDetailsDialogComponent, {
+    //         width: '550px',
+    //         autoFocus: false,
+    //         data: { result: this.serviceId.data, id: this.serviceId.days },
+    //       });
+    //     }
   
-        if (this.myFiles.length != 0) {
-          this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
-        }
-      });
-      setTimeout(() => {
+    //     if (this.myFiles.length != 0) {
+    //       this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
+    //     }
+    //   });
+    //   setTimeout(() => {
         
-        this.service.createTopUps(this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe(res=>{
-          console.log('topup',res);
-          if(res.msgKey == 'Success'){
-          this.toaster.success(res.message)
-      }})
-      }, 500);
+    //     this.service.createTopUps(this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe(res=>{
+    //       console.log('topup',res);
+    //       if(res.msgKey == 'Success'){
+    //       this.toaster.success(res.message)
+    //   }})
+    //   }, 500);
 
-    }
+    // }
    
 
     this.service.getAllServiceRequest().subscribe((res) => {
@@ -668,11 +722,13 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         this.ngxhttploader.hide();
         this.serviceRequestForm.reset();
+        // this.clicked = false;
         // this.serviceRequestForm.controls['loanMasterId'].updateValueAndValidity();
         // this.serviceRequestForm.controls['requestType'].updateValueAndValidity();
         this.showCard = false;
         this.isDisabled = false;
-      }, 1000);
+        // location.reload();
+      }, 2000);
 
       // this.serviceRequestForm.controls['loanMasterId'].clearValidators();
       // this.serviceRequestForm.controls['requestType'].clearValidators();
@@ -863,6 +919,14 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     }
 
     return `${value}`;
+  }
+
+  reloadData()
+  {
+    this.AllLeadsDetails=[]
+    // this.serviceLoan
+    // this.dataSource.disconnect()
+    // this.getAllDataTable();
   }
 
 

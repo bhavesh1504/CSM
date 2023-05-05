@@ -14,6 +14,7 @@ import { LeadStatusService } from 'src/app/core/lead-status/service/leadStatus.s
 import { LeadService } from 'src/app/core/lead/service/lead.service';
 import { ManualAssignmentService } from 'src/app/core/manual-assignment/service/manual-assignment.service';
 import { RequestServiceService } from 'src/app/core/request-service/service/request-service.service';
+import { TopupsService } from 'src/app/core/top-ups/topups.service';
 import { TransactionService } from 'src/app/core/transactions/transaction.service';
 import { UserService } from 'src/app/core/user/service/user.service';
 import { WorkListService } from 'src/app/core/work-list/service/work-list.service';
@@ -69,6 +70,7 @@ export class DashboardComponent implements OnInit {
   data: any[] = []; // assuming your data is an array of objects
   dataCount: number = 0;
   dataCounts: number = 0;
+  dataCountss: number = 0;
 
   date = new Date();
   weekDate: any;
@@ -89,7 +91,7 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService, private userService: UserService, private enquiryService: EnquiryService, private enquiryStatusService: EnquiryStatusService,
     private leadService: LeadService, private workListService: WorkListService, private enquiryWorklistService: EnquiryWorklistService,
     private manualAssignmentService: ManualAssignmentService, private dashboardService: DashboardService,
-    private service:RequestServiceService, private services: TransactionService) { }
+    private service:RequestServiceService, private services: TransactionService, private servicess: TopupsService) { }
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
@@ -203,6 +205,7 @@ export class DashboardComponent implements OnInit {
     // }
     this.getData();
     this.getDatas();
+    this.getDatass();
   }
 
   // getSingleData(id:any){
@@ -680,6 +683,14 @@ export class DashboardComponent implements OnInit {
     // after getting the data, set the dataCount variable to the length of the data array
     this.services.getTransactions().subscribe(res => {
       this.dataCounts = res.data.length;
+    }
+  )}
+
+  getDatass() {
+    // call your get-all-service-request API to fetch the data
+    // after getting the data, set the dataCount variable to the length of the data array
+    this.servicess.getTopUps().subscribe(res => {
+      this.dataCountss = res.data.length;
     }
   )}
 }

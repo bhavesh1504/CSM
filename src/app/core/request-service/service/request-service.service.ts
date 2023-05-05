@@ -20,12 +20,23 @@ export class RequestServiceService {
   }
 
   
-  createReasonMaster(requestName:any): Observable<any> {
-   let config={
+  createReasonMaster(requestName:any,loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any): Observable<any> {
+    let config={
       "requestType":requestName.requestType,
       "rbiQueries":requestName.rbiQueries,
       "loanMasterId":requestName.loanMasterId,
-      "requestTypeId":requestName.requestTypeId
+      "remark":requestName.remark,
+      "requestTypeId":requestName.requestTypeId,
+      "topUpAmount":requestName.topUpAmount,
+      "topUp": {
+      "loanAccNo": loanAccNo,
+      "appliedBy":appliedBy,
+      "pancard":pancard,
+      "extraLoanAmount": extraLoanAmount,
+      "mobileNo": mobileNo,
+      "status": status,
+      "topUpDate": date
+      }
   }
   
     return this.http.post<any>(environment.baseUrl+`api/v1/csm/add-service-request`, config);
@@ -48,6 +59,20 @@ fileUpload(id: any, fileUpload: any): Observable<any> {
   
   return this.http.post<any>(environment.baseUrl+`api/v1/csm/upload-service-req-docu/` + id, formData,{observe: 'response',responseType: 'json'});
 }
+
+// createTopUps(loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any) {
+//   let config={
+//     "loanAccNo": loanAccNo,
+//     "appliedBy":appliedBy,
+//     "pancard":pancard,
+//     "extraLoanAmount": extraLoanAmount,
+//     "mobileNo": mobileNo,
+//     "status": status,
+//     "topUpDate": date
+// }
+
+//   return this.http.post<any>(environment.baseUrl+`api/v1/csm/addTopUp`, config);
+// }
 
 
 }

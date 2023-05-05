@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title class="mat-card-title-style">Service Request
-    <i class="ri-close-line cursor_pointer closeModelDialog cross" (click)="cancelAddEditForm()"></i>
+    <i class="ri-close-line closeModelDialog cross" style="cursor: pointer;" (click)="cancelAddEditForm()"></i>
   </mat-card-title>
   <mat-card-actions class="p-2">
     <div class="row" style="font-size: 14px;">   
@@ -35,6 +35,12 @@
                             <input type="text" readonly class="form-control-plaintext" *ngFor="let items of serviceRequest?.requests" value={{items.reqName}}>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Remarks:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" [value]="data.remark">
+                        </div>
+                    </div>
                                                          
                 </div>
                     
@@ -61,6 +67,12 @@
                         <label class="col-form-label col-md-4">Loan Status:</label>
                         <div class="col-md-6">
                             <input type="text" readonly class="form-control-plaintext" [value]="data.requestStatus">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4">Follow-Up:</label>
+                        <div class="col-md-6">
+                            <input type="text" readonly class="form-control-plaintext" [value]="data.followUp">
                         </div>
                     </div>
                     <div class="form-group row">

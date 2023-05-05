@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-title class="mat-card-title-style">Service Request
-      <i class="ri-close-line cursor_pointer closeModelDialog cross" (click)="cancelAddEditForm()"></i>
+      <i class="ri-close-line closeModelDialog cross" style="cursor: pointer;" (click)="cancelAddEditForm()"></i>
     </mat-card-title>
     <mat-card-actions class="p-2">
       <div class="row" style="font-size: 14px;">   
@@ -92,6 +92,18 @@
                               <input type="text" class="form-control-plaintext" value="21-04-2001">
                           </div>
                       </div>
+                      <div class="form-group row">
+                        <label class="col-form-label col-md-4">Follow-Up:</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control-plaintext" [value]="data.followUp">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-4">Others:</label>
+                      <div class="col-md-6">
+                          <input type="text" class="form-control-plaintext" [value]="data.remark">
+                      </div>
+                  </div>
                   </div> 
                   <div class="btn_group boredrTopCore mt-3" style="position: relative; left: 40rem;">
                     <button mat-raised-button  class="mt-3" (click)="cancelRequestDetails()">Close</button>

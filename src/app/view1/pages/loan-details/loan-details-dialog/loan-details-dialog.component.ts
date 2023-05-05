@@ -10,13 +10,10 @@ import { LoanDetailService } from 'src/app/core1/loan-details/service/loan-detai
 })
 export class LoanDetailsDialogComponent implements OnInit{
   serviceReqId: any;
-  constructor(public dialogRef: MatDialogRef<LoanDetailsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private service: LoanDetailService) { }
+  constructor(public dialogRef: MatDialogRef<LoanDetailsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.serviceReqId=this.data
-    console.log(this.serviceReqId);
-    return
-    this.serviceReqId = '';
     console.log(this.serviceReqId);
   }
 

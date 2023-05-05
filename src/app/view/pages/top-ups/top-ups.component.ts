@@ -11,6 +11,7 @@ import { NgxHttpLoaderService } from 'ngx-http-loader';
 import { ToastrService } from 'ngx-toastr';
 import { TopupsService } from 'src/app/core/top-ups/topups.service';
 import { map } from 'rxjs';
+import { TopupDialogComponent } from './topup-dialog/topup-dialog.component';
 
 @Component({
   selector: 'app-top-ups',
@@ -252,6 +253,16 @@ ngOnDestroy(){
       )).subscribe();
     }, 500);
     
+  }
+
+  ViewAction(data:any){
+    console.log("data",data)
+    const dialogRef = this.dialog.open(TopupDialogComponent, {
+      data:data,
+      width: '850px',
+      autoFocus: false,
+      maxHeight: '90vh'
+    });
   }
 
 }

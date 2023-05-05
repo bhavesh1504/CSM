@@ -20,14 +20,23 @@ export class LoanDetailService {
   }
 
   
-  createReasonMaster(requestName:any): Observable<any> {
+  createReasonMaster(requestName:any,loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any): Observable<any> {
    let config={
       "requestType":requestName.requestType,
       "rbiQueries":requestName.rbiQueries,
       "loanMasterId":requestName.loanMasterId,
-      "requestTypeId":requestName.requestTypeId,
       "remark":requestName.remark,
+      "requestTypeId":requestName.requestTypeId,
       "topUpAmount":requestName.topUpAmount,
+      "topUp": {
+      "loanAccNo": loanAccNo,
+      "appliedBy":appliedBy,
+      "pancard":pancard,
+      "extraLoanAmount": extraLoanAmount,
+      "mobileNo": mobileNo,
+      "status": status,
+      "topUpDate": date
+      }
   }
   
     return this.http.post<any>(environment.baseUrl+`api/v1/csm/add-service-request`, config);
@@ -71,18 +80,27 @@ createPayment(razorPay: any,loanAcctNo: any,customerName: any,dueInstallment: an
   return this.http.post<any>(environment.baseUrl+`api/v1/csm/addPaymentDetails`, config);
 }
 
-createTopUps(loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any) {
-  let config={
-    "loanAccNo": loanAccNo,
-    "appliedBy":appliedBy,
-    "pancard":pancard,
-    "extraLoanAmount": extraLoanAmount,
-    "mobileNo": mobileNo,
-    "status": status,
-    "topUpDate": date
-}
+// createTopUps(loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any) {
+//   let config={
+//     "loanAccNo": loanAccNo,
+//     "appliedBy":appliedBy,
+//     "pancard":pancard,
+//     "extraLoanAmount": extraLoanAmount,
+//     "mobileNo": mobileNo,
+//     "status": status,
+//     "topUpDate": date
+// }
 
-  return this.http.post<any>(environment.baseUrl+`api/v1/csm/addTopUp`, config);
+//   return this.http.post<any>(environment.baseUrl+`api/v1/csm/addTopUp`, config);
+// }
+
+
+
+followTopUps(serviceRequestId: any,followUp:any) {
+  let config={
+    "followUp": followUp
+  }
+  return this.http.put<any>(environment.baseUrl+`api/v1/csm/updateFollowUp/` + serviceRequestId, config);
 }
 
 }

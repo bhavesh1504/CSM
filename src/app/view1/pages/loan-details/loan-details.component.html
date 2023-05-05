@@ -286,7 +286,7 @@
                                 <div *ngIf="showTopUp" class="form-group row" style="position: relative; right: 2rem;">
                                     <label class="col-form-label col-md-4 enquirylabel">Loan Amount</label>
                                     <div class="col-md-4" style="position: relative; right: 9.5rem;">
-                                        <mat-slider #gridsize (change)="updateSetting($event)"  min="10000" max="1000000" step="10000"  (value)="gridsize" showTickMarks discrete [displayWith]="formatLabel">
+                                        <mat-slider #gridsize (change)="updateSetting($event)" min="10000" max="1000000" step="10000" value="gridsize" [displayWith]="formatLabel"  tickInterval="10000" thumbLabel>
                                             <input matSliderThumb>
                                         </mat-slider>
                                         <mat-form-field style="position: absolute; top: 1.7rem;" class="example-full-width" >
@@ -304,7 +304,7 @@
                                        
                                 </div>
                         
-                                <div class="form-group row" style="position: relative; top: 1rem;">      
+                                <div *ngIf="rbiQuery" class="form-group row" style="position: relative; top: 1rem;">      
                                         <mat-checkbox formControlName="rbiQueries" class="example-margin" style="top:0;"></mat-checkbox>
                                         <mat-label class="col-form-label col-md-4" style="position: relative; bottom: 1.5rem; left: 2rem;">RBI Queries</mat-label>
                                 </div>
@@ -328,15 +328,28 @@
                                                             </mat-form-field>
                                                         </div>
                                                       </div>
-                                                      <div class="form-group row">
+                                                      <!-- <div class="form-group row">
                                                         <label class="col-form-label col-md-4 enquirylabel">Loan Amount</label>
                                                         <div class="col-md-8" style="position: relative; right: 5.5rem;">
-                                                            <mat-slider min="10000" max="1000000" step="10000" showTickMarks discrete>
+                                                            <mat-slider class="cdk-focused" min="10000" max="1000000" step="10000" tickInterval="1000" [displayWith]="formatLabel">
                                                                 <input matSliderThumb>
                                                             </mat-slider>
             
                                                         </div>
-                                                      </div>
+                                                      </div> -->
+                                                      <!-- <div class="example-label-container">
+                                                        <label id="example-name-label" class="example-name-label">Value</label>
+                                                        <label class="example-value-label">{{value}}</label>
+                                                      </div> -->
+                                                      <!-- <mat-slider
+                                                          class="example-margin"
+                                                          [disabled]="disabled"
+                                                          [max]="max"
+                                                          [min]="min"
+                                                          [step]="step"
+                                                          thumbLabel tickInterval="1">
+                                                        <input matSliderThumb [(ngModel)]="value">
+                                                      </mat-slider> -->
                                                       <div class="form-group row">
                                                          <label class="col-form-label col-md-4 enquirylabel">Message</label>
                                                         <div class="col-md-8">
@@ -454,18 +467,19 @@
                                 <mat-form-field style="position: relative; left: 9rem; bottom: 1rem;">
                                     <mat-label>Select Loan Account No.</mat-label>
                                     <mat-select  disableRipple>
-                                        <mat-option *ngFor="let loan of loanAccount" [value]="loan.loanAcctNo" (click)="loanAcc(loan.loanAcctNo)">{{loan.loanAcctNo}}</mat-option>
+                                        <mat-option *ngFor="let loan of loanAccount" [value]="loan.loanAcctNo" (onSelectionChange)="loanAcc(loan.loanAcctNo)">{{loan.loanAcctNo}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
                         </div> 
                         <div *ngIf="!showRequest" class="row">
-                            <div class="col-4" style="position: relative;left:35rem;">
+                            <div class="col-4" style="position: relative;left:32rem;">
                               <mat-form-field appearance="standard" class="filterStyle pt-0" style="width:15rem;">
                                 <mat-label>Search</mat-label>
                                 <input matInput #dataSourceFilter class="padding3px0px" (keyup)="applyFilter(dataSourceFilter.value)" placeholder="Search" #input>
                               </mat-form-field>
                             </div>
+                            <div class="col-2" style="position: relative;left:31rem;"><i class="bi bi-arrow-repeat reloadStyle" matTooltip="Refresh" (click)="reloadData()"></i></div>
                           </div>                    
                      
                         <div class="row" *ngIf="!showRequest">
@@ -524,6 +538,7 @@
                             </div>
 
                             <div class="row"  *ngIf="showRequest">
+                                <form [formGroup]="followUpForm">  
                                 <div class="col-11" style="left: 3rem; top: 2rem; position: relative;">
                                     <div class="card material-tabs topup-loan" style="border-radius: 1rem;">
                                       <div class="card-body" style="padding: 3.25rem;">
@@ -623,22 +638,23 @@
                                                     </div>
                                                 </div>                                                                                
                                             </div>
-                                            <!-- <div class="form-group row">                                            
-                                                <mat-label style="position: relative; left: 2rem;">Remarks:</mat-label>
+                                            <div class="form-group row">                                            
+                                                <mat-label>Follow Up:</mat-label>
                                                 <mat-form-field class="example-full-width are">
-                                                    <textarea matInput placeholder="Message (Max. 1000 characters)" maxlength="1000"></textarea>
+                                                    <textarea formControlName="text" matInput placeholder="Message (Max. 1000 characters)" maxlength="1000"></textarea>
                                                 </mat-form-field>
-                                            </div> -->
+                                            </div>
                                         </div>
                                            </div>
                                         </div>
                                       </div>
                                     </div>
-                                </div>                               
+                                </div>
+                                </form>                               
                               </div>
                               <div class="col-6 buton" *ngIf="showRequest">
                                 <button mat-button color="primary" (click)="getRequestDetails()">Save</button>
-                                <button mat-button (click)="getRequestDetails()">Close</button>
+                                <button mat-button (click)="closeRequestDetails()">Close</button>
                             </div>
                     </div>
                 </div> 
