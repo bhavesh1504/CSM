@@ -141,7 +141,7 @@ export class AddEditLeadStatusComponent implements OnInit {
       this.leadStatusService.updateLeadStatusById(this.data.id,this._addEditFormData).subscribe(res => {
       if(res){
 
-        const msg = "Lead Status Updated Sucessfully";
+        const msg = "Request Status Updated Sucessfully";
           this.toastr.success(msg,'', { timeOut: 2000 });
           // this.router.navigateByUrl('home/lead-status', { skipLocationChange: true });
               this.dialogRef.close();

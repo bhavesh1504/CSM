@@ -1,6 +1,6 @@
 <main id="main" class="main">
     <div class="row">
-      <div [ngClass]="!creditRole ? 'col-8'  : 'col-6'">
+      <div [ngClass]="!creditRole ? 'col-8'  : 'col-4'">
         <div class="pagetitle">
           <h1>Loan Master</h1>
           <nav>
@@ -25,6 +25,11 @@
       <div class="col-2 sample">
         <button mat-raised-button color="primary" (click)="sample()">Sample Download</button>
         <button type="button" mat-raised-button color="primary" class="upload" (click)="addData()">Bulk Upload</button>
+        <!-- <button mat-raised-button color="primary" class="w-100" (click)="editViewAction(1,'view')">View</button> -->
+      </div>
+      <div class="col-2" style="padding: 0 16px;">
+        <button mat-raised-button color="primary" class="w-100" (click)="ExportTOExcel()">Export As Excel</button>
+        <!-- <button mat-raised-button color="primary" *ngIf="CSM" class="w-100" (click)="addData()">Update</button> -->
         <!-- <button mat-raised-button color="primary" class="w-100" (click)="editViewAction(1,'view')">View</button> -->
       </div>
       <!-- <div class="col-2">

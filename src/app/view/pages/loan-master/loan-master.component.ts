@@ -11,6 +11,7 @@ import { NgxHttpLoaderService } from 'ngx-http-loader';
 import { ToastrService } from 'ngx-toastr';
 import { LoanMasterService } from 'src/app/core/loan-master/service/loan-master.service';
 import { map } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-loan-master',
@@ -258,6 +259,15 @@ ngOnDestroy(){
       )).subscribe();
     }, 500);
     
+  }
+
+  ExportTOExcel() {
+    const ws: XLSX.WorkSheet=XLSX.utils.json_to_sheet(this.dataSource.data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    
+    /* save to file */
+    XLSX.writeFile(wb, 'Loan Master.xlsx');
   }
 
 }

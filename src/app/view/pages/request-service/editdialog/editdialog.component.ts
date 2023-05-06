@@ -1,6 +1,10 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { map } from 'rxjs';
+import { LeadStatusService } from 'src/app/core/lead-status/service/leadStatus.service';
+import { LoanDetailService } from 'src/app/core1/loan-details/service/loan-detail.service';
 
 @Component({
   selector: 'app-editdialog',
@@ -20,15 +24,26 @@ export class EditdialogComponent implements OnInit {
   serviceRequest:  any;
   ifVerifyHideImgDesable: boolean = true;
   displayFileCount: any = 'Select File';
+  followUpForm!: FormGroup;
+  followValue:any;
+  serviceRequests:any;
   @ViewChild('imgFileInput', { static: false })
 
   imgFileInput!: ElementRef;
+  requestStatuss: any;
   constructor(public dialogRef: MatDialogRef<EditdialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,private toaster: ToastrService) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,private toaster: ToastrService, private service: LeadStatusService,  private services: LoanDetailService,
+    private fb: FormBuilder,) {
+      this.followUpForm = this.fb.group({
+        text:['']
+    });
+     }
 
   ngOnInit(): void {
-    this.serviceRequest = this.data
-    console.log('inside data',this.serviceRequest)
+    this.serviceRequests = this.data
+    this.serviceRequest = this.data.requestStatus
+    console.log('inside data',this.serviceRequests)
+    this.getStatus();
   }
 
   cancelAddEditForm() {
@@ -95,10 +110,29 @@ export class EditdialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  getRequestDetails(){
-    let msg = 'Service Request Updated Successfully'
-    this.toaster.success(msg);
-    this.dialogRef.close();
+
+  getStatus(){
+    this.service.getLeadStatusList().subscribe((res => {
+      this.requestStatuss = res.data
+      console.log('Status',this.requestStatuss);
+      
+    }))
   }
+
+
+  getRequestDetails() {
+    let msg = 'Service Request Updated Successfully'
+    this.followValue = this.followUpForm.controls['text'].value;
+    this.services.followTopUps(this.serviceRequests.serviceRequestId,this.followValue).pipe(map(res=>{
+      console.log('follow',res);
+      
+    })).subscribe();
+    this.toaster.success('Follow-Up Request Successfully')
+    this.dialogRef.close();                                       
+    this.toaster.success(msg);
+    this.followUpForm.controls['text'].reset();
+  }
+
+
 
 }
