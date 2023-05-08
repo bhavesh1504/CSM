@@ -636,7 +636,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     //  this.payAmounts = this.queryList.find((data: any) => data.requestTypeId == this._addEditFormData.requestTypeId)?.payAmount
     //  console.log(this.payAmounts);
      
-      this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar,this.payAmounts).subscribe((res) => {
+      this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
         this.serviceId = res;
         console.log('yyy', this.serviceId);
         if (this.serviceId) {
@@ -661,7 +661,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this._addEditFormData.topUpAmount =  this.gridsize
       console.log(this._addEditFormData);
       
-        this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar,this.payAmounts).subscribe((res) => {
+        this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
           this.serviceId = res;
           console.log('yyy', this.serviceId);
           if (this.serviceId) {

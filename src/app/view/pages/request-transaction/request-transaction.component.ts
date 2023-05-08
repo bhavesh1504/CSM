@@ -9,6 +9,10 @@ import { LeadElement } from '../../../core/lead/models/lead.model'
 import { MatDialog } from '@angular/material/dialog';
 import { NgxHttpLoaderService } from 'ngx-http-loader';
 import { ToastrService } from 'ngx-toastr';
+import { RequestTransactionsService } from 'src/app/core/request-transactions/request-transactions.service';
+import { map } from 'rxjs';
+import * as XLSX from 'xlsx';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-request-transaction',
@@ -22,7 +26,7 @@ export class RequestTransactionComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ELEMENT_DATA!: LeadElement[];
-  displayedColumns: string[] = ['reqtransactionid','loanNo', 'name', 'amount','date','paymentstatus','indusstatus','action'];
+  displayedColumns: string[] = ['reqtransactionid', 'loanNo', 'name', 'amount', 'reqname', 'date', 'paymentstatus'];
   dataSource = new MatTableDataSource<LeadElement>(this.ELEMENT_DATA);
 
   callCenterRole:boolean=true;
@@ -40,9 +44,11 @@ export class RequestTransactionComponent implements OnInit, AfterViewInit {
   userDetails:any;
   userDetailAtoBValue:any='';
   roleArray:any=[];
-  AllLeadsDetails:any=[]
+  AllLeadsDetails:any=[];
+  requestTransactions: any;
+  excelData: any;
 
-  constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private ngxhttploader: NgxHttpLoaderService, private toastr: ToastrService) {
+  constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private ngxhttploader: NgxHttpLoaderService, private toastr: ToastrService, private service: RequestTransactionsService) {
     this.userDetails=sessionStorage.getItem('UserDetails')
     this.userDetailAtoBValue=JSON.parse(atob(this.userDetails));
     for(let i=0;i<this.userDetailAtoBValue.role.length;i++)
@@ -93,6 +99,7 @@ export class RequestTransactionComponent implements OnInit, AfterViewInit {
     }
 
   //  this.getAllDataTable();
+  this.getRequest();
   }
   editViewAction(id: any, type: any) {
     // let navigationExtras = {
@@ -236,7 +243,40 @@ ngOnDestroy(){
     // this.getAllDataTable();
   }
 
-}
+  getRequest() {
+      setTimeout(() => {
+        this.service.getRequestTransactions().pipe(map(res=>{
+          if(res.msgKey == 'Success'){
+          this.excelData = res.data;
+          this.dataSource.data = res.data
+          this.toastr.success(res.message);
+          console.log('requestTransactions',this.dataSource.data);
+          }else{
+            this.toastr.error(res.message)
+          }  
+        }
+        )).subscribe();
+      }, 500);
+    }
+
+    ExportTOExcel() {
+      const data = this.excelData.map((row:any) => {
+        const formattedDate = format(new Date(row.date), 'yyyy-MM-dd');
+        return {
+          ...row,
+          date: formattedDate.toString()
+        };
+      });
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    
+      /* save to file */
+      XLSX.writeFile(wb, 'Request Transcations.xlsx');
+    }
+  }
+
+
 
 
 

@@ -126,7 +126,7 @@
                 <h5 class="card-title">Service Request</h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center
-                    justify-content-center"> <i class="bi bi-chat-text"></i></div>
+                    justify-content-center"> <i class="bi bi-card-checklist"></i></div>
                   <div class="ps-3">
                     <h6>{{dataCount}}</h6>
                     <!-- <span class="text-success small pt-1 fw-bold">56%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
@@ -143,17 +143,42 @@
                        <li class="dropdown-header text-start">
                           <h6>Filter</h6>
                        </li>
-                       <li><a class="dropdown-item" (click)="getEnquiryTodayDataTable()">Success</a></li>
-                       <li><a class="dropdown-item" (click)="getEnquiryWeeklyDataTable()">Failed</a></li>
+                       <li><a class="dropdown-item" (click)="getSuccessDataTable()">Success</a></li>
+                       <li><a class="dropdown-item" (click)="getFailedDataTable()">Failed</a></li>
                     </ul>
                  </div>
               <div class="card-body">
                 <h5 class="card-title">Transactions</h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center
-                    justify-content-center"> <i class="bi bi-chat-text"></i></div>
+                    justify-content-center"> <i class="bi bi-cash"></i></div>
                   <div class="ps-3">
                     <h6>{{dataCounts}}</h6>
+                    <!-- <span class="text-success small pt-1 fw-bold">56%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-4 col-md-4" *ngIf="CSM">
+            <div class="card info-card sales-card">
+              <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                       <li class="dropdown-header text-start">
+                          <h6>Filter</h6>
+                       </li>
+                       <li><a class="dropdown-item" (click)="getSuccessReqDataTable()">Success</a></li>
+                       <li><a class="dropdown-item" (click)="getFailedReqDataTable()">Failed</a></li>
+                    </ul>
+                 </div>
+              <div class="card-body">
+                <h5 class="card-title">Request Transactions</h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center
+                    justify-content-center"> <i class="bi bi-receipt"></i></div>
+                  <div class="ps-3">
+                    <h6>{{dataCountsss}}</h6>
                     <!-- <span class="text-success small pt-1 fw-bold">56%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
                   </div>
                 </div>
@@ -166,7 +191,7 @@
                 <h5 class="card-title">Top-Ups</h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center
-                    justify-content-center"> <i class="bi bi-chat-text"></i></div>
+                    justify-content-center"> <i class="bi bi-arrow-up-circle"></i></div>
                   <div class="ps-3">
                     <h6>{{dataCountss}}</h6>
                     <!-- <span class="text-success small pt-1 fw-bold">56%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->

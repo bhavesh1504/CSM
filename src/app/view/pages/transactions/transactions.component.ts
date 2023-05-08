@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TransactionService } from 'src/app/core/transactions/transaction.service';
 import { map } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-transactions',
@@ -45,6 +46,7 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   userDetailAtoBValue:any='';
   roleArray:any=[];
   AllLeadsDetails:any=[]
+  excelData: any
 
   constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private ngxhttploader: NgxHttpLoaderService, private toastr: ToastrService, private service: TransactionService) {
     this.userDetails=sessionStorage.getItem('UserDetails')
@@ -246,6 +248,7 @@ ngOnDestroy(){
     setTimeout(() => {
       this.service.getTransactions().pipe(map(res=>{
         if(res.msgKey == 'Success'){
+        this.excelData = res.data;
         this.dataSource.data = res.data
         this.toastr.success(res.message);
         console.log('transactions',this.dataSource.data);
@@ -258,15 +261,22 @@ ngOnDestroy(){
     
   }
 
-  ExportTOExcel(){
-    const ws: XLSX.WorkSheet=XLSX.utils.json_to_sheet(this.dataSource.data);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    
-    /* save to file */
-    XLSX.writeFile(wb, 'Transcations.xlsx');
-    
-  }
+
+ExportTOExcel() {
+  const data = this.excelData.map((row:any) => {
+    const formattedDate = format(new Date(row.paymentDate), 'yyyy-MM-dd');
+    return {
+      ...row,
+      paymentDate: formattedDate.toString()
+    };
+  });
+  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  /* save to file */
+  XLSX.writeFile(wb, 'Transcations.xlsx');
+}
 
 }
 

@@ -27,6 +27,8 @@ export class EditdialogComponent implements OnInit {
   followUpForm!: FormGroup;
   followValue:any;
   serviceRequests:any;
+  filesArray: any = [];
+  ids:any
   @ViewChild('imgFileInput', { static: false })
 
   imgFileInput!: ElementRef;
@@ -40,10 +42,12 @@ export class EditdialogComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    this.serviceRequests = this.data
-    this.serviceRequest = this.data.requestStatus
+    console.log(this.data);
+    this.serviceRequests = this.data.data
+    this.serviceRequest = this.data.data.requestStatus
     console.log('inside data',this.serviceRequests)
     this.getStatus();
+    this.viewDownload();
   }
 
   cancelAddEditForm() {
@@ -132,6 +136,14 @@ export class EditdialogComponent implements OnInit {
     this.toaster.success(msg);
     this.followUpForm.controls['text'].reset();
   }
+
+  viewDownload() {
+    this.services.viewUploadFile(this.data.result).subscribe((res) => {
+      this.filesArray = res.data;
+      console.log(this.filesArray);
+    });
+  }
+
 
 
 

@@ -87,7 +87,7 @@
           <td mat-cell *matCellDef="let row">
            <span class="text-primary" (click)="ViewAction(row)" style="cursor: pointer;" ><i class="ri-eye-fill" matTooltip="View"></i></span>
            <span class="px-2">|</span>
-           <span class="text-danger" (click)="editAction(row)" style="cursor: pointer;"><i class="bx bxs-edit" matTooltip="Edit"></i></span>
+           <span class="text-danger" (click)="editAction(row,row.serviceRequestId)" style="cursor: pointer;"><i class="bx bxs-edit" matTooltip="Edit"></i></span>
            <!-- <span class="text-primary" (click)="editViewAction(row.serviceRequestId,'view')" ><i class="ri-eye-fill" matTooltip="View"></i></span>
            <span class="px-2">|</span>
            <span class="text-danger" (click)="editViewAction(row.serviceRequestId,'Edit')" ><i class="bx bxs-edit" matTooltip="Edit"></i></span> -->

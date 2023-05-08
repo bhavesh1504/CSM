@@ -13,13 +13,13 @@
                     <div class="form-group row">
                       <label class="col-form-label col-md-4">Service Req Id:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control-plaintext" [value]="data.serviceRequestId" />
+                        <input type="text" class="form-control-plaintext" [value]="data.data.serviceRequestId" />
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-form-label col-md-4">Customer Name:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control-plaintext" [value]="data.loanMaster?.customerName" />
+                        <input type="text" class="form-control-plaintext" [value]="data.data.loanMaster?.customerName" />
                       </div>
                     </div>
                     <div class="form-group row">
@@ -53,33 +53,49 @@
                       </div>
                     </div>
 
-                    <div class="form-group row" [formGroup]="followUpForm">
-                      <mat-label>Follow Up:</mat-label>
-                      <mat-form-field class="example-full-width areas">
-                        <textarea formControlName="text" matInput placeholder="Message (Max. 1000 characters)"
-                          maxlength="1000"></textarea>
-                      </mat-form-field>
-                    </div>
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-4">Document:</label>
+                      <div class="col-md-6" style="position: relative;top: 0.5rem;left: 1.2rem;">
+                  
+                                  <div class="row">
+                                    <div class="col-6" *ngFor="let item of filesArray">
+                                      <!-- <img  [src]=" item?.fileType != 'application/pdf'? item?.downloadURL : '../../../../../assets/images/fileUpload.png'" style="height: 150px;width:100%;border: 1px solid;"> -->
+                                        <p style="font-size: 12px;">{{ (item?.fileName.length>20)? (item?.fileName | slice:0:20)+'...':(item?.fileName)}}
+                                        <!-- <p>{{item?.fileName)}} -->
+                                          
+
+                                        <a [href]="item?.downloadURL" class="ml-2 btn text-white btn-success" style="padding: 2px 7px;"><i class="bi bi-cloud-download" style="margin: 0px; font-size: 14px;"></i></a>
+                                      </p>
+                                    </div>
+                                    <div class="text-center" *ngIf="filesArray.length == 0">
+                                      No Data Found...
+                                    </div>
+                                  </div>
+                          <!-- <input type="text" readonly class="form-control-plaintext"> -->
+                      </div>
+                  </div> 
+
+                   
                   </div>
 
                   <div class="col-6">
                     <div class="form-group row">
                       <label class="col-form-label col-md-4">Loan No:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control-plaintext" [value]="data.loanMaster?.loanAcctNo" />
+                        <input type="text" class="form-control-plaintext" [value]="data.data.loanMaster?.loanAcctNo" />
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-form-label col-md-4">Pancard:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control-plaintext" [value]="data.loanMaster?.pancard" />
+                        <input type="text" class="form-control-plaintext" [value]="data.data.loanMaster?.pancard" />
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-form-label col-md-4">Email:</label>
                       <div class="col-md-6">
                         <input style="width: 20rem" type="text" class="form-control-plaintext"
-                          [value]="data.loanMaster?.email" />
+                          [value]="data.data.loanMaster?.email" />
                       </div>
                     </div>
                     <div class="form-group row">
@@ -97,23 +113,30 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-form-label col-md-4">Close Date:</label>
+                      <label class="col-form-label col-md-4">Request Date:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control-plaintext" value="21-04-2001" />
+                        <input type="text" class="form-control-plaintext" value="{{data.data.requestDate | date:'yyyy-MM-dd'}}" />
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-form-label col-md-4">Follow-Up:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control-plaintext" [value]="data.followUp" />
+                        <input type="text" class="form-control-plaintext" [value]="data.data.followUp" />
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-form-label col-md-4">Remarks:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control-plaintext" [value]="data.remark" />
+                        <input type="text" class="form-control-plaintext" [value]="data.data.remark" />
                       </div>
                     </div>
+                  </div>
+                  <div class="form-group row" [formGroup]="followUpForm">
+                    <mat-label>Follow Up:</mat-label>
+                    <mat-form-field class="areas">
+                      <textarea formControlName="text" matInput placeholder="Message (Max. 1000 characters)"
+                        maxlength="1000"></textarea>
+                    </mat-form-field>
                   </div>
                   <div class="btn_group boredrTopCore mt-3" style="position: relative; left: 40rem">
                     <button mat-raised-button class="mt-3" (click)="cancelRequestDetails()">

@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
     "angular-dual-listbox": "^7.0.0",
+    "date-fns": "^2.30.0",
     "jquery": "^3.6.1",
     "mat-timepicker": "^5.1.5",
     "moment": "^2.29.4",

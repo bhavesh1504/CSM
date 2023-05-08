@@ -13,6 +13,8 @@ import { RequestServiceService } from 'src/app/core/request-service/service/requ
 import { ViewdialogComponent } from './viewdialog/viewdialog.component';
 import { EditdialogComponent } from './editdialog/editdialog.component';
 import * as XLSX from 'xlsx';
+import { format } from 'date-fns';
+import { LoanDetailService } from 'src/app/core1/loan-details/service/loan-detail.service';
 
 @Component({
   selector: 'app-request-service',
@@ -49,9 +51,10 @@ export class RequestServiceComponent implements OnInit, AfterViewInit {
   // AllLeadsDetails:any=[]
 
   requestList: any = []
-  queryListArray: any = []
+  queryListArray: any = [];
+  excelData: any;
 
-  constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private service:RequestServiceService) {
+  constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private service:RequestServiceService, private services: LoanDetailService) {
     this.userDetails=sessionStorage.getItem('UserDetails')
     this.userDetailAtoBValue=JSON.parse(atob(this.userDetails));
     for(let i=0;i<this.userDetailAtoBValue.role.length;i++)
@@ -142,10 +145,12 @@ export class RequestServiceComponent implements OnInit, AfterViewInit {
       maxHeight: '90vh'
     });
   }
-  editAction(data:any){
-    console.log("data:any",data)
+  editAction(data:any,id:any){
+    console.log("data",data,"id",id)
     const dialogRef = this.dialog.open(EditdialogComponent, {
-      data:data,
+      // data:data,
+      // id:id,
+      data: { result: id, data },
       width: '900px',
       autoFocus: false,
       maxHeight: '90vh'
@@ -155,6 +160,7 @@ export class RequestServiceComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.service.getAllServiceRequest().subscribe(res => {
         // console.log(res.data);
+        this.excelData = res.data;
         this.dataSource.data = res.data as LoanDetailsElement[]
         console.log(this.dataSource.data[0]);
         
@@ -216,15 +222,58 @@ ngOnDestroy(){
     this.getAllDataTable();
   }
 
-  ExportTOExcel(){
-    const ws: XLSX.WorkSheet=XLSX.utils.json_to_sheet(this.queryListArray);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+ExportTOExcel(){
+  const data = this.excelData.map((item:any) => {
+    const loanMaster = item.loanMaster;
+    const requests = item.requests;
     
-    /* save to file */
-    XLSX.writeFile(wb, 'All service request.xlsx');
-    
-  }
+    const flattenedRequests = requests.map((request:any) => {
+      return {
+        requestTypeId: request.requestTypeId,
+        reqName: request.reqName,
+        tatBreached: request.tatBreached,
+        tatCount: request.tatCount
+      };
+    });
+  
+    const requestsObject = flattenedRequests.reduce((acc:any, cur:any, i:number) => {
+      const prefix = `request${i + 1}`;
+      return {
+        ...acc,
+        [`${prefix} Id`]: cur.requestTypeId,
+        [`${prefix} Name`]: cur.reqName,
+        [`${prefix} Breached`]: cur.tatBreached,
+        [`${prefix} Count`]: cur.tatCount
+      };
+    }, {});
+  
+    return {
+      serviceRequestId: item.serviceRequestId,
+      requestType: item.requestType,
+      rbiQueries: item.rbiQueries,
+      loanMasterId: loanMaster.loanMasterId,
+      loanAcctNo: loanMaster.loanAcctNo,
+      customerName: loanMaster.customerName,
+      pancard: loanMaster.pancard,
+      mobileNumber: loanMaster.mobileNumber,
+      email: loanMaster.email,
+      ...requestsObject,
+      requestDate: format(new Date(item.requestDate), 'yyyy-MM-dd'),
+      requestStatus: item.requestStatus,
+      remark: item.remark,
+      topUpAmount: item.topUpAmount,
+      followUp: item.followUp,
+      topup: item.topup
+    };
+  });
+  const ws: XLSX.WorkSheet=XLSX.utils.json_to_sheet(data);
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  
+  // /* save to file */
+  XLSX.writeFile(wb, 'All Service Requests.xlsx');
+  
+}
 
 }
 

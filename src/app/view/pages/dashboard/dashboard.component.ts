@@ -14,6 +14,7 @@ import { LeadStatusService } from 'src/app/core/lead-status/service/leadStatus.s
 import { LeadService } from 'src/app/core/lead/service/lead.service';
 import { ManualAssignmentService } from 'src/app/core/manual-assignment/service/manual-assignment.service';
 import { RequestServiceService } from 'src/app/core/request-service/service/request-service.service';
+import { RequestTransactionsService } from 'src/app/core/request-transactions/request-transactions.service';
 import { TopupsService } from 'src/app/core/top-ups/topups.service';
 import { TransactionService } from 'src/app/core/transactions/transaction.service';
 import { UserService } from 'src/app/core/user/service/user.service';
@@ -71,6 +72,7 @@ export class DashboardComponent implements OnInit {
   dataCount: number = 0;
   dataCounts: number = 0;
   dataCountss: number = 0;
+  dataCountsss: number = 0;
 
   date = new Date();
   weekDate: any;
@@ -87,13 +89,16 @@ export class DashboardComponent implements OnInit {
   searchEnquiryWorklistStatusTextboxControl = new FormControl();
 
   topUpsData:any;
-
+  transactionSuccessCount:any;
+  transactionFailedCount:any;
+  reqTranscationSuccessCount:any;
+  reqTranscationFailedCount:any;
 
   constructor(private leadStatusService: LeadStatusService, private elementRef: ElementRef, private branchService: BranchService, private router: Router,
     private authService: AuthService, private userService: UserService, private enquiryService: EnquiryService, private enquiryStatusService: EnquiryStatusService,
     private leadService: LeadService, private workListService: WorkListService, private enquiryWorklistService: EnquiryWorklistService,
     private manualAssignmentService: ManualAssignmentService, private dashboardService: DashboardService,
-    private service:RequestServiceService, private services: TransactionService, private servicess: TopupsService) { }
+    private service:RequestServiceService, private services: TransactionService, private servicess: TopupsService, private servicesss: RequestTransactionsService) { }
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
@@ -208,6 +213,7 @@ export class DashboardComponent implements OnInit {
     this.getData();
     this.getDatas();
     this.getDatass();
+    this.getDatasss();
   }
 
   // getSingleData(id:any){
@@ -553,6 +559,65 @@ this.dataCount=othersCount.length
 }, 300);    
 }
 
+getSuccessDataTable(){
+  this.services.getTransactions().subscribe(res => {
+    this.transactionSuccessCount = res.data;
+    console.log(this.transactionSuccessCount);
+  })
+  setTimeout(() => {
+    let successCount = this.transactionSuccessCount?.filter(
+      (res:any) => res?.paymentStatus === 'Success'
+    );
+    console.log(successCount);
+     this.dataCounts = successCount.length;
+  }, 300);
+}
+
+getFailedDataTable(){
+  this.services.getTransactions().subscribe(res => {
+    // this.dataCounts = res.data.length;
+    this.transactionFailedCount = res.data;
+    console.log(this.transactionFailedCount);
+    
+  })
+  setTimeout(() => {
+    let failedCount = this.transactionFailedCount?.filter(
+      (res:any) => res?.paymentStatus === 'Failed'
+    );
+    console.log(failedCount);
+     this.dataCounts = failedCount.length;
+  }, 300);
+
+}
+
+getSuccessReqDataTable(){
+  this.servicesss.getRequestTransactions().subscribe(res => {
+    this.reqTranscationSuccessCount = res.data;
+    console.log(this.reqTranscationSuccessCount);
+  })
+  setTimeout(() => {
+    let successsCount = this.reqTranscationSuccessCount?.filter(
+      (res:any) => res?.paymentStatus === 'Success'
+    );
+    console.log(successsCount);
+     this.dataCountsss = successsCount.length;
+  }, 300);
+}
+
+getFailedReqDataTable(){
+  this.servicesss.getRequestTransactions().subscribe(res => {
+    this.reqTranscationFailedCount = res.data;
+    console.log(this.reqTranscationFailedCount);
+  })
+  setTimeout(() => {
+    let faileddCount = this.reqTranscationFailedCount?.filter(
+      (res:any) => res?.paymentStatus === 'Failed'
+    );
+    console.log(faileddCount);
+     this.dataCountsss = faileddCount.length;
+  }, 300);
+}
+
   getEnquiryWeeklyDataTable() {
     let todaydateCount=0;
     let todaydateFormate:any;
@@ -770,6 +835,14 @@ this.dataCount=othersCount.length
     // after getting the data, set the dataCount variable to the length of the data array
     this.servicess.getTopUps().subscribe(res => {
       this.dataCountss = res.data.length;
+    }
+  )}
+
+  getDatasss() {
+    // call your get-all-service-request API to fetch the data
+    // after getting the data, set the dataCount variable to the length of the data array
+    this.servicesss.getRequestTransactions().subscribe(res => {
+      this.dataCountsss = res.data.length;
     }
   )}
 }
