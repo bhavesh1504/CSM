@@ -115,6 +115,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   rbiQuery: boolean = false;
   followValue:any;
   AllLeadsDetails:any=[]
+  payAmounts:any = 0;
 
   clicked: boolean = false;
 
@@ -632,8 +633,10 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     // this._addEditFormData.remark = this.serviceRequestForm.controls['textArea'].value;
     this._addEditFormData.topUpAmount =  this.gridsize
     console.log(this._addEditFormData);
-    
-      this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
+    //  this.payAmounts = this.queryList.find((data: any) => data.requestTypeId == this._addEditFormData.requestTypeId)?.payAmount
+    //  console.log(this.payAmounts);
+     
+      this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar,this.payAmounts).subscribe((res) => {
         this.serviceId = res;
         console.log('yyy', this.serviceId);
         if (this.serviceId) {
@@ -658,7 +661,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this._addEditFormData.topUpAmount =  this.gridsize
       console.log(this._addEditFormData);
       
-        this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
+        this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar,this.payAmounts).subscribe((res) => {
           this.serviceId = res;
           console.log('yyy', this.serviceId);
           if (this.serviceId) {
@@ -710,13 +713,6 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
 
     this.toaster.success(_msg);
 
-    if (this.serviceId) {
-      let dialogRef = this.dialog.open(LoanDetailsDialogComponent, {
-        width: '550px',
-        autoFocus: false,
-        data: { result: this.serviceId },
-      });
-    }
     this.dialog.afterAllClosed.subscribe((res) => {
       this.ngxhttploader.show();
       setTimeout(() => {
@@ -905,7 +901,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this.dialog.open(PaidpopupDailogComponent, {
       width: '550px',
       autoFocus: false,
-      data: { result: this.queryList ,'requestTypeId':requestTypeId}
+      data: { result: this.queryList ,'requestTypeId':requestTypeId, reqname: this.queryList.find((data: { requestTypeId: any; }) => data.requestTypeId === requestTypeId)?.reqName }
     });
   }
 

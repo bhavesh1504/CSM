@@ -86,6 +86,8 @@ export class DashboardComponent implements OnInit {
   filterEnquiryWorklistStatusSelectName: EnquiryStatusElement[] = [];
   searchEnquiryWorklistStatusTextboxControl = new FormControl();
 
+  topUpsData:any;
+
 
   constructor(private leadStatusService: LeadStatusService, private elementRef: ElementRef, private branchService: BranchService, private router: Router,
     private authService: AuthService, private userService: UserService, private enquiryService: EnquiryService, private enquiryStatusService: EnquiryStatusService,
@@ -473,6 +475,83 @@ export class DashboardComponent implements OnInit {
         }
       this.showEnquiryCount = todaydateCount;
   }
+  gettopUpsDataTable() {
+    this.service.getAllServiceRequest().subscribe(res => {
+      this.topUpsData = res.data;
+      console.log(this.topUpsData);
+    }
+  )
+  setTimeout(() => {
+  let topupsCount = this.topUpsData?.filter(
+    (res: any) => res?.requestType === 'Top-Up'
+  );
+
+  console.log(topupsCount);
+  this.dataCount=topupsCount.length
+}, 300);    
+}
+
+getQueryDataTable() {
+  this.service.getAllServiceRequest().subscribe(res => {
+    this.topUpsData = res.data;
+    console.log(this.topUpsData);
+  }
+)
+setTimeout(() => {
+let queryCount = this.topUpsData?.filter(
+  (res: any) => res?.requestType === 'Query'
+);
+
+console.log(queryCount);
+this.dataCount=queryCount.length
+}, 300);    
+}
+getRequestDataTable() {
+  this.service.getAllServiceRequest().subscribe(res => {
+    this.topUpsData = res.data;
+    console.log(this.topUpsData);
+  }
+)
+setTimeout(() => {
+let requestCount = this.topUpsData?.filter(
+  (res: any) => res?.requestType === 'Request'
+);
+
+console.log(requestCount);
+this.dataCount=requestCount.length
+}, 300);    
+}
+getComplaintDataTable() {
+  this.service.getAllServiceRequest().subscribe(res => {
+    this.topUpsData = res.data;
+    console.log(this.topUpsData);
+  }
+)
+setTimeout(() => {
+let complainCount = this.topUpsData?.filter(
+  (res: any) => res?.requestType === 'Complain'
+);
+
+console.log(complainCount);
+this.dataCount=complainCount.length
+}, 300);    
+}
+
+getOthersDataTable() {
+  this.service.getAllServiceRequest().subscribe(res => {
+    this.topUpsData = res.data;
+    console.log(this.topUpsData);
+  }
+)
+setTimeout(() => {
+let othersCount = this.topUpsData?.filter(
+  (res: any) => res?.requestType === 'Others'
+);
+
+console.log(othersCount);
+this.dataCount=othersCount.length
+}, 300);    
+}
 
   getEnquiryWeeklyDataTable() {
     let todaydateCount=0;

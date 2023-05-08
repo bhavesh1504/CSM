@@ -20,7 +20,7 @@ export class LoanDetailService {
   }
 
   
-  createReasonMaster(requestName:any,loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any): Observable<any> {
+  createReasonMaster(requestName:any,loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any,payForRequest:any): Observable<any> {
    let config={
       "requestType":requestName.requestType,
       "rbiQueries":requestName.rbiQueries,
@@ -28,6 +28,7 @@ export class LoanDetailService {
       "remark":requestName.remark,
       "requestTypeId":requestName.requestTypeId,
       "topUpAmount":requestName.topUpAmount,
+      'payForRequest':payForRequest,
       "topUp": {
       "loanAccNo": loanAccNo,
       "appliedBy":appliedBy,
@@ -35,7 +36,8 @@ export class LoanDetailService {
       "extraLoanAmount": extraLoanAmount,
       "mobileNo": mobileNo,
       "status": status,
-      "topUpDate": date
+      "topUpDate": date,
+    
       }
   }
   
@@ -80,6 +82,24 @@ createPayment(razorPay: any,loanAcctNo: any,customerName: any,dueInstallment: an
   return this.http.post<any>(environment.baseUrl+`api/v1/csm/addPaymentDetails`, config);
 }
 
+createRequestPayment(razorPay: any,loanAcctNo: any,customerName: any,dueInstallment: any,paymentStatus: any,paymentDate: any,requestName: any) {
+  console.log(razorPay,loanAcctNo,customerName,dueInstallment,paymentStatus,paymentDate,requestName);
+  
+  let config={
+    "requestTransactionNo":razorPay,
+    "loanNo":loanAcctNo,
+    "name":customerName,
+    "amount":dueInstallment,
+    "paymentStatus":paymentStatus,
+    "date":paymentDate,
+    "requestName":requestName
+}
+
+
+
+  return this.http.post<any>(environment.baseUrl+`api/v1/csm/addRequestTransaction`, config);
+}
+
 // createTopUps(loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any) {
 //   let config={
 //     "loanAccNo": loanAccNo,
@@ -102,5 +122,7 @@ followTopUps(serviceRequestId: any,followUp:any) {
   }
   return this.http.put<any>(environment.baseUrl+`api/v1/csm/updateFollowUp/` + serviceRequestId, config);
 }
+
+// http://localhost:8080/api/v1/csm/getAllRequestTransaction
 
 }
