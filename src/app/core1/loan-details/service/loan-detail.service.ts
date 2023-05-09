@@ -20,7 +20,7 @@ export class LoanDetailService {
   }
 
   
-  createReasonMaster(requestName:any,loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any): Observable<any> {
+  createReasonMaster(requestName:any,loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any,subTypes:any,payForRequest:any): Observable<any> {
    let config={
       "requestType":requestName.requestType,
       "rbiQueries":requestName.rbiQueries,
@@ -28,7 +28,8 @@ export class LoanDetailService {
       "remark":requestName.remark,
       "requestTypeId":requestName.requestTypeId,
       "topUpAmount":requestName.topUpAmount,
-      // 'payForRequest':payForRequest,
+      'payForRequest':payForRequest,
+      "subTypes":subTypes,
       "topUp": {
       "loanAccNo": loanAccNo,
       "appliedBy":appliedBy,
@@ -118,9 +119,12 @@ createRequestPayment(razorPay: any,loanAcctNo: any,customerName: any,dueInstallm
 
 followTopUps(serviceRequestId: any,followUp:any) {
   let config={
-    "followUp": followUp
+    "followUp": followUp == '' ? null: followUp
   }
   return this.http.put<any>(environment.baseUrl+`api/v1/csm/updateFollowUp/` + serviceRequestId, config);
 }
 
+getAllRequestTypeByRequestItem(itemId:any,loanAccNo:any): Observable<any> {
+  return this.http.get<any>(environment.baseUrl+`api/v1/csm/getAllRequestTypeByRequestItem/` + itemId + `/` + loanAccNo);
+}
 }

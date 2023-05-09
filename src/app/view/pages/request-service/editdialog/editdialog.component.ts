@@ -37,7 +37,9 @@ export class EditdialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,private toaster: ToastrService, private service: LeadStatusService,  private services: LoanDetailService,
     private fb: FormBuilder,) {
       this.followUpForm = this.fb.group({
-        text:['']
+        text:[''],
+        selectFileUpload: [''],
+        file_upload: ['']
     });
      }
 
@@ -127,11 +129,19 @@ export class EditdialogComponent implements OnInit {
   getRequestDetails() {
     let msg = 'Service Request Updated Successfully'
     this.followValue = this.followUpForm.controls['text'].value;
+    if (this.followValue == '' ? null: this.followValue){
     this.services.followTopUps(this.serviceRequests.serviceRequestId,this.followValue).pipe(map(res=>{
       console.log('follow',res);
+      this.toaster.success('Follow-Up Request Successfully')
       
     })).subscribe();
-    this.toaster.success('Follow-Up Request Successfully')
+  }
+    if (this.myFiles.length != 0) {
+      this.services.fileUpload(this.data.result, this.myFiles).subscribe((res) => {
+        console.log(res);
+        this.toaster.success('Document Uploaded Successfully')});
+    }
+    
     this.dialogRef.close();                                       
     this.toaster.success(msg);
     this.followUpForm.controls['text'].reset();

@@ -20,27 +20,30 @@ export class RequestServiceService {
   }
 
   
-  createReasonMaster(requestName:any,loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any): Observable<any> {
+  createReasonMaster(requestName:any,loanAccNo: any,appliedBy: any,pancard: any,extraLoanAmount: any,mobileNo: any,status: any,date:any,subTypes:any,payForRequest:any): Observable<any> {
     let config={
-      "requestType":requestName.requestType,
-      "rbiQueries":requestName.rbiQueries,
-      "loanMasterId":requestName.loanMasterId,
-      "remark":requestName.remark,
-      "requestTypeId":requestName.requestTypeId,
-      "topUpAmount":requestName.topUpAmount,
-      "topUp": {
-      "loanAccNo": loanAccNo,
-      "appliedBy":appliedBy,
-      "pancard":pancard,
-      "extraLoanAmount": extraLoanAmount,
-      "mobileNo": mobileNo,
-      "status": status,
-      "topUpDate": date
-      }
+       "requestType":requestName.requestType,
+       "rbiQueries":requestName.rbiQueries,
+       "loanMasterId":requestName.loanMasterId,
+       "remark":requestName.remark,
+       "requestTypeId":requestName.requestTypeId,
+       "topUpAmount":requestName.topUpAmount,
+       'payForRequest':payForRequest,
+       "subTypes":subTypes,
+       "topUp": {
+       "loanAccNo": loanAccNo,
+       "appliedBy":appliedBy,
+       "pancard":pancard,
+       "extraLoanAmount": extraLoanAmount,
+       "mobileNo": mobileNo,
+       "status": status,
+       "topUpDate": date,
+     
+       }
+   }
+   
+     return this.http.post<any>(environment.baseUrl+`api/v1/csm/add-service-request`, config);
   }
-  
-    return this.http.post<any>(environment.baseUrl+`api/v1/csm/add-service-request`, config);
- }
 
  getAllServiceRequest(): Observable<any> {
   return this.http.get<any>(environment.baseUrl+`api/v1/csm/get-all-service-request`);
@@ -73,6 +76,10 @@ fileUpload(id: any, fileUpload: any): Observable<any> {
 
 //   return this.http.post<any>(environment.baseUrl+`api/v1/csm/addTopUp`, config);
 // }
+
+getAllRequestTypeByRequestItem(itemId:any,loanAccNo:any): Observable<any> {
+  return this.http.get<any>(environment.baseUrl+`api/v1/csm/getAllRequestTypeByRequestItem/` + itemId + `/` + loanAccNo);
+}
 
 
 }

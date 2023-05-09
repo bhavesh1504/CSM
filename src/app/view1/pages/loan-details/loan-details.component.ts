@@ -118,6 +118,8 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
   payAmounts:any = 0;
 
   clicked: boolean = false;
+  newData: any;
+  reqNames: any;
 
   razorPayOptions = {
     "key": "rzp_test_ai34JM7uh5soSu",
@@ -317,6 +319,9 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     let myDate = new Date(); 
     this.someDateVar = this.datepipe.transform(myDate, 'yyyy-MM-dd');
     console.log(this.someDateVar);
+
+
+    
   }
 
   editViewAction(id: any) {
@@ -406,9 +411,14 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     this.queryList = [];
     this.descList = [];
     console.log(enent);
+      this.service.getAllRequestTypeByRequestItem(enent,this.datas[0].loanAcctNo).pipe(map((res=>{
+        this.newData = res.data;
+        console.log('newData:', this.newData);
+      }))).subscribe();
     let queryListArray = this.branchTypeName.find(
       (res: { itemId: any }) => res.itemId == enent
     );
+    
 
     for (let i = 0; i < queryListArray.requestTypes.length; i++) {
       this.queryList.push(queryListArray.requestTypes[i]);
@@ -636,7 +646,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     //  this.payAmounts = this.queryList.find((data: any) => data.requestTypeId == this._addEditFormData.requestTypeId)?.payAmount
     //  console.log(this.payAmounts);
      
-      this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
+      this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar,this.reqNames,this.payAmounts).subscribe((res) => {
         this.serviceId = res;
         console.log('yyy', this.serviceId);
         if (this.serviceId) {
@@ -652,6 +662,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
         }
       });
     
+    
     }
     if(this.descListArray.description == 'Others'){
       this._addEditFormData = this.serviceRequestForm.value;
@@ -661,7 +672,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       this._addEditFormData.topUpAmount =  this.gridsize
       console.log(this._addEditFormData);
       
-        this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
+        this.service.createReasonMaster(this._addEditFormData,this.datas[0].loanAcctNo,this.datas[0].customerName,this.datas[0].pancard,this.gridsize,this.datas[0].mobileNumber, this.topUpStatus,this.someDateVar,this.reqNames,this.payAmounts).subscribe((res) => {
           this.serviceId = res;
           console.log('yyy', this.serviceId);
           if (this.serviceId) {
@@ -718,6 +729,7 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         this.ngxhttploader.hide();
         this.serviceRequestForm.reset();
+        this.selectQueryArray = [];
         // this.clicked = false;
         // this.serviceRequestForm.controls['loanMasterId'].updateValueAndValidity();
         // this.serviceRequestForm.controls['requestType'].updateValueAndValidity();
@@ -745,8 +757,9 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     console.log(loanId, loanData, this.datas);
   }
 
-  clickQuryFormSelect(type: any, id: any, index: any) {
-    console.log(type);
+  clickQuryFormSelect(type: any, id: any, index: any, data: any) {
+    console.log(data);
+    this.reqNames = data;
     // if (type.checked === false) {
     //   this.isDisabled = true
     // }

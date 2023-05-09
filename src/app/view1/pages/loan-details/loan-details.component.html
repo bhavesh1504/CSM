@@ -377,7 +377,7 @@
                                                     <div class="tab-content">
                                                       <div class="tab-pane fade show active">
                                                         <div class="grid-container">                
-                                                        <mat-checkbox *ngFor="let queries of queryList;index as i" #checkBoxVAlue [checked]="checkBoxValue" (change)="clickQuryFormSelect($event,queries?.requestTypeId,i)">
+                                                        <mat-checkbox *ngFor="let queries of newData;index as i" #checkBoxVAlue [checked]="checkBoxValue" (change)="clickQuryFormSelect($event,queries?.requestTypeId,i,queries?.reqName)">
                                                             <span *ngIf="queries.isPaidPopup == false">{{queries?.reqName}}</span>
                                                             <span *ngIf="queries.isPaidPopup == true" (click)="openPaidPopUp(queries?.requestTypeId)">{{queries?.reqName}}</span>
                                                             <span *ngIf="queries.isPaidPopup == true" (click)="openPaidPopUp(queries?.requestTypeId)" style="color:red">  - ({{paidMsg}} ₹ {{queries.payAmount}})</span></mat-checkbox>                                            

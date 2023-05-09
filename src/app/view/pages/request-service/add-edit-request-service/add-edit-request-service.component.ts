@@ -77,6 +77,7 @@ export class AddEditRequestServiceComponent implements OnInit {
   showRequest: boolean = false
   checkBoxValue: boolean = false;
   hima: any;
+  payAmounts:any = 0;
 
   selectQueryArray: any = []
   queryListArray: any;
@@ -85,6 +86,7 @@ export class AddEditRequestServiceComponent implements OnInit {
   displayFileCount: any = 'Select File';
   serviceRequestid: any;
   serviceId: any;
+  newData: any;
 
   ELEMENT_DATAS!: LoanDetailsElement[];
 
@@ -98,6 +100,7 @@ export class AddEditRequestServiceComponent implements OnInit {
   topUpStatus:string = 'open';
   someDateVar: any;
   loanMasterIdValue: any = [];
+  reqNames: any;
 
   dataSource = new MatTableDataSource<LoanDetailsElement>(this.ELEMENT_DATAS);
 
@@ -242,6 +245,10 @@ export class AddEditRequestServiceComponent implements OnInit {
     this.paidPopUp = []
 
     console.log(enent);
+    this.service.getAllRequestTypeByRequestItem(enent,this.loanMasterIdValue[0].loanMaster.loanAcctNo).pipe(map((res=>{
+      this.newData = res.data;
+      console.log('newData:', this.newData);
+    }))).subscribe();
     let queryListArray = this.branchTypeName.find((res: { itemId: any; }) => res.itemId == enent)
 
     for (let i = 0; i < queryListArray.requestTypes.length; i++) {
@@ -464,7 +471,7 @@ export class AddEditRequestServiceComponent implements OnInit {
     this._addEditFormData.topUpAmount =  this.gridsize
     console.log(this._addEditFormData);
     
-    this.service.createReasonMaster(this._addEditFormData,this.loanMasterIdValue[0].loanMaster.loanAcctNo,this.loanMasterIdValue[0].loanMaster.customerName,this.loanMasterIdValue[0].loanMaster.pancard,this.gridsize,this.loanMasterIdValue[0].loanMaster.mobileNumber, this.topUpStatus,this.someDateVar).subscribe(res => {
+    this.service.createReasonMaster(this._addEditFormData,this.loanMasterIdValue[0].loanMaster.loanAcctNo,this.loanMasterIdValue[0].loanMaster.customerName,this.loanMasterIdValue[0].loanMaster.pancard,this.gridsize,this.loanMasterIdValue[0].loanMaster.mobileNumber, this.topUpStatus,this.someDateVar,this.reqNames,this.payAmounts).subscribe(res => {
       console.log(res);
 
       if (this.myFiles.length != 0) {
@@ -483,11 +490,12 @@ export class AddEditRequestServiceComponent implements OnInit {
     this._addEditFormData.topUpAmount =  this.gridsize
     console.log(this._addEditFormData);
     
-      this.service.createReasonMaster(this._addEditFormData,this.loanMasterIdValue[0].loanMaster.loanAcctNo,this.loanMasterIdValue[0].loanMaster.customerName,this.loanMasterIdValue[0].loanMaster.pancard,this.gridsize,this.loanMasterIdValue[0].loanMaster.mobileNumber, this.topUpStatus,this.someDateVar).subscribe((res) => {
+      this.service.createReasonMaster(this._addEditFormData,this.loanMasterIdValue[0].loanMaster.loanAcctNo,this.loanMasterIdValue[0].loanMaster.customerName,this.loanMasterIdValue[0].loanMaster.pancard,this.gridsize,this.loanMasterIdValue[0].loanMaster.mobileNumber, this.topUpStatus,this.someDateVar,this.reqNames,this.payAmounts).subscribe((res) => {
         this.serviceId = res;
         console.log('yyy', this.serviceId); 
         if (this.myFiles.length != 0) {
-          this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {});
+          this.service.fileUpload(res.data, this.myFiles).subscribe((res) => {console.log(res);
+          });
         }
       });
     
@@ -524,6 +532,7 @@ export class AddEditRequestServiceComponent implements OnInit {
       setTimeout(() => {
         this.ngxhttploader.hide();
         this.serviceRequestForm.reset();
+        this.selectQueryArray = [];
         // this.serviceRequestForm.controls['loanMasterId'].updateValueAndValidity();
         // this.serviceRequestForm.controls['requestType'].updateValueAndValidity();
         this.showCard = false;
@@ -547,8 +556,10 @@ export class AddEditRequestServiceComponent implements OnInit {
 
   // }
 
-  clickQuryFormSelect(type: any, id: any, index: any) {
+  clickQuryFormSelect(type: any, id: any, index: any, data: any) {
     console.log(type);
+    console.log(data);
+    this.reqNames = data;
     // if (type.checked === false) {
     //   this.isDisabled = true
     // }

@@ -36,17 +36,17 @@
                           value="{{ items.reqName }}" />
                       </div>
                     </div>
-                    <div class="col-6 upload">
+                    <div class="col-6 upload" [formGroup]="followUpForm">
                       <div class="row">
                         <div class="col-5 mt-2">
                           <label for="selectFileUpload">Document Upload:</label>
                         </div>
                         <mat-form-field class="example-full-width docuMove">
-                          <input class="cursor_pointer" matInput placeholder="Select File Upload" (click)="openFile()"
+                          <input formControlName="selectFileUpload" class="cursor_pointer" matInput placeholder="Select File Upload" (click)="openFile()"
                             [value]="displayFileCount" readonly />
                           <i *ngIf="ifVerifyHideImgDesable" (click)="openFile()"
                             class="ri-attachment-line attachmentStyle"></i>
-                          <input hidden />
+                          <input formControlName="file_upload" hidden />
                           <input type="file" #imgFileInput (change)="onSelectFile($event)" multiple hidden
                             accept="application/pdf,image/*" />
                         </mat-form-field>
