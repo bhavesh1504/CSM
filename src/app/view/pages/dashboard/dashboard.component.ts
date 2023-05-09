@@ -94,6 +94,16 @@ export class DashboardComponent implements OnInit {
   reqTranscationSuccessCount:any;
   reqTranscationFailedCount:any;
 
+  openData:any;
+  closedData:any;
+  escalatedData:any;
+  rejectedData:any;
+  pendingData:any;
+
+  requestStatusOptions = [  { value: "Filter By Request-Type", label: "Filter By Request-Type" },  { value: "Filter By Request-Status", label: "Filter By Request-Status" }];
+  showThis:boolean=false;
+  showThat:boolean=false;
+
   constructor(private leadStatusService: LeadStatusService, private elementRef: ElementRef, private branchService: BranchService, private router: Router,
     private authService: AuthService, private userService: UserService, private enquiryService: EnquiryService, private enquiryStatusService: EnquiryStatusService,
     private leadService: LeadService, private workListService: WorkListService, private enquiryWorklistService: EnquiryWorklistService,
@@ -558,6 +568,81 @@ console.log(othersCount);
 this.dataCount=othersCount.length
 }, 300);    
 }
+getOpenTable() {
+  this.service.getAllServiceRequest().subscribe(res => {
+    this.openData = res.data;
+    console.log(this.openData);
+  }
+)
+setTimeout(() => {
+let openCount = this.openData?.filter(
+  (res: any) => res?.requestStatus === 'open'
+);
+
+console.log(openCount);
+this.dataCount=openCount.length
+}, 300);    
+}
+getPendingTable() {
+  this.service.getAllServiceRequest().subscribe(res => {
+    this.pendingData = res.data;
+    console.log(this.pendingData);
+  }
+)
+setTimeout(() => {
+let pendingCount = this.pendingData?.filter(
+  (res: any) => res?.requestStatus === 'closed'
+);
+
+console.log(pendingCount);
+this.dataCount=pendingCount.length
+}, 300);    
+}
+getRejectedTable() {
+  this.service.getAllServiceRequest().subscribe(res => {
+    this.rejectedData = res.data;
+    console.log(this.rejectedData);
+  }
+)
+setTimeout(() => {
+let rejectedCount = this.rejectedData?.filter(
+  (res: any) => res?.requestStatus === 'rejected'
+);
+
+console.log(rejectedCount);
+this.dataCount=rejectedCount.length
+}, 300);    
+}
+getEscalatedTable() {
+  this.service.getAllServiceRequest().subscribe(res => {
+    this.escalatedData = res.data;
+    console.log(this.escalatedData);
+  }
+)
+setTimeout(() => {
+let escalatedCount = this.escalatedData?.filter(
+  (res: any) => res?.requestStatus === 'escalated'
+);
+
+console.log(escalatedCount);
+this.dataCount=escalatedCount.length
+}, 300);    
+}
+getClosedTable() {
+  this.service.getAllServiceRequest().subscribe(res => {
+    this.closedData = res.data;
+    console.log(this.closedData);
+  }
+)
+setTimeout(() => {
+let closedCount = this.closedData?.filter(
+  (res: any) => res?.requestStatus === 'closed'
+);
+
+console.log(closedCount);
+this.dataCount=closedCount.length
+}, 300);    
+}
 
 getSuccessDataTable(){
   this.services.getTransactions().subscribe(res => {
@@ -845,5 +930,18 @@ getFailedReqDataTable(){
       this.dataCountsss = res.data.length;
     }
   )}
+
+  selectionChange(event:any) {
+    console.log(event.value);
+    if(event.value === 'Filter By Request-Type'){
+      this.showThis = true;
+      this.showThat = false
+    }else if(event.value === 'Filter By Request-Status'){
+      this.showThis = false;
+      this.showThat = true;
+    }
+    
+  }
+
 }
 

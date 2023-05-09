@@ -113,13 +113,20 @@
                     <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                        <li class="dropdown-header text-start">
-                          <h6>Filter</h6>
+                        <mat-select (selectionChange)="selectionChange($event)" mat-select-filter placeholder="Select">
+                           <mat-option *ngFor="let option of requestStatusOptions" [value]="option.value">{{ option.label }}</mat-option>
+                         </mat-select>                         
                        </li>
-                       <li><a class="dropdown-item" (click)="gettopUpsDataTable()">Top-Ups</a></li>
-                       <li><a class="dropdown-item" (click)="getQueryDataTable()">Query</a></li>
-                       <li><a class="dropdown-item" (click)="getRequestDataTable()">Request</a></li>
-                       <li><a class="dropdown-item" (click)="getComplaintDataTable()">Complaint</a></li>
-                       <li><a class="dropdown-item" (click)="getOthersDataTable()">Others</a></li>
+                       <li *ngIf="showThis"><a class="dropdown-item" (click)="gettopUpsDataTable()">Top-Ups</a></li>
+                       <li *ngIf="showThis"><a class="dropdown-item" (click)="getQueryDataTable()">Query</a></li>
+                       <li *ngIf="showThis"><a class="dropdown-item" (click)="getRequestDataTable()">Request</a></li>
+                       <li *ngIf="showThis"><a class="dropdown-item" (click)="getComplaintDataTable()">Complaint</a></li>
+                       <li *ngIf="showThis"><a class="dropdown-item" (click)="getOthersDataTable()">Others</a></li>
+                       <li *ngIf="showThat"><a class="dropdown-item" (click)="getOpenTable()">Open</a></li>
+                       <li *ngIf="showThat"><a class="dropdown-item" (click)="getPendingTable()">Pending</a></li>
+                       <li *ngIf="showThat"><a class="dropdown-item" (click)="getRejectedTable()">Rejected</a></li>
+                       <li *ngIf="showThat"><a class="dropdown-item" (click)="getEscalatedTable()">Escalated</a></li>
+                       <li *ngIf="showThat"><a class="dropdown-item" (click)="getClosedTable()">Closed</a></li>
                     </ul>
                  </div>
               <div class="card-body">

@@ -127,4 +127,12 @@ followTopUps(serviceRequestId: any,followUp:any) {
 getAllRequestTypeByRequestItem(itemId:any,loanAccNo:any): Observable<any> {
   return this.http.get<any>(environment.baseUrl+`api/v1/csm/getAllRequestTypeByRequestItem/` + itemId + `/` + loanAccNo);
 }
+
+updateRequestStatus(serviceRequestId: any, status:any) {
+  let config={
+    "requestStatus": status
+  }
+  return this.http.put<any>(environment.baseUrl+`api/v1/csm/updateRequestStatus/` + serviceRequestId, config);
+}
+
 }

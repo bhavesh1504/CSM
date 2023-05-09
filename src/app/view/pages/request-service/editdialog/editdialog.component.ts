@@ -1,5 +1,5 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs';
@@ -25,10 +25,12 @@ export class EditdialogComponent implements OnInit {
   ifVerifyHideImgDesable: boolean = true;
   displayFileCount: any = 'Select File';
   followUpForm!: FormGroup;
+  statusGroup!: FormGroup;
   followValue:any;
   serviceRequests:any;
   filesArray: any = [];
   ids:any
+  status: any;
   @ViewChild('imgFileInput', { static: false })
 
   imgFileInput!: ElementRef;
@@ -36,20 +38,25 @@ export class EditdialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<EditdialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,private toaster: ToastrService, private service: LeadStatusService,  private services: LoanDetailService,
     private fb: FormBuilder,) {
-      this.followUpForm = this.fb.group({
-        text:[''],
-        selectFileUpload: [''],
-        file_upload: ['']
-    });
      }
 
   ngOnInit(): void {
     console.log(this.data);
     this.serviceRequests = this.data.data
     this.serviceRequest = this.data.data.requestStatus
-    console.log('inside data',this.serviceRequests)
+    console.log('inside data',this.serviceRequest)
     this.getStatus();
     this.viewDownload();
+    this.followUpForm = this.fb.group({
+      text:[''],
+      selectFileUpload: [''],
+      file_upload: [''],
+      requestType: ['']
+  });
+  this.statusGroup = this.fb.group({
+    requestType: ['']
+});
+   
   }
 
   cancelAddEditForm() {
@@ -141,6 +148,12 @@ export class EditdialogComponent implements OnInit {
         console.log(res);
         this.toaster.success('Document Uploaded Successfully')});
     }
+    this.status = this.statusGroup.controls['requestType'].value
+
+    this.services.updateRequestStatus(this.data.result, this.status).subscribe((res => {
+      console.log(res);
+      this.toaster.success('Status Updated Successfully');
+    }))
     
     this.dialogRef.close();                                       
     this.toaster.success(msg);
