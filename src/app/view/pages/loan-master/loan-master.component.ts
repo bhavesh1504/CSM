@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LoanMasterService } from 'src/app/core/loan-master/service/loan-master.service';
 import { map } from 'rxjs';
 import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver'
 
 @Component({
   selector: 'app-loan-master',
@@ -231,7 +232,13 @@ export class LoanMasterComponent implements OnInit, AfterViewInit {
 
 
 sample(){
+  const filename = 'sample_loanmaster.xlsx'; // replace with the name of your Excel file
+  const filePath = '/assets/images/1/Sample_Loanmaster.xlsx'; // replace with the path to your Excel file
+  const fileType = 'application/vnd.ms-excel'; // replace with the MIME type of your Excel file
 
+  // initiate file download using FileSaver.js
+  // FileSaver.saveAs(filePath, filename, { type: fileType });
+  FileSaver.saveAs(filePath, filename, { type: fileType } as unknown as FileSaver.FileSaverOptions);
 }
 
 ngOnDestroy(){
