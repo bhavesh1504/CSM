@@ -13,4 +13,12 @@ export class TopupsService {
   getTopUps() : Observable<any>{
     return this.http.get(environment.baseUrl+'api/v1/csm/getallTopUp')
     }
+
+    updateTopUps(id:any,userRole:any,status:any) : Observable<any>{
+      let config = {
+        "assignTo": userRole,
+        "status": status
+      }
+      return this.http.put(environment.baseUrl+'api/v1/csm/updateTopUp/'+id, config)
+    }
 }

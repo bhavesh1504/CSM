@@ -61,6 +61,10 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied By </th>
                   <td mat-cell *matCellDef="let row"> {{row.appliedBy}} </td>
                   </ng-container>
+                  <ng-container matColumnDef="assignto">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Assign To </th>
+                    <td mat-cell *matCellDef="let row"> {{row.assignTo}} </td>
+                    </ng-container>
                 <ng-container matColumnDef="pancard">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Pancard </th>
                     <td mat-cell *matCellDef="let row"> {{row.pancard}} </td>
@@ -75,7 +79,8 @@
                </ng-container>
                 <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Status </th>
-                <td mat-cell *matCellDef="let row" [ngClass]="row.status == 'open'? 'text-success'  : ''"> {{row.status}} </td>
+                <!-- <td mat-cell *matCellDef="let row" [ngClass]="row.status == 'open'? 'text-success'  : ''"> {{row.status}} </td> -->
+                <td mat-cell *matCellDef="let row" [ngClass]="row.status == 'open'? 'text-primary': row.status == 'closed'? 'text-success': row.status == 'pending'? 'text-dark': row.status == 'rejected'? 'text-danger': row.status == 'escalated'? 'text-warning':''">{{row.status}}</td>
                 </ng-container>
                 <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Date </th>
@@ -85,6 +90,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
                     <td mat-cell *matCellDef="let row">
                      <span class="text-primary" style="cursor: pointer;" (click)="ViewAction(row)"><i class="ri-eye-fill" matTooltip="View"></i></span>
+                     <span class="px-2">|</span>
+                    <span class="text-danger" (click)="editAction(row,row.topUpId)" style="cursor: pointer;"><i class="bx bxs-edit" matTooltip="Edit"></i></span>
                      <ng-template #other_content>-</ng-template>
                     </td>
                 </ng-container>

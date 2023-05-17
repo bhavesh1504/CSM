@@ -20,16 +20,19 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import { TopupDialogComponent } from './topup-dialog/topup-dialog.component';
+import { TopUpsEditDialogComponent } from './top-ups-edit-dialog/top-ups-edit-dialog.component';
 
 const routes = [
   {path: '', component:TopUpsComponent},
-  {path: 'topupdialog', component:TopupDialogComponent}
+  {path: 'topupdialog', component:TopupDialogComponent},
+  {path: 'topupeditdialog', component:TopUpsEditDialogComponent}
 ]
 
 @NgModule({
   declarations: [
     TopUpsComponent,
-    TopupDialogComponent
+    TopupDialogComponent,
+    TopUpsEditDialogComponent
   ],
   imports: [
     CommonModule,

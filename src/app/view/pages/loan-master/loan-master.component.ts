@@ -13,6 +13,7 @@ import { LoanMasterService } from 'src/app/core/loan-master/service/loan-master.
 import { map } from 'rxjs';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver'
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-loan-master',
@@ -46,6 +47,7 @@ export class LoanMasterComponent implements OnInit, AfterViewInit {
   roleArray:any=[];
   AllLeadsDetails:any=[];
   myFiles: any[] = [];
+  excelData: any
 
   constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private ngxhttploader: NgxHttpLoaderService, private toastr: ToastrService, private service: LoanMasterService) {
     this.userDetails=sessionStorage.getItem('UserDetails')
@@ -99,6 +101,7 @@ export class LoanMasterComponent implements OnInit, AfterViewInit {
 
     // this.getAllDataTable();
     this.loanMaster();
+    this.errorData();
   }
   editViewAction(id: any, type: any) {
     // let navigationExtras = {
@@ -210,6 +213,21 @@ export class LoanMasterComponent implements OnInit, AfterViewInit {
     if (input.files && input.files.length) {
     const file = input.files[0];
     this.service.fileUpload(file).subscribe(res => {
+      // if(res.mgKey1 == 'failure'){
+      //   this.toastr.warning(res.message1,'',{ timeOut: 10000})
+      //   this.loanMaster()
+      //   this.errorData()
+      // }
+      // else if (res.msgKey == 'Success'){
+      //   this.toastr.success(res.message)
+      //   this.loanMaster()
+      //   this.errorData()
+      // }
+      if (res.msgKey == 'Success'){
+        this.toastr.success(res.message)
+        this.loanMaster()
+        this.errorData()
+      }
     });
     // const reader = new FileReader();
     // reader.readAsText(file);
@@ -218,7 +236,7 @@ export class LoanMasterComponent implements OnInit, AfterViewInit {
         
       // }
       // console.log(reader.result);
-      this.toastr.success('File Uploaded Successfully')
+      
     };
   };input.click();
   this.ngxhttploader.show();
@@ -228,12 +246,9 @@ export class LoanMasterComponent implements OnInit, AfterViewInit {
   }, 500);
 }
 
- 
-
-
 sample(){
   const filename = 'sample_loanmaster.xlsx'; // replace with the name of your Excel file
-  const filePath = '/assets/images/1/Sample_Loanmaster.xlsx'; // replace with the path to your Excel file
+  const filePath = '/assets/images/1/Sample_LoanMaster_BulkUpload.xlsx'; // replace with the path to your Excel file
   const fileType = 'application/vnd.ms-excel'; // replace with the MIME type of your Excel file
 
   // initiate file download using FileSaver.js
@@ -254,7 +269,7 @@ ngOnDestroy(){
 
   loanMaster(){
     setTimeout(() => {
-      this.service.getLoanMaster().pipe(map(res=>{
+      this.service.getLoanMasters().pipe(map(res=>{
         if(res.msgKey == 'Success'){
         this.dataSource.data = res.data
         this.toastr.success(res.message);
@@ -267,14 +282,43 @@ ngOnDestroy(){
     }, 500);
     
   }
+  exportData(){
+    this.service.getLoanMaster().pipe(map(res=>{
+      this.excelData = res.data;
+    })).subscribe();
+  }
 
   ExportTOExcel() {
-    const ws: XLSX.WorkSheet=XLSX.utils.json_to_sheet(this.dataSource.data);
+    const data = this.excelData?.map((row:any) => {
+      const formattedDate = format(new Date(row.updatedAt), 'yyyy-MM-dd');
+      const formattedDates = format(new Date(row.createdAt), 'yyyy-MM-dd');
+      return {
+        ...row,
+        updatedAt: formattedDate.toString(),
+        createdAt: formattedDates.toString()
+      };
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+  // Change the background color of column A to green
+  // if (ws['!ref']) {
+  //   const range = XLSX.utils.decode_range(ws['!ref']);
+  //   for (let i = range.s.r; i <= range.e.r; i++) {
+  //     const cell = XLSX.utils.encode_cell({ r: i, c: 4 }); // set c to 4 to target column E
+  //     ws[cell].s = { fill: { bgColor: { rgb: "00FF00" } } };
+  //   }
+  // }
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     
     /* save to file */
     XLSX.writeFile(wb, 'Loan Master.xlsx');
   }
+errorData(){
+  this.service.getLoanMaster().subscribe((res => {
+    console.log('Loan Master:' , res);
+    this.excelData = res.data
+    
+  }))
+}
 
 }

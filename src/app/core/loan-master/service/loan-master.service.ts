@@ -13,11 +13,16 @@ export class LoanMasterService {
   fileUpload(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file, file.name)
-    return this.http.post<any>(environment.baseUrl+`api/v1/csm/loan-details/bulk-upload` , formData);
+    return this.http.post<any>(environment.baseUrl+`api/v1/csm/loan-details/bulk-upload`,formData);
   }
 
   getLoanMaster(): Observable<any> {
+    return this.http.get<any>(environment.baseUrl+`api/v1/csm/get-all-audit-loan-master`);
+  }
+
+  getLoanMasters(): Observable<any> {
     return this.http.get<any>(environment.baseUrl+`api/v1/csm/get-all-loan-master`);
   }
+
 
 }

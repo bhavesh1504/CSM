@@ -12,6 +12,7 @@ import { EnquiryService } from 'src/app/core/enquiry/service/enquiry.service';
 import { LeadStatusElement } from 'src/app/core/lead-status/models/leadStatus.model';
 import { LeadStatusService } from 'src/app/core/lead-status/service/leadStatus.service';
 import { LeadService } from 'src/app/core/lead/service/lead.service';
+import { LoanMasterService } from 'src/app/core/loan-master/service/loan-master.service';
 import { ManualAssignmentService } from 'src/app/core/manual-assignment/service/manual-assignment.service';
 import { RequestServiceService } from 'src/app/core/request-service/service/request-service.service';
 import { RequestTransactionsService } from 'src/app/core/request-transactions/request-transactions.service';
@@ -73,6 +74,7 @@ export class DashboardComponent implements OnInit {
   dataCounts: number = 0;
   dataCountss: number = 0;
   dataCountsss: number = 0;
+  dataCountssss: number = 0;
 
   date = new Date();
   weekDate: any;
@@ -108,7 +110,7 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService, private userService: UserService, private enquiryService: EnquiryService, private enquiryStatusService: EnquiryStatusService,
     private leadService: LeadService, private workListService: WorkListService, private enquiryWorklistService: EnquiryWorklistService,
     private manualAssignmentService: ManualAssignmentService, private dashboardService: DashboardService,
-    private service:RequestServiceService, private services: TransactionService, private servicess: TopupsService, private servicesss: RequestTransactionsService) { }
+    private service:RequestServiceService, private services: TransactionService, private servicess: TopupsService, private servicesss: RequestTransactionsService, private servicessss: LoanMasterService) { }
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
@@ -224,6 +226,8 @@ export class DashboardComponent implements OnInit {
     this.getDatas();
     this.getDatass();
     this.getDatasss();
+    this.getDatassss();
+
   }
 
   // getSingleData(id:any){
@@ -928,6 +932,14 @@ getFailedReqDataTable(){
     // after getting the data, set the dataCount variable to the length of the data array
     this.servicesss.getRequestTransactions().subscribe(res => {
       this.dataCountsss = res.data.length;
+    }
+  )}
+
+  getDatassss() {
+    // call your get-all-service-request API to fetch the data
+    // after getting the data, set the dataCount variable to the length of the data array
+    this.servicessss.getLoanMasters().subscribe(res => {
+      this.dataCountssss = res.data.length;
     }
   )}
 

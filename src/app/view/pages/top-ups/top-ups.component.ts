@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TopupsService } from 'src/app/core/top-ups/topups.service';
 import { map } from 'rxjs';
 import { TopupDialogComponent } from './topup-dialog/topup-dialog.component';
+import { TopUpsEditDialogComponent } from './top-ups-edit-dialog/top-ups-edit-dialog.component';
 
 @Component({
   selector: 'app-top-ups',
@@ -25,7 +26,7 @@ export class TopUpsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ELEMENT_DATA!: LeadElement[];
-  displayedColumns: string[] = ['s#','loanNo', 'pancard','extraloanamount','mobileNo','appliedby','status','date','action'];
+  displayedColumns: string[] = ['s#','loanNo', 'pancard','extraloanamount','mobileNo','appliedby','assignto','status','date','action'];
   dataSource = new MatTableDataSource<LeadElement>(this.ELEMENT_DATA);
 
   callCenterRole:boolean=true;
@@ -234,7 +235,7 @@ ngOnDestroy(){
 
   reloadData()
   {
-    this.AllLeadsDetails=[]
+    this.topups();
     // this.dataSource.disconnect()
     // this.getAllDataTable();
   }
@@ -243,7 +244,7 @@ ngOnDestroy(){
     setTimeout(() => {
       this.service.getTopUps().pipe(map(res=>{
         if(res.msgKey == 'Success'){
-        this.dataSource.data = res.data
+        this.dataSource.data = res.data;     
         this.toastr.success(res.message);
         console.log('topups',this.dataSource.data);
         }else{
@@ -259,6 +260,16 @@ ngOnDestroy(){
     console.log("data",data)
     const dialogRef = this.dialog.open(TopupDialogComponent, {
       data:data,
+      width: '850px',
+      autoFocus: false,
+      maxHeight: '90vh'
+    });
+  }
+
+  editAction(data:any,id:any){
+    console.log("data",data,"id",id)
+    const dialogRef = this.dialog.open(TopUpsEditDialogComponent, {
+      data: { result: id, data },
       width: '850px',
       autoFocus: false,
       maxHeight: '90vh'

@@ -328,8 +328,8 @@ export class LoanDetailsComponent implements OnInit, AfterViewInit {
     this.viewDownload(id);
     this.showRequest = true;
     this.service.getReasonMasterById(id).subscribe((res) => {
-      console.log('res', res.data);
       this.serviceRequest = res.data;
+      console.log('res1', this.serviceRequest);
     });
   }
 
