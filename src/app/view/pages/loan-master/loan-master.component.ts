@@ -47,7 +47,8 @@ export class LoanMasterComponent implements OnInit, AfterViewInit {
   roleArray:any=[];
   AllLeadsDetails:any=[];
   myFiles: any[] = [];
-  excelData: any
+  excelData: any;
+  excelDatas: any;
 
   constructor(private router: Router, private leadService: LeadService,public dialog: MatDialog, private ngxhttploader: NgxHttpLoaderService, private toastr: ToastrService, private service: LoanMasterService) {
     this.userDetails=sessionStorage.getItem('UserDetails')
@@ -283,7 +284,7 @@ ngOnDestroy(){
     
   }
   exportData(){
-    this.service.getLoanMaster().pipe(map(res=>{
+    this.service.getLoanMasters().pipe(map(res=>{
       this.excelData = res.data;
     })).subscribe();
   }
@@ -316,9 +317,27 @@ ngOnDestroy(){
 errorData(){
   this.service.getLoanMaster().subscribe((res => {
     console.log('Loan Master:' , res);
-    this.excelData = res.data
+    this.excelDatas = res.data
     
   }))
 }
+
+errorLogs() {
+  const data = this.excelDatas?.map((row:any) => {
+    const formattedDate = format(new Date(row.updatedAt), 'yyyy-MM-dd');
+    const formattedDates = format(new Date(row.createdAt), 'yyyy-MM-dd');
+    return {
+      ...row,
+      updatedAt: formattedDate.toString(),
+      createdAt: formattedDates.toString()
+    };
+  });
+  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  XLSX.writeFile(wb, 'Loan Master ErrorLogs.xlsx');
+}
+
+
 
 }

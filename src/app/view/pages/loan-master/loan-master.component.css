@@ -36,15 +36,21 @@ table {
   cursor: pointer;
 }
 
-.sample{
+/* .sample{
     position: relative;
     right: 6rem;
-}
+} */
 
 .upload{
     position: relative;
     left: 9.5rem;
-    bottom: 2.26rem;
+    bottom: 2.25rem;
+}
+
+.uploads{
+  position: relative;
+  left: 8rem;
+  bottom: 2.25rem;
 }
 
 .searchreload{
